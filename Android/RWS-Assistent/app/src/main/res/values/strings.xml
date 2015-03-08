@@ -1,12 +1,15 @@
 <resources>
     <string name="app_name">RWS-Assistent</string>
 
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <!-- General Strings -->
+    <string name="current_location">No location</string>
+    <string name="action_settings">Instellingen</string>
+    <!-- /General Strings -->
 
     <!-- Arrays -->
     <string-array name="menuItems">
         <item>Home</item>
+        <item>Afsluiten</item>
     </string-array>
     <!-- /Arrays -->
 
@@ -14,4 +17,11 @@
     <string name="drawer_open">Open Navigation Drawer</string>
     <string name="drawer_close">Close Navigation Drawer</string>
     <!-- /Drawer -->
+
+    <!-- Dialogs -->
+    <string name="dialog_exit_title">Afsluiten?</string>
+    <string name="dialog_exit_text">Weet u zeker dat u de applicatie wilt afsluiten?</string>
+    <string name="dialog_btn_cancel">Annuleren</string>
+    <string name="dialog_btn_exit">Afsluiten</string>
+    <!-- /Dialogs -->
 </resources>
