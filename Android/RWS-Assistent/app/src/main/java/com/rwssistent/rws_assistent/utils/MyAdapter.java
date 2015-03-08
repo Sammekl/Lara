@@ -17,7 +17,7 @@ import com.rwssistent.rws_assistent.R;
  */
 public class MyAdapter extends BaseAdapter {
     String[] menuItems;
-    int[] images = {R.mipmap.ic_home, R.mipmap.ic_exit};
+    int[] images = {R.mipmap.ic_home};
     private Activity context;
 
     /**

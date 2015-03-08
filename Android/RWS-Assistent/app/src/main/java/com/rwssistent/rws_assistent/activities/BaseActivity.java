@@ -20,7 +20,6 @@ import android.widget.ListView;
 
 import com.rwssistent.rws_assistent.R;
 import com.rwssistent.rws_assistent.utils.MyAdapter;
-import com.rwssistent.rws_assistent.utils.UI;
 
 /**
  * Created by Samme on 3/08/2015.
@@ -120,11 +119,6 @@ public class BaseActivity extends ActionBarActivity implements OnItemClickListen
                     this.overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out);
                 }
                 break;
-            case 1:
-                // Exit application
-                UI.displayExitDialog(this);
-                break;
-
         }
         //Slows down the progress to reduce drawer-lag when closing
         drawerLayout.postDelayed(new Runnable() {
@@ -164,6 +158,10 @@ public class BaseActivity extends ActionBarActivity implements OnItemClickListen
         currentActionBar.setDisplayHomeAsUpEnabled(true);
         currentActionBar.setHomeButtonEnabled(true);
         currentActionBar.setBackgroundDrawable(colorDrawable);
+        currentActionBar.setIcon(R.mipmap.ic_rws_white);
+
+
+
     }
 
 }
