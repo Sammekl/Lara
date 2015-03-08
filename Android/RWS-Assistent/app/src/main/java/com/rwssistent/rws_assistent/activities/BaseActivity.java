@@ -9,6 +9,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -25,7 +27,7 @@ import com.rwssistent.rws_assistent.utils.MyAdapter;
 /**
  * Parent activity. Extend this activity to use the DrawerLayout
  */
-public class BaseActivity extends Activity implements OnItemClickListener {
+public class BaseActivity extends ActionBarActivity implements OnItemClickListener {
     private DrawerLayout drawerLayout;
     private ListView listView;
     private ActionBarDrawerToggle drawerListener;
@@ -112,7 +114,7 @@ public class BaseActivity extends Activity implements OnItemClickListener {
         switch (position) {
             case 0:
                 // Open home activity if current Activity isn't the same.
-                if (!this.getClass().getSimpleName().equals("HomeActivity")) {
+                if (!this.getClass().getSimpleName().equals("MainActivity")) {
                     this.startActivity(new Intent(this, MainActivity.class));
                     this.overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out);
                 }
@@ -144,18 +146,20 @@ public class BaseActivity extends Activity implements OnItemClickListener {
     private void setListView() {
         MyAdapter myAdapter = new MyAdapter(this);
         listView = (ListView) findViewById(R.id.left_drawer);
-        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#FF5000"));
+        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#00ADEF"));
         listView.setSelector(colorDrawable);
         listView.setAdapter(myAdapter);
         listView.setOnItemClickListener(this);
     }
 
-    @SuppressLint("NewApi")
     private void setActionBar() {
-        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#FF5000"));
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setHomeButtonEnabled(true);
-        getActionBar().setBackgroundDrawable(colorDrawable);
+        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#00ADEF"));
+        ActionBar currentActionBar = getSupportActionBar();
+        currentActionBar.setDisplayHomeAsUpEnabled(true);
+        currentActionBar.setHomeButtonEnabled(true);
+        currentActionBar.setBackgroundDrawable(colorDrawable);
+        currentActionBar.setIcon(R.mipmap.ic_rws_white);
+
 
 
     }
