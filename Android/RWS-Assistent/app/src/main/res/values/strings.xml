@@ -3,4 +3,15 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
+    <!-- Arrays -->
+    <string-array name="menuItems">
+        <item>Home</item>
+    </string-array>
+    <!-- /Arrays -->
+
+    <!-- Drawer -->
+    <string name="drawer_open">Open Navigation Drawer</string>
+    <string name="drawer_close">Close Navigation Drawer</string>
+    <!-- /Drawer -->
 </resources>
