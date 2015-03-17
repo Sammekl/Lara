@@ -1,7 +1,5 @@
-package com.rwssistent.rws_assistent.activities;
+package com.rwssistent.LARA.activities;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -18,9 +16,9 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 
-import com.rwssistent.rws_assistent.R;
-import com.rwssistent.rws_assistent.utils.MyAdapter;
-import com.rwssistent.rws_assistent.utils.UI;
+import com.rwssistent.LARA.R;
+import com.rwssistent.LARA.utils.MyAdapter;
+import com.rwssistent.LARA.utils.UI;
 
 /**
  * Created by Samme on 3/08/2015.

@@ -1,11 +1,10 @@
-package com.rwssistent.rws_assistent.utils;
+package com.rwssistent.LARA.utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 
-import com.rwssistent.rws_assistent.R;
+import com.rwssistent.LARA.R;
 
 /**
  * Created by Samme on 8-3-2015.

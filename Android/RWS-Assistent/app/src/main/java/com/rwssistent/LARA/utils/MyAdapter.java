@@ -1,4 +1,4 @@
-package com.rwssistent.rws_assistent.utils;
+package com.rwssistent.LARA.utils;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,7 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.rwssistent.rws_assistent.R;
+import com.rwssistent.LARA.R;
 
 /**
  * Created by Samme on 3/08/2015.

@@ -1,17 +1,15 @@
-package com.rwssistent.rws_assistent.activities;
+package com.rwssistent.LARA.activities;
 
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.rwssistent.rws_assistent.R;
+import com.rwssistent.LARA.R;
 
 
 public class MainActivity extends BaseActivity {
