@@ -6,10 +6,10 @@
     <string name="action_settings">Instellingen</string>
     <string name="longitude">Longitude</string>
     <string name="latitude">Latitude</string>
-    <string name="maxspeed">100</string>
-    <string name="kmph">KM/H</string>
-    <string name="name">A10</string>
-    <string name="lanes">3 rijstroken</string>
+    <string name="no_data_found">Geen data gevonden</string>
+    <string name="speed_unit">KM/H</string>
+    <string name="lanes">rijstroken</string>
+    <string name="empty"></string>
     <!-- /General Strings -->
 
     <!-- Arrays -->

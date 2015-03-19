@@ -9,7 +9,7 @@ import com.rwssistent.LARA.model.ResponseDTO;
 /**
  * Created by Samme on 17-3-2015.
  */
-public abstract class BackgroundTask extends AsyncTask<Void, Void, ResponseDTO> {
+public abstract class BackgroundTask extends AsyncTask<Void, Void, String> {
 
     ///////////////////////////////////
     // Properties
@@ -23,15 +23,20 @@ public abstract class BackgroundTask extends AsyncTask<Void, Void, ResponseDTO> 
     }
 
     @Override
-    protected ResponseDTO doInBackground(Void... params) {
+    protected String doInBackground(Void... params) {
         return this.doTask();
     }
 
+    @Override
+    protected void onPostExecute(String result) {
+        super.onPostExecute(result);
+        doProcessResult(result);
+    }
     ///////////////////////////////////
     // Public Methods
     ///////////////////////////////////
 
-    public abstract void doProcessResult(ResponseDTO result);
+    public abstract void doProcessResult(String result);
 
-    public abstract ResponseDTO doTask();
+    public abstract String doTask();
 }

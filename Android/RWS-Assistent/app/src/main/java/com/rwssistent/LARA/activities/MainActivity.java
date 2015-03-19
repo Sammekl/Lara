@@ -7,24 +7,38 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
 import android.widget.TextView;
 
 import com.rwssistent.LARA.R;
+import com.rwssistent.LARA.helpers.PreferenceHelper;
+import com.rwssistent.LARA.model.Highway;
+import com.rwssistent.LARA.utils.Constants;
 import com.rwssistent.LARA.utils.LaraService;
+
+import org.w3c.dom.Text;
 
 
 public class MainActivity extends BaseActivity {
 
     private TextView currentLocation;
+    private TextView maxSpeed;
+    private TextView numOfLanes;
+    private TextView roadName;
+    private TextView speedUnit;
+
+    private double longitude;
+    private double latitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        currentLocation = (TextView) findViewById(R.id.current_location);
+        this.getTextViews();
         startLocationService();
-
+        this.getLocationFromPreferences();
+        LaraService.getRoadData(this, longitude, latitude);
     }
 
     @Override
@@ -36,6 +50,17 @@ public class MainActivity extends BaseActivity {
     // ============================================
     // Public Methods
     // ============================================
+
+    public void displayValues(Highway highway) {
+        if(highway.getMaxSpeed() > 0) {
+            maxSpeed.setText(String.valueOf(highway.getMaxSpeed()));
+            maxSpeed.setTextSize(80);
+            speedUnit.setVisibility(View.VISIBLE);
+        }
+        numOfLanes.setText(String.valueOf(highway.getLanes()) + " " + this.getResources().getString(R.string.lanes));
+        numOfLanes.setVisibility(View.VISIBLE);
+        roadName.setText(String.valueOf(highway.getRoadName()));
+    }
     public void startLocationService() {
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         LocationListener locationListener = new LocationListener() {
@@ -62,12 +87,31 @@ public class MainActivity extends BaseActivity {
         };
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 0, locationListener);
     }
+
     // ============================================
     // Private Methods
     // ============================================
+
     private MainActivity getActivity() {
         return this;
     }
 
+    private void getTextViews() {
+        currentLocation = (TextView) findViewById(R.id.current_location);
+        maxSpeed = (TextView) findViewById(R.id.maxspeed);
+        numOfLanes = (TextView) findViewById(R.id.lanes);
+        roadName = (TextView) findViewById(R.id.roadName);
+        speedUnit = (TextView) findViewById(R.id.speedUnit);
+    }
 
+    private void getLocationFromPreferences() {
+        String longitudePref = PreferenceHelper.readPreference(this, Constants.PREF_LONGITUDE_NAME, null, Constants.PREF_FILE_NAME);
+        if(longitudePref != null && !longitudePref.isEmpty()) {
+            longitude = Double.parseDouble(longitudePref);
+        }
+        String latitudePref = PreferenceHelper.readPreference(this, Constants.PREF_LATITUDE_NAME, null, Constants.PREF_FILE_NAME);
+        if(latitudePref != null && !latitudePref.isEmpty()) {
+            latitude = Double.parseDouble(latitudePref);
+        }
+    }
 }

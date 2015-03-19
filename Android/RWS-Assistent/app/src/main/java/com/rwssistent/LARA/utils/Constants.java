@@ -15,6 +15,7 @@ public class Constants {
 
 
     // --API-- //
+    public static final String PREF_URL = "http://overpass-api.de/api/interpreter?data=[out:json];(way(around:20,%s,%s)[highway=motorway];%%3E;);out;";
     public static final String PREF_API_URL = "http://overpass-api.de/api/interpreter?data=";
     public static final String PREF_OUTPUT = "[out:json];";
     public static final String PREF_ROAD_TYPE = "motorway";
