@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.widget.TextView;
 
 import com.rwssistent.LARA.R;
+import com.rwssistent.LARA.utils.LaraService;
 
 
 public class MainActivity extends BaseActivity {
@@ -35,7 +36,9 @@ public class MainActivity extends BaseActivity {
     // ============================================
     // Public Methods
     // ============================================
-
+    private MainActivity getActivity() {
+        return this;
+    }
     // ============================================
     // Private Methods
     // ============================================
@@ -46,6 +49,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onLocationChanged(Location location) {
                 currentLocation.setText("Latitude: " + location.getLatitude() + ", Longitude: " + location.getLongitude());
+                LaraService.getRoadData(getActivity(), location.getLongitude(), location.getLatitude());
             }
 
             @Override
@@ -63,8 +67,6 @@ public class MainActivity extends BaseActivity {
                 Log.d("Latitude","disable");
             }
         };
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-
-
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 0, locationListener);
     }
 }

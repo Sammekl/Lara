@@ -9,23 +9,23 @@ import com.rwssistent.LARA.model.ResponseDTO;
  */
 public class RoadTask extends BackgroundTask {
 
-    private final String url;
+    private String url;
+    private double longitude;
+    private double latitude;
 
     /**
      * @param activity The activity which invoked this task
-     * @param url The url to call
      */
-    public RoadTask(Activity activity, String url) {
+    public RoadTask(Activity activity) {
         super(activity);
-        this.url = url;
     }
-
 
     /**
      * The task to execute
      */
     @Override
     public ResponseDTO doTask() {
+
         return null;
     }
 
@@ -37,4 +37,19 @@ public class RoadTask extends BackgroundTask {
 
     }
 
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
 }

@@ -119,6 +119,12 @@ public class BaseActivity extends ActionBarActivity implements OnItemClickListen
                 }
                 break;
             case 1:
+                if(!this.getClass().getSimpleName().equals("SettingsActivity")) {
+                    this.startActivity(new Intent(this, SettingsActivity.class));
+                    this.overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out);
+                }
+                break;
+            case 2:
                 // Exit application
                 UI.displayExitDialog(this);
                 break;

@@ -4,11 +4,14 @@
     <!-- General Strings -->
     <string name="current_location">No location</string>
     <string name="action_settings">Instellingen</string>
+    <string name="longitude">Longitude</string>
+    <string name="latitude">Latitude</string>
     <!-- /General Strings -->
 
     <!-- Arrays -->
     <string-array name="menuItems">
         <item>Home</item>
+        <item>Instellingen</item>
         <item>Afsluiten</item>
     </string-array>
     <!-- /Arrays -->
@@ -24,4 +27,8 @@
     <string name="dialog_btn_cancel">Annuleren</string>
     <string name="dialog_btn_exit">Afsluiten</string>
     <!-- /Dialogs -->
+
+    <!-- Buttons-->
+    <string name="button_save">Opslaan</string>
+    <!-- /Buttons -->
 </resources>

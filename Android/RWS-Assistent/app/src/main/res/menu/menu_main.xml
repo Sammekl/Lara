@@ -1,11 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.rwssistent.LARA.activities.MainActivity"
-    xmlns:rwssistent="http://schemas.android.com/apk/res-auto">
+    xmlns:lara="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/action_settings"
-        android:icon="@mipmap/ic_settings"
-        android:title="Settings"
-        android:orderInCategory="1"
-        rwssistent:showAsAction="always"/>
 </menu>
