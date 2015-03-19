@@ -36,13 +36,6 @@ public class MainActivity extends BaseActivity {
     // ============================================
     // Public Methods
     // ============================================
-    private MainActivity getActivity() {
-        return this;
-    }
-    // ============================================
-    // Private Methods
-    // ============================================
-
     public void startLocationService() {
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         LocationListener locationListener = new LocationListener() {
@@ -54,7 +47,7 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onStatusChanged(String provider, int status, Bundle extras) {
-                Log.d("Latitude", "status");
+
             }
 
             @Override
@@ -69,4 +62,12 @@ public class MainActivity extends BaseActivity {
         };
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 0, locationListener);
     }
+    // ============================================
+    // Private Methods
+    // ============================================
+    private MainActivity getActivity() {
+        return this;
+    }
+
+
 }
