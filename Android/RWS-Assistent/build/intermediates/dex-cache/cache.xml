@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\Samme\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\1.7.2\112366d8158749e25532ebce162232c6e0fb20a5\gson-1.7.2.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="112366d8158749e25532ebce162232c6e0fb20a5">
+        <dex dex="C:\Users\Samme\Documents\GitHub\RWS-Assistent\Android\RWS-Assistent\app\build\intermediates\pre-dexed\debug\gson-1.7.2-bde400b569fc088c5619576e26a203c8f2729c25.jar" />
+    </item>
+
+</items>

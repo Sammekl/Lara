@@ -5,6 +5,7 @@ import android.util.Log;
 
 
 import com.rwssistent.LARA.activities.MainActivity;
+import com.rwssistent.LARA.helpers.JSONHelper;
 import com.rwssistent.LARA.model.Highway;
 
 import org.apache.http.HttpEntity;
@@ -55,17 +56,17 @@ public class RoadTask extends BackgroundTask {
             HttpResponse response = httpClient.execute(httpGet);
             StatusLine statusLine = response.getStatusLine();
             int statusCode = statusLine.getStatusCode();
-            if(statusCode == 200) {
+            if (statusCode == 200) {
                 HttpEntity entity = response.getEntity();
                 InputStream inputStream = entity.getContent();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
                 String line;
-                while((line = reader.readLine()) != null) {
+                while ((line = reader.readLine()) != null) {
                     stringBuilder.append(line);
                 }
                 inputStream.close();
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             Log.e(getClass().getSimpleName(), "Error in request");
         }
         return stringBuilder.toString();
@@ -76,33 +77,10 @@ public class RoadTask extends BackgroundTask {
      */
     @Override
     public void doProcessResult(String result) {
-        try {
-            JSONObject jsonResult = new JSONObject(result);
-            JSONArray typeArray = new JSONArray(jsonResult.getString("elements"));
-            List<JSONObject> jsonObjects = new ArrayList<>();
-            for(int i = 0; i < typeArray.length(); i++) {
-                JSONObject obj = typeArray.getJSONObject(i);
-
-                if(obj.getString("type").equals("way")) {
-                    jsonObjects.add(obj);
-                }
-            }
-            List<Highway> highways = new ArrayList<>();
-            for(JSONObject jsonWay: jsonObjects) {
-                JSONObject tagsObj = jsonWay.getJSONObject("tags");
-                Highway highway = new Highway();
-                highway.setLanes(tagsObj.getInt("lanes"));
-                highway.setMaxSpeed(tagsObj.getInt("maxspeed"));
-                highway.setRoadName(tagsObj.getString("ref"));
-                highways.add(highway);
-            }
-            if(highways != null && highways.size() > 0) {
-                mainActivity.displayValues(highways.get(0));
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
+        List<Highway> highways = JSONHelper.getHighwaysFromResult(result);
+        if (highways != null && highways.size() > 0) {
+            mainActivity.displayValues(highways.get(0));
         }
-
     }
 
     public double getLongitude() {
@@ -124,6 +102,7 @@ public class RoadTask extends BackgroundTask {
     public void setUrl(String url) {
         this.url = url;
     }
+
     public String getUrl() {
         return url;
     }

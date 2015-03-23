@@ -15,11 +15,20 @@ public class Constants {
 
 
     // --API-- //
-    public static final String PREF_URL = "http://overpass-api.de/api/interpreter?data=[out:json];(way(around:20,%s,%s)[highway=motorway];%%3E;);out;";
-    public static final String PREF_API_URL = "http://overpass-api.de/api/interpreter?data=";
-    public static final String PREF_OUTPUT = "[out:json];";
-    public static final String PREF_ROAD_TYPE = "motorway";
-    public static final int PREF_SEARCH_RADIUS = 20;
+    public static final String PREF_API_URL = "http://overpass-api.de/api/interpreter?data=[out:json];(way(around:20,%s,%s)[highway=motorway];%%3E;);out;";
+    public static final String PREF_API_URL2 = "http://overpass-api.de/api/interpreter?data=";
+    public static final String PREF_API_OUTPUT = "[out:json];";
+    public static final String PREF_API_ROAD_TYPE = "motorway";
+    public static final int PREF_API_SEARCH_RADIUS = 20;
+    public static final String PREF_API_ELEMENTS = "elements";
+    public static final String PREF_API_TYPE = "type";
+    public static final String PREF_API_WAY = "way";
+    public static final String PREF_API_TAGS = "tags";
+    public static final String PREF_API_LANES = "lanes";
+    public static final String PREF_API_MAXSPEED = "maxspeed";
+    public static final String PREF_API_ROAD_REF = "ref";
+
+
     // -/API-- //
 
 
