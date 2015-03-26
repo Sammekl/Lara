@@ -79,6 +79,7 @@ public class RoadTask extends BackgroundTask {
     public void doProcessResult(String result) {
         List<Highway> highways = JSONHelper.getHighwaysFromResult(result);
         if (highways != null && highways.size() > 0) {
+            // TODO: Check the list for the nearest(?) highway and display this in the MainActivity
             mainActivity.displayValues(highways.get(0));
         }
     }
