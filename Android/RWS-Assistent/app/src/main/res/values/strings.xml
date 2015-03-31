@@ -7,6 +7,7 @@
     <string name="longitude">Longitude</string>
     <string name="latitude">Latitude</string>
     <string name="no_data_found">Geen data gevonden</string>
+    <string name="no_maxspeed_found">Geen maximale snelheid gevonden</string>
     <string name="speed_unit">KM/H</string>
     <string name="lanes">rijstroken</string>
     <string name="empty"></string>

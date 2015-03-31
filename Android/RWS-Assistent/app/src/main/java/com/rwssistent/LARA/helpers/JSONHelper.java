@@ -33,9 +33,17 @@ public class JSONHelper {
             for (JSONObject jsonWay : jsonObjects) {
                 JSONObject tagsObj = jsonWay.getJSONObject(Constants.PREF_API_TAGS);
                 Highway highway = new Highway();
-                highway.setLanes(tagsObj.getInt(Constants.PREF_API_LANES));
-                highway.setMaxSpeed(tagsObj.getInt(Constants.PREF_API_MAXSPEED));
-                highway.setRoadName(tagsObj.getString(Constants.PREF_API_ROAD_REF));
+                if (tagsObj.has(Constants.PREF_API_LANES)) {
+                    highway.setLanes(tagsObj.getInt(Constants.PREF_API_LANES));
+                }
+                if (tagsObj.has(Constants.PREF_API_MAXSPEED)) {
+                    highway.setMaxSpeed(tagsObj.getInt(Constants.PREF_API_MAXSPEED));
+                }
+                if (tagsObj.has(Constants.PREF_API_ROAD_REF)) {
+                    highway.setRoadName(tagsObj.getString(Constants.PREF_API_ROAD_REF));
+                } else {
+                    highway.setRoadName(tagsObj.getString(Constants.PREF_API_ROAD_NAME));
+                }
                 highways.add(highway);
             }
         } catch (Exception e) {

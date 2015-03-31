@@ -8,17 +8,17 @@ public class Highway {
     private int lanes;
     private int maxSpeed;
     private int maxSpeedConditional;
-    private boolean oneWay;
     private String roadName;
+    private String roadType;
 
     public Highway() {
 
     }
-    public Highway(int lanes, int maxSpeed, int maxSpeedConditional, boolean oneWay, String roadName) {
+
+    public Highway(int lanes, int maxSpeed, int maxSpeedConditional, String roadName) {
         this.lanes = lanes;
         this.maxSpeed = maxSpeed;
         this.maxSpeedConditional = maxSpeedConditional;
-        this.oneWay = oneWay;
         this.roadName = roadName;
     }
 
@@ -44,14 +44,6 @@ public class Highway {
 
     public void setMaxSpeedConditional(int maxSpeedConditional) {
         this.maxSpeedConditional = maxSpeedConditional;
-    }
-
-    public boolean isOneWay() {
-        return oneWay;
-    }
-
-    public void setOneWay(boolean oneWay) {
-        this.oneWay = oneWay;
     }
 
     public String getRoadName() {

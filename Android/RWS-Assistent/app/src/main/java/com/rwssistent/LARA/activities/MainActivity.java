@@ -21,7 +21,6 @@ import org.w3c.dom.Text;
 
 public class MainActivity extends BaseActivity {
 
-    private TextView currentLocation;
     private TextView maxSpeed;
     private TextView numOfLanes;
     private TextView roadName;
@@ -36,14 +35,13 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
 
         this.getTextViews();
-        startLocationService();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        this.getLocationFromPreferences();
-        LaraService.getRoadData(this, longitude, latitude);
+        startLocationService();
+
     }
 
     @Override
@@ -61,9 +59,13 @@ public class MainActivity extends BaseActivity {
             maxSpeed.setText(String.valueOf(highway.getMaxSpeed()));
             maxSpeed.setTextSize(80);
             speedUnit.setVisibility(View.VISIBLE);
+        } else {
+            maxSpeed.setText(R.string.no_maxspeed_found);
         }
-        numOfLanes.setText(String.valueOf(highway.getLanes()) + " " + this.getResources().getString(R.string.lanes));
-        numOfLanes.setVisibility(View.VISIBLE);
+        if (highway.getLanes() > 0) {
+            numOfLanes.setText(String.valueOf(highway.getLanes()) + " " + this.getResources().getString(R.string.lanes));
+            numOfLanes.setVisibility(View.VISIBLE);
+        }
         roadName.setText(String.valueOf(highway.getRoadName()));
     }
     public void startLocationService() {
@@ -71,15 +73,14 @@ public class MainActivity extends BaseActivity {
         LocationListener locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                currentLocation.setText("Latitude: " + location.getLatitude() + ", Longitude: " + location.getLongitude());
-                LaraService.getRoadData(getActivity(), location.getLongitude(), location.getLatitude());
+                longitude = location.getLongitude();
+                latitude = location.getLatitude();
+                LaraService.getRoadData(getActivity(), longitude, latitude);
             }
-
             @Override
             public void onStatusChanged(String provider, int status, Bundle extras) {
 
             }
-
             @Override
             public void onProviderEnabled(String provider) {
                 Log.d("Latitude","enable");
@@ -102,7 +103,6 @@ public class MainActivity extends BaseActivity {
     }
 
     private void getTextViews() {
-        currentLocation = (TextView) findViewById(R.id.current_location);
         maxSpeed = (TextView) findViewById(R.id.maxspeed);
         numOfLanes = (TextView) findViewById(R.id.lanes);
         roadName = (TextView) findViewById(R.id.roadName);
