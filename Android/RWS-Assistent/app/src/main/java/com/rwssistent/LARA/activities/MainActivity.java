@@ -41,8 +41,8 @@ public class MainActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         startLocationService();
-//        this.getLocationFromPreferences();
-//        LaraService.getRoadData(getActivity(), longitude, latitude);
+        this.getLocationFromPreferences();
+        LaraService.getRoadData(getActivity(), longitude, latitude);
     }
 
     @Override
@@ -76,7 +76,7 @@ public class MainActivity extends BaseActivity {
             public void onLocationChanged(Location location) {
                 longitude = location.getLongitude();
                 latitude = location.getLatitude();
-                LaraService.getRoadData(getActivity(), longitude, latitude);
+//                LaraService.getRoadData(getActivity(), latitude, longitude);
             }
             @Override
             public void onStatusChanged(String provider, int status, Bundle extras) {

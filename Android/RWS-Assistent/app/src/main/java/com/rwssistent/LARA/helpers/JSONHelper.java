@@ -39,9 +39,17 @@ public class JSONHelper {
                 if (tagsObj.has(Constants.PREF_API_MAXSPEED)) {
                     highway.setMaxSpeed(tagsObj.getInt(Constants.PREF_API_MAXSPEED));
                 }
+                // If has ref
                 if (tagsObj.has(Constants.PREF_API_ROAD_REF)) {
-                    highway.setRoadName(tagsObj.getString(Constants.PREF_API_ROAD_REF));
-                } else {
+                    // if ref + name
+                    if (tagsObj.has(Constants.PREF_API_ROAD_NAME)) {
+                        highway.setRoadName(tagsObj.getString(Constants.PREF_API_ROAD_REF) + " - " + tagsObj.getString(Constants.PREF_API_ROAD_NAME));
+                    } else {
+                        highway.setRoadName(tagsObj.getString(Constants.PREF_API_ROAD_REF));
+                    }
+                }
+                // no ref, just a name
+                else {
                     highway.setRoadName(tagsObj.getString(Constants.PREF_API_ROAD_NAME));
                 }
                 highways.add(highway);
