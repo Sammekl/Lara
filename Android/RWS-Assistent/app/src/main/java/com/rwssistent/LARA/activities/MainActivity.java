@@ -41,7 +41,8 @@ public class MainActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         startLocationService();
-
+//        this.getLocationFromPreferences();
+//        LaraService.getRoadData(getActivity(), longitude, latitude);
     }
 
     @Override
