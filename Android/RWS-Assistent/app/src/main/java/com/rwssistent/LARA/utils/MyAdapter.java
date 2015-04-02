@@ -17,7 +17,7 @@ import com.rwssistent.LARA.R;
  */
 public class MyAdapter extends BaseAdapter {
     String[] menuItems;
-    int[] images = {R.mipmap.ic_home, R.mipmap.ic_settings, R.mipmap.ic_exit};
+    int[] images = {R.drawable.ic_home, R.drawable.ic_settings, R.drawable.ic_exit};
     private Activity context;
 
     /**

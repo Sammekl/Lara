@@ -1,12 +1,19 @@
 package com.rwssistent.LARA.activities;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -19,7 +26,7 @@ import com.rwssistent.LARA.utils.LaraService;
 import org.w3c.dom.Text;
 
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends ActionBarActivity {
 
     private TextView maxSpeed;
     private TextView numOfLanes;
@@ -28,12 +35,13 @@ public class MainActivity extends BaseActivity {
 
     private double longitude;
     private double latitude;
+    private LaraService laraService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        this.setActionBar();
         this.getTextViews();
     }
 
@@ -42,7 +50,7 @@ public class MainActivity extends BaseActivity {
         super.onResume();
         startLocationService();
         this.getLocationFromPreferences();
-        LaraService.getRoadData(getActivity(), longitude, latitude);
+        laraService.getRoadData(getActivity(), longitude, latitude);
     }
 
     @Override
@@ -51,6 +59,14 @@ public class MainActivity extends BaseActivity {
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_settings) {
+            this.startActivity(new Intent(this, SettingsActivity.class));
+            this.overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out);
+        }
+        return super.onOptionsItemSelected(item);
+    }
     // ============================================
     // Public Methods
     // ============================================
@@ -76,7 +92,7 @@ public class MainActivity extends BaseActivity {
             public void onLocationChanged(Location location) {
                 longitude = location.getLongitude();
                 latitude = location.getLatitude();
-//                LaraService.getRoadData(getActivity(), latitude, longitude);
+//                laraService.getRoadData(getActivity(), latitude, longitude);
             }
             @Override
             public void onStatusChanged(String provider, int status, Bundle extras) {
@@ -119,5 +135,11 @@ public class MainActivity extends BaseActivity {
         if(latitudePref != null && !latitudePref.isEmpty()) {
             latitude = Double.parseDouble(latitudePref);
         }
+    }
+
+    private void setActionBar() {
+        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#00ADEF"));
+        ActionBar currentActionBar = getSupportActionBar();
+        currentActionBar.setBackgroundDrawable(colorDrawable);
     }
 }

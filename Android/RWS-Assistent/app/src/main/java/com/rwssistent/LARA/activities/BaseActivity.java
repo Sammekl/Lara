@@ -23,12 +23,14 @@ import com.rwssistent.LARA.utils.UI;
 /**
  * Created by Samme on 3/08/2015.
  */
+
 /**
  * Parent activity. Extend this activity to use the DrawerLayout
  */
 public class BaseActivity extends ActionBarActivity implements OnItemClickListener {
     private DrawerLayout drawerLayout;
     private ListView listView;
+    private MyAdapter myAdapter;
     private ActionBarDrawerToggle drawerListener;
 
 
@@ -60,7 +62,7 @@ public class BaseActivity extends ActionBarActivity implements OnItemClickListen
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerListener = new ActionBarDrawerToggle(this, drawerLayout,
-                R.mipmap.ic_drawer, R.string.drawer_open,
+                R.drawable.ic_drawer, R.string.drawer_open,
                 R.string.drawer_close);
         drawerLayout.setDrawerListener(drawerListener);
 
@@ -119,7 +121,7 @@ public class BaseActivity extends ActionBarActivity implements OnItemClickListen
                 }
                 break;
             case 1:
-                if(!this.getClass().getSimpleName().equals("SettingsActivity")) {
+                if (!this.getClass().getSimpleName().equals("SettingsActivity")) {
                     this.startActivity(new Intent(this, SettingsActivity.class));
                     this.overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out);
                 }
@@ -153,8 +155,9 @@ public class BaseActivity extends ActionBarActivity implements OnItemClickListen
     // ============================================
     // Private Methods
     // ============================================
+
     private void setListView() {
-        MyAdapter myAdapter = new MyAdapter(this);
+        myAdapter = new MyAdapter(this);
         listView = (ListView) findViewById(R.id.left_drawer);
         ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#00ADEF"));
         listView.setSelector(colorDrawable);
@@ -169,6 +172,5 @@ public class BaseActivity extends ActionBarActivity implements OnItemClickListen
         currentActionBar.setHomeButtonEnabled(true);
         currentActionBar.setBackgroundDrawable(colorDrawable);
     }
-
 }
 

@@ -3,4 +3,11 @@
     tools:context="com.rwssistent.LARA.activities.MainActivity"
     xmlns:lara="http://schemas.android.com/apk/res-auto">
 
+    <item
+        android:id="@+id/action_settings"
+        android:icon="@drawable/ic_settings"
+        android:title="Settings"
+        android:orderInCategory="1"
+        lara:showAsAction="always" />
+
 </menu>
