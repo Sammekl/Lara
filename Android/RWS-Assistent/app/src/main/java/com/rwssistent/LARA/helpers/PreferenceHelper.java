@@ -4,15 +4,17 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.rwssistent.LARA.R;
+
 /**
  * Created by Samme on 19-3-2015.
  */
 public class PreferenceHelper {
 
-    public static boolean savePreference(Context activity, String key, String value, String fileName) {
+    public static boolean savePreference(Context context, String key, String value, String fileName) {
         try {
-            if (activity != null) {
-                SharedPreferences prefs = activity.getSharedPreferences(fileName, Context.MODE_PRIVATE);
+            if (context != null) {
+                SharedPreferences prefs = context.getSharedPreferences(fileName, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putString(key, value);
                 editor.commit();
@@ -24,11 +26,11 @@ public class PreferenceHelper {
         return false;
     }
 
-    public static String readPreference(Context activity, String key, String defaultValue, String fileName) {
+    public static String readPreference(Context context, String key, String defaultValue, String fileName) {
         String retVal = defaultValue;
         try {
-            if (activity != null) {
-                SharedPreferences prefs = activity.getSharedPreferences(fileName, Context.MODE_PRIVATE);
+            if (context != null) {
+                SharedPreferences prefs = context.getSharedPreferences(fileName, Context.MODE_PRIVATE);
                 retVal = prefs.getString(key, defaultValue);
             }
         } catch (Exception e) {

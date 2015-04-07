@@ -3,18 +3,26 @@ package com.rwssistent.LARA.activities;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rwssistent.LARA.R;
@@ -44,6 +52,7 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         this.setActionBar();
         this.getTextViews();
+        this.drawMaxSpeedCircle();
     }
 
     @Override
@@ -51,7 +60,7 @@ public class MainActivity extends ActionBarActivity {
         super.onResume();
         startLocationService();
         this.getLocationFromPreferences();
-        laraService.getRoadData(getActivity(), longitude, latitude);
+        laraService.getRoadData(this, longitude, latitude);
     }
 
     @Override
@@ -84,8 +93,35 @@ public class MainActivity extends ActionBarActivity {
             numOfLanes.setText(String.valueOf(highway.getLanes()) + " " + this.getResources().getString(R.string.lanes));
             numOfLanes.setVisibility(View.VISIBLE);
         }
-        roadName.setText(String.valueOf(highway.getRoadName()));
+        if (highway.getRoadName() != null && highway.getRoadName() != "") {
+            roadName.setText(String.valueOf(highway.getRoadName()));
+        }
     }
+
+    private void drawMaxSpeedCircle() {
+        ImageView drawingImageView = (ImageView) this.findViewById(R.id.DrawingImageView);
+
+        Paint paint = new Paint();
+        paint.setColor(Color.RED);
+        paint.setStyle(Paint.Style.STROKE);
+
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        int height = size.y;
+
+        paint.setStrokeWidth(30);
+        float radius = 40;
+
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        canvas.drawCircle(height / 2, width / 2, radius, paint);
+
+        drawingImageView.setImageBitmap(bitmap);
+
+    }
+
     public void startLocationService() {
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         LocationListener locationListener = new LocationListener() {

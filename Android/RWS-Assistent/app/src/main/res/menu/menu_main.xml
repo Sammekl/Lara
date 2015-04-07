@@ -8,6 +8,6 @@
         android:icon="@drawable/ic_settings"
         android:title="Settings"
         android:orderInCategory="1"
-        lara:showAsAction="always" />
+        lara:showAsAction="ifRoom" />
 
 </menu>
