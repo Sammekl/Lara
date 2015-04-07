@@ -37,6 +37,7 @@ public class MainActivity extends ActionBarActivity {
     private double latitude;
     private LaraService laraService;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
