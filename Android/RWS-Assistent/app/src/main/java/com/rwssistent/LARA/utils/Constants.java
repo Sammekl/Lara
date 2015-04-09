@@ -35,8 +35,6 @@ public class Constants {
     public static final String PREF_API_MAXSPEED = "maxspeed";
     public static final String PREF_API_ROAD_REF = "ref";
     public static final String PREF_API_ROAD_NAME = "name";
-
-
     // -/API-- //
 
 

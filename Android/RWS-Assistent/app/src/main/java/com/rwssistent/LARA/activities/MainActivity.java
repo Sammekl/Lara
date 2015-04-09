@@ -88,6 +88,8 @@ public class MainActivity extends ActionBarActivity {
             speedUnit.setVisibility(View.VISIBLE);
         } else {
             maxSpeed.setText(R.string.no_maxspeed_found);
+            maxSpeed.setTextSize(15);
+            speedUnit.setVisibility(View.INVISIBLE);
         }
         if (highway.getLanes() > 0) {
             numOfLanes.setText(String.valueOf(highway.getLanes()) + " " + this.getResources().getString(R.string.lanes));
