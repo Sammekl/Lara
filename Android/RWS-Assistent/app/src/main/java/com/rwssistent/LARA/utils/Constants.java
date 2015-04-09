@@ -13,10 +13,9 @@ public class Constants {
     public static final String PREF_LATITUDE_NAME = PREFIX + "LATITUDE";
     // -/PREFERENCES-- //
 
-
     // --API-- //
     public static final String PREF_API_URL = "http://overpass-api.de/api/interpreter?data=[out:json];" +
-            "(way(around:40,%s,%s)" +
+            "(way(around:30,%s,%s)" +
             "[highway!=cycleway]" +
             "[highway!=footway]" +
             "[highway!=bridleway]" +

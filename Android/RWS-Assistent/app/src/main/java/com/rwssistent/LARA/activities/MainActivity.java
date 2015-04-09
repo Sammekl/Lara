@@ -40,6 +40,7 @@ public class MainActivity extends ActionBarActivity {
     private TextView numOfLanes;
     private TextView roadName;
     private TextView speedUnit;
+    private TextView currentLocation;
 
     private double longitude;
     private double latitude;
@@ -52,7 +53,7 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         this.setActionBar();
         this.getTextViews();
-        this.drawMaxSpeedCircle();
+//        this.drawMaxSpeedCircle();
     }
 
     @Override
@@ -60,7 +61,6 @@ public class MainActivity extends ActionBarActivity {
         super.onResume();
         startLocationService();
         this.getLocationFromPreferences();
-        laraService.getRoadData(this, longitude, latitude);
     }
 
     @Override
@@ -131,7 +131,8 @@ public class MainActivity extends ActionBarActivity {
             public void onLocationChanged(Location location) {
                 longitude = location.getLongitude();
                 latitude = location.getLatitude();
-//                laraService.getRoadData(getActivity(), latitude, longitude);
+                currentLocation.setText("Long: " + longitude + " | Lat: " + latitude);
+                laraService.getRoadData(getActivity(), latitude, longitude);
             }
             @Override
             public void onStatusChanged(String provider, int status, Bundle extras) {
@@ -147,7 +148,7 @@ public class MainActivity extends ActionBarActivity {
                 Log.d("Latitude","disable");
             }
         };
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 0, locationListener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, locationListener);
     }
 
     // ============================================
@@ -163,6 +164,7 @@ public class MainActivity extends ActionBarActivity {
         numOfLanes = (TextView) findViewById(R.id.lanes);
         roadName = (TextView) findViewById(R.id.roadName);
         speedUnit = (TextView) findViewById(R.id.speedUnit);
+        currentLocation = (TextView) findViewById(R.id.current_location);
     }
 
     private void getLocationFromPreferences() {
