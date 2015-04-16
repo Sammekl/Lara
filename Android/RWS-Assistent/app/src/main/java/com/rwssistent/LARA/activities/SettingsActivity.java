@@ -1,12 +1,14 @@
 package com.rwssistent.LARA.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 //import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
@@ -31,8 +33,16 @@ public class SettingsActivity extends ActionBarActivity {
         longitudeInput = (EditText) findViewById(R.id.longitude_input);
         latitudeInput = (EditText) findViewById(R.id.latitude_input);
         this.getCoordinates();
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.ic_launcher);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
