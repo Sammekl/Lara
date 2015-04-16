@@ -5,8 +5,10 @@ import android.util.Log;
 
 
 import com.rwssistent.LARA.activities.MainActivity;
+import com.rwssistent.LARA.helpers.DistanceHelper;
 import com.rwssistent.LARA.helpers.JSONHelper;
 import com.rwssistent.LARA.model.Highway;
+import com.rwssistent.LARA.model.Node;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -35,6 +37,9 @@ public class RoadTask extends BackgroundTask {
     private double longitude;
     private double latitude;
     private MainActivity mainActivity;
+    private List<Highway> previousHighways = new ArrayList<>();
+    ;
+    private List<Highway> currentHighways;
 
     /**
      * @param activity The activity which invoked this task
@@ -49,6 +54,7 @@ public class RoadTask extends BackgroundTask {
      */
     @Override
     public String doTask() {
+        Long startTime = System.currentTimeMillis();
         StringBuilder stringBuilder = new StringBuilder();
         HttpClient httpClient = new DefaultHttpClient();
         HttpGet httpGet = new HttpGet(url);
@@ -67,8 +73,11 @@ public class RoadTask extends BackgroundTask {
                 inputStream.close();
             }
         } catch (Exception e) {
+            // TODO UnknownHostException aka geen internet afhandelen!
             Log.e(getClass().getSimpleName(), "Error in request");
         }
+        Long timeTaken = System.currentTimeMillis() - startTime;
+        Log.d("RoadTask.doTask", "time taken: " + timeTaken);
         return stringBuilder.toString();
     }
 
@@ -77,11 +86,41 @@ public class RoadTask extends BackgroundTask {
      */
     @Override
     public void doProcessResult(String result) {
+        List<Node> nodes = JSONHelper.getNodesFromResult(result);
+        Node nearestNode = DistanceHelper.getNearestNode(nodes, longitude, latitude);
         List<Highway> highways = JSONHelper.getHighwaysFromResult(result);
-        if (highways != null && highways.size() > 0) {
-            // TODO: Check the list for the nearest(?) highway and display this in the MainActivity
-            mainActivity.displayValues(highways.get(0));
+
+        // Leeg current Highways
+        currentHighways = new ArrayList<>();
+        Highway highwayToDisplay = null;
+
+        previousHighways.add(new Highway(1, 100, 130, "Dorpsstraat", null));
+        previousHighways.add(new Highway(1, 50, 80, "Emmalaan", null));
+        previousHighways.add(new Highway(1, 100, 130, "Molenweg", null));
+        previousHighways.add(new Highway(1, 100, 130, "Martijn(ga)weg", null));
+
+        Long startTime = System.currentTimeMillis();
+        for (Highway highway : highways) {
+            if (highway.getNodes().contains(nearestNode.getId())) {
+                currentHighways.add(highway);
+                // Controleer current & previous op zelfde wegen
+                for (Highway previousHighway : previousHighways) {
+                    if (highway.getRoadName().equals(previousHighway.getRoadName())) {
+                        highwayToDisplay = highway;
+                        Log.i(getClass().getSimpleName(), "Way found: " + highway.getRoadName() + " same as previous way.");
+                        break;
+                    }
+                }
+                if (highwayToDisplay == null) {
+                    highwayToDisplay = highway;
+                }
+            }
         }
+        mainActivity.displayValues(highwayToDisplay);
+        previousHighways = currentHighways;
+
+        Long timeTaken = System.currentTimeMillis() - startTime;
+        Log.d("previousWaysDing", "time taken: " + timeTaken);
     }
 
     public double getLongitude() {

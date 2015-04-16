@@ -13,7 +13,7 @@ public class LaraService {
         final RoadTask roadTask = new RoadTask(activity);
         roadTask.setLongitude(longitude);
         roadTask.setLatitude(latitude);
-        String url = String.format(Constants.PREF_API_URL, longitude, latitude);
+        String url = String.format(Constants.PREF_API_URL, latitude, longitude);
         roadTask.setUrl(url);
         roadTask.execute();
     }

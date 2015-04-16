@@ -50,8 +50,9 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        startLocationService();
+//        startLocationService();
         this.getLocationFromPreferences();
+        laraService.getRoadData(getActivity(), latitude, longitude);
     }
 
     @Override
@@ -73,21 +74,23 @@ public class MainActivity extends ActionBarActivity {
     // ============================================
 
     public void displayValues(Highway highway) {
-        if (highway.getMaxSpeed() > 0) {
-            maxSpeed.setText(String.valueOf(highway.getMaxSpeed()));
-            maxSpeed.setTextSize(80);
-            speedUnit.setVisibility(View.VISIBLE);
-        } else {
-            maxSpeed.setText(R.string.no_maxspeed_found);
-            maxSpeed.setTextSize(15);
-            speedUnit.setVisibility(View.INVISIBLE);
-        }
-        if (highway.getLanes() > 0) {
-            numOfLanes.setText(String.valueOf(highway.getLanes()) + " " + this.getResources().getString(R.string.lanes));
-            numOfLanes.setVisibility(View.VISIBLE);
-        }
-        if (highway.getRoadName() != null && highway.getRoadName() != "") {
-            roadName.setText(String.valueOf(highway.getRoadName()));
+        if (highway != null) {
+            if (highway.getMaxSpeed() > 0) {
+                maxSpeed.setText(String.valueOf(highway.getMaxSpeed()));
+                maxSpeed.setTextSize(80);
+                speedUnit.setVisibility(View.VISIBLE);
+            } else {
+                maxSpeed.setText(R.string.no_maxspeed_found);
+                maxSpeed.setTextSize(15);
+                speedUnit.setVisibility(View.INVISIBLE);
+            }
+            if (highway.getLanes() > 0) {
+                numOfLanes.setText(String.valueOf(highway.getLanes()) + " " + this.getResources().getString(R.string.lanes));
+                numOfLanes.setVisibility(View.VISIBLE);
+            }
+            if (highway.getRoadName() != null && highway.getRoadName() != "") {
+                roadName.setText(String.valueOf(highway.getRoadName()));
+            }
         }
     }
 

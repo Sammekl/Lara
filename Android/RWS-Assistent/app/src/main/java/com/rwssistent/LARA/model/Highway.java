@@ -1,5 +1,7 @@
 package com.rwssistent.LARA.model;
 
+import java.util.List;
+
 /**
  * Created by Samme on 19-3-2015.
  */
@@ -11,15 +13,18 @@ public class Highway {
     private String roadName;
     private String roadType;
 
+    private List<Long> nodes;
+
     public Highway() {
 
     }
 
-    public Highway(int lanes, int maxSpeed, int maxSpeedConditional, String roadName) {
+    public Highway(int lanes, int maxSpeed, int maxSpeedConditional, String roadName, List<Long> nodes) {
         this.lanes = lanes;
         this.maxSpeed = maxSpeed;
         this.maxSpeedConditional = maxSpeedConditional;
         this.roadName = roadName;
+        this.nodes = nodes;
     }
 
     public int getLanes() {
@@ -52,5 +57,21 @@ public class Highway {
 
     public void setRoadName(String roadName) {
         this.roadName = roadName;
+    }
+
+    public String getRoadType() {
+        return roadType;
+    }
+
+    public void setRoadType(String roadType) {
+        this.roadType = roadType;
+    }
+
+    public List<Long> getNodes() {
+        return nodes;
+    }
+
+    public void setNodes(List<Long> nodes) {
+        this.nodes = nodes;
     }
 }
