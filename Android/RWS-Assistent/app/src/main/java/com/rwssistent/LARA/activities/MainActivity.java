@@ -53,7 +53,6 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         this.setActionBar();
         this.getTextViews();
-//        this.drawMaxSpeedCircle();
     }
 
     @Override
@@ -82,7 +81,7 @@ public class MainActivity extends ActionBarActivity {
     // ============================================
 
     public void displayValues(Highway highway) {
-        if(highway.getMaxSpeed() > 0) {
+        if (highway.getMaxSpeed() > 0) {
             maxSpeed.setText(String.valueOf(highway.getMaxSpeed()));
             maxSpeed.setTextSize(80);
             speedUnit.setVisibility(View.VISIBLE);
@@ -100,30 +99,6 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-    private void drawMaxSpeedCircle() {
-        ImageView drawingImageView = (ImageView) this.findViewById(R.id.DrawingImageView);
-
-        Paint paint = new Paint();
-        paint.setColor(Color.RED);
-        paint.setStyle(Paint.Style.STROKE);
-
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int width = size.x;
-        int height = size.y;
-
-        paint.setStrokeWidth(30);
-        float radius = 40;
-
-        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        canvas.drawCircle(height / 2, width / 2, radius, paint);
-
-        drawingImageView.setImageBitmap(bitmap);
-
-    }
-
     public void startLocationService() {
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         LocationListener locationListener = new LocationListener() {
@@ -134,18 +109,20 @@ public class MainActivity extends ActionBarActivity {
                 currentLocation.setText("Long: " + longitude + " | Lat: " + latitude);
                 laraService.getRoadData(getActivity(), latitude, longitude);
             }
+
             @Override
             public void onStatusChanged(String provider, int status, Bundle extras) {
 
             }
+
             @Override
             public void onProviderEnabled(String provider) {
-                Log.d("Latitude","enable");
+                Log.d("Latitude", "enable");
             }
 
             @Override
             public void onProviderDisabled(String provider) {
-                Log.d("Latitude","disable");
+                Log.d("Latitude", "disable");
             }
         };
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, locationListener);
@@ -169,11 +146,11 @@ public class MainActivity extends ActionBarActivity {
 
     private void getLocationFromPreferences() {
         String longitudePref = PreferenceHelper.readPreference(this, Constants.PREF_LONGITUDE_NAME, null, Constants.PREF_FILE_NAME);
-        if(longitudePref != null && !longitudePref.isEmpty()) {
+        if (longitudePref != null && !longitudePref.isEmpty()) {
             longitude = Double.parseDouble(longitudePref);
         }
         String latitudePref = PreferenceHelper.readPreference(this, Constants.PREF_LATITUDE_NAME, null, Constants.PREF_FILE_NAME);
-        if(latitudePref != null && !latitudePref.isEmpty()) {
+        if (latitudePref != null && !latitudePref.isEmpty()) {
             latitude = Double.parseDouble(latitudePref);
         }
     }
