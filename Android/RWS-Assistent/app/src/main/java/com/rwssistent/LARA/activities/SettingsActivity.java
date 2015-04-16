@@ -1,9 +1,11 @@
 package com.rwssistent.LARA.activities;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+//import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.EditText;
@@ -29,7 +31,8 @@ public class SettingsActivity extends ActionBarActivity {
         longitudeInput = (EditText) findViewById(R.id.longitude_input);
         latitudeInput = (EditText) findViewById(R.id.latitude_input);
         this.getCoordinates();
-        this.setActionBar();
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.drawable.ic_launcher);
     }
 
     @Override
@@ -86,11 +89,5 @@ public class SettingsActivity extends ActionBarActivity {
         }
         PreferenceHelper.savePreference(this, Constants.PREF_LONGITUDE_NAME, longitude, Constants.PREF_FILE_NAME);
         PreferenceHelper.savePreference(this, Constants.PREF_LATITUDE_NAME, latitude, Constants.PREF_FILE_NAME);
-    }
-
-    private void setActionBar() {
-        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#00ADEF"));
-        ActionBar currentActionBar = getSupportActionBar();
-        currentActionBar.setBackgroundDrawable(colorDrawable);
     }
 }
