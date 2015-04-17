@@ -38,7 +38,6 @@ public class RoadTask extends BackgroundTask {
     private double latitude;
     private MainActivity mainActivity;
     private List<Highway> previousHighways = new ArrayList<>();
-    ;
     private List<Highway> currentHighways;
 
     /**
@@ -87,40 +86,13 @@ public class RoadTask extends BackgroundTask {
     @Override
     public void doProcessResult(String result) {
         List<Node> nodes = JSONHelper.getNodesFromResult(result);
-        Node nearestNode = DistanceHelper.getNearestNode(nodes, longitude, latitude);
-        List<Highway> highways = JSONHelper.getHighwaysFromResult(result);
-
-        // Leeg current Highways
-        currentHighways = new ArrayList<>();
-        Highway highwayToDisplay = null;
-
-        previousHighways.add(new Highway(1, 100, 130, "Dorpsstraat", null));
-        previousHighways.add(new Highway(1, 50, 80, "Emmalaan", null));
-        previousHighways.add(new Highway(1, 100, 130, "Molenweg", null));
-        previousHighways.add(new Highway(1, 100, 130, "Martijn(ga)weg", null));
-
-        Long startTime = System.currentTimeMillis();
-        for (Highway highway : highways) {
-            if (highway.getNodes().contains(nearestNode.getId())) {
-                currentHighways.add(highway);
-                // Controleer current & previous op zelfde wegen
-                for (Highway previousHighway : previousHighways) {
-                    if (highway.getRoadName().equals(previousHighway.getRoadName())) {
-                        highwayToDisplay = highway;
-                        Log.i(getClass().getSimpleName(), "Way found: " + highway.getRoadName() + " same as previous way.");
-                        break;
-                    }
-                }
-                if (highwayToDisplay == null) {
-                    highwayToDisplay = highway;
-                }
-            }
+        if (nodes != null && nodes.size() > 0) {
+            mainActivity.setAllNodes(nodes);
         }
-        mainActivity.displayValues(highwayToDisplay);
-        previousHighways = currentHighways;
-
-        Long timeTaken = System.currentTimeMillis() - startTime;
-        Log.d("previousWaysDing", "time taken: " + timeTaken);
+        List<Highway> highways = JSONHelper.getHighwaysFromResult(result);
+        if (highways != null && highways.size() > 0) {
+            mainActivity.setAllHighways(highways);
+        }
     }
 
     public double getLongitude() {

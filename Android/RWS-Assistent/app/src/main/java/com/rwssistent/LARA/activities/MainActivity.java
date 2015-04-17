@@ -1,15 +1,11 @@
 package com.rwssistent.LARA.activities;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -20,9 +16,11 @@ import android.widget.TextView;
 import com.rwssistent.LARA.R;
 import com.rwssistent.LARA.helpers.PreferenceHelper;
 import com.rwssistent.LARA.model.Highway;
+import com.rwssistent.LARA.model.Node;
 import com.rwssistent.LARA.utils.Constants;
 import com.rwssistent.LARA.utils.LaraService;
 
+import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -37,6 +35,10 @@ public class MainActivity extends ActionBarActivity {
     private double latitude;
     private LaraService laraService;
 
+    private List<Node> allNodes;
+    private List<Highway> allHighways;
+
+    private Location pollLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,14 +47,14 @@ public class MainActivity extends ActionBarActivity {
         this.getTextViews();
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.drawable.ic_lara_action);
+
+        laraService = new LaraService();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-//        startLocationService();
-        this.getLocationFromPreferences();
-        laraService.getRoadData(getActivity(), latitude, longitude);
+        startLocationService();
     }
 
     @Override
@@ -91,18 +93,29 @@ public class MainActivity extends ActionBarActivity {
             if (highway.getRoadName() != null && highway.getRoadName() != "") {
                 roadName.setText(String.valueOf(highway.getRoadName()));
             }
+        } else {
+            // TODO Error laten zien (geen weg gevonden). Geef ook een optie om naar locatie/instellingen te gaan (van de telefoon)
         }
     }
 
     public void startLocationService() {
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         LocationListener locationListener = new LocationListener() {
+
+            boolean firstRun = true;
+
             @Override
             public void onLocationChanged(Location location) {
-                longitude = location.getLongitude();
                 latitude = location.getLatitude();
-                currentLocation.setText("Long: " + longitude + " | Lat: " + latitude);
-                laraService.getRoadData(getActivity(), latitude, longitude);
+                longitude = location.getLongitude();
+                currentLocation.setText("Lat: " + latitude + " | Long: " + longitude);
+
+                if (firstRun) {
+                    setPollLocation(location);
+                    laraService.getHighwayData(getActivity(), latitude, longitude);
+                    firstRun = false;
+                }
+                pollNearestHighway(longitude, latitude);
             }
 
             @Override
@@ -120,15 +133,67 @@ public class MainActivity extends ActionBarActivity {
                 Log.d("Latitude", "disable");
             }
         };
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, locationListener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0, locationListener);
+    }
+
+    /**
+     * Set from RoadTask
+     *
+     * @param nodes all the nodes found within the radius
+     */
+    public void setAllNodes(List<Node> nodes) {
+        if (allNodes != null) {
+            this.allNodes.clear();
+        }
+        this.allNodes = nodes;
+    }
+
+    /**
+     * Set from RoadTask
+     *
+     * @param highways all the highways found within the radius
+     */
+    public void setAllHighways(List<Highway> highways) {
+        if (allHighways != null) {
+            this.allHighways.clear();
+        }
+        this.allHighways = highways;
     }
 
     // ============================================
     // Private Methods
     // ============================================
 
-    private MainActivity getActivity() {
-        return this;
+    /**
+     * Poll the nearest highway with the current location
+     *
+     * @param longitude current longitude
+     * @param latitude  current latitude
+     */
+    private void pollNearestHighway(double longitude, double latitude) {
+        if (allNodes != null) {
+            Node node = laraService.pollNearestNode(longitude, latitude, allNodes);
+            if (node != null) {
+                // If current location is 800+ meters away from the original pollLocation :
+                if (laraService.distanceFromPollLocation(pollLocation.getLatitude(), pollLocation.getLongitude(),
+                        latitude, longitude) > 0.8) {
+                    Log.e(getClass().getSimpleName(), "pollNearestHighway > verder dan 800m!");
+                    laraService.getHighwayData(this, latitude, longitude);
+                    pollLocation.setLatitude(latitude);
+                    pollLocation.setLongitude(longitude);
+                }
+                if (allHighways != null) {
+                    Highway highway = laraService.pollNearestHighway(node, allHighways);
+                    if (highway != null) {
+                        displayValues(highway);
+                    }
+                } else {
+                    Log.e(getClass().getSimpleName(), "pollNearestHighway > Geen highways gevonden");
+                }
+            }
+        } else {
+            Log.e(getClass().getSimpleName(), "pollNearestHighway > Geen nodes gevonden");
+        }
     }
 
     private void getTextViews() {
@@ -139,6 +204,9 @@ public class MainActivity extends ActionBarActivity {
         currentLocation = (TextView) findViewById(R.id.current_location);
     }
 
+    /**
+     * Test method used for custom location
+     */
     private void getLocationFromPreferences() {
         String longitudePref = PreferenceHelper.readPreference(this, Constants.PREF_LONGITUDE_NAME, null, Constants.PREF_FILE_NAME);
         if (longitudePref != null && !longitudePref.isEmpty()) {
@@ -148,5 +216,13 @@ public class MainActivity extends ActionBarActivity {
         if (latitudePref != null && !latitudePref.isEmpty()) {
             latitude = Double.parseDouble(latitudePref);
         }
+    }
+
+    private MainActivity getActivity() {
+        return this;
+    }
+
+    public void setPollLocation(Location pollLocation) {
+        this.pollLocation = pollLocation;
     }
 }
