@@ -1,16 +1,21 @@
 package com.rwssistent.LARA.activities;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rwssistent.LARA.R;
@@ -48,6 +53,9 @@ public class MainActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.drawable.ic_lara_action);
 
+        ImageView img= (ImageView) findViewById(R.id.imageViewSpeed);
+        img.setImageResource(R.drawable.verkeersbord);
+
         laraService = new LaraService();
 
     }
@@ -83,7 +91,7 @@ public class MainActivity extends ActionBarActivity {
                 maxSpeed.setTextSize(80);
                 speedUnit.setVisibility(View.VISIBLE);
             } else {
-                maxSpeed.setText(R.string.no_maxspeed_found);
+                maxSpeed.setText(R.string.unknown_maxspeed);
                 maxSpeed.setTextSize(15);
                 speedUnit.setVisibility(View.INVISIBLE);
             }
@@ -107,6 +115,7 @@ public class MainActivity extends ActionBarActivity {
 
             @Override
             public void onLocationChanged(Location location) {
+                longitude = location.getLongitude();
                 latitude = location.getLatitude();
                 longitude = location.getLongitude();
                 currentLocation.setText("Lat: " + latitude + " | Long: " + longitude);
@@ -198,10 +207,10 @@ public class MainActivity extends ActionBarActivity {
 
     private void getTextViews() {
         maxSpeed = (TextView) findViewById(R.id.maxspeed);
-        numOfLanes = (TextView) findViewById(R.id.lanes);
-        roadName = (TextView) findViewById(R.id.roadName);
-        speedUnit = (TextView) findViewById(R.id.speedUnit);
-        currentLocation = (TextView) findViewById(R.id.current_location);
+//        numOfLanes = (TextView) findViewById(R.id.lanes);
+//        roadName = (TextView) findViewById(R.id.roadName);
+//        speedUnit = (TextView) findViewById(R.id.speedUnit);
+//        currentLocation = (TextView) findViewById(R.id.current_location);
     }
 
     /**
