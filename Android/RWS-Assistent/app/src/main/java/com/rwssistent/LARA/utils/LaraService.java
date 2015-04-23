@@ -1,6 +1,7 @@
 package com.rwssistent.LARA.utils;
 
 import android.app.Activity;
+import android.content.Context;
 
 import com.rwssistent.LARA.helpers.DistanceHelper;
 import com.rwssistent.LARA.helpers.HighwayHelper;
@@ -34,8 +35,8 @@ public class LaraService {
         return DistanceHelper.distance(lat1, lon1, lat2, lon2);
     }
 
-    public Highway pollNearestHighway(Node node, List<Highway> allHighways) {
-        return highwayHelper.getCurrentHighway(node, allHighways);
+    public Highway pollNearestHighway(Context context, Node node, List<Highway> allHighways) {
+        return highwayHelper.getCurrentHighway(context, node, allHighways);
     }
 
 }

@@ -49,6 +49,7 @@ public class MainActivity extends ActionBarActivity {
         getSupportActionBar().setIcon(R.drawable.ic_lara_action);
 
         laraService = new LaraService();
+
     }
 
     @Override
@@ -166,9 +167,8 @@ public class MainActivity extends ActionBarActivity {
 
     /**
      * Poll the nearest highway with the current location
-     *
-     * @param longitude current longitude
      * @param latitude  current latitude
+     * @param longitude current longitude
      */
     private void pollNearestHighway(double longitude, double latitude) {
         if (allNodes != null) {
@@ -178,12 +178,12 @@ public class MainActivity extends ActionBarActivity {
                 if (laraService.distanceFromPollLocation(pollLocation.getLatitude(), pollLocation.getLongitude(),
                         latitude, longitude) > 0.8) {
                     Log.e(getClass().getSimpleName(), "pollNearestHighway > verder dan 800m!");
-                    laraService.getHighwayData(this, latitude, longitude);
                     pollLocation.setLatitude(latitude);
                     pollLocation.setLongitude(longitude);
+                    laraService.getHighwayData(this, latitude, longitude);
                 }
                 if (allHighways != null) {
-                    Highway highway = laraService.pollNearestHighway(node, allHighways);
+                    Highway highway = laraService.pollNearestHighway(this, node, allHighways);
                     if (highway != null) {
                         displayValues(highway);
                     }
@@ -208,13 +208,13 @@ public class MainActivity extends ActionBarActivity {
      * Test method used for custom location
      */
     private void getLocationFromPreferences() {
-        String longitudePref = PreferenceHelper.readPreference(this, Constants.PREF_LONGITUDE_NAME, null, Constants.PREF_FILE_NAME);
-        if (longitudePref != null && !longitudePref.isEmpty()) {
-            longitude = Double.parseDouble(longitudePref);
-        }
         String latitudePref = PreferenceHelper.readPreference(this, Constants.PREF_LATITUDE_NAME, null, Constants.PREF_FILE_NAME);
         if (latitudePref != null && !latitudePref.isEmpty()) {
             latitude = Double.parseDouble(latitudePref);
+        }
+        String longitudePref = PreferenceHelper.readPreference(this, Constants.PREF_LONGITUDE_NAME, null, Constants.PREF_FILE_NAME);
+        if (longitudePref != null && !longitudePref.isEmpty()) {
+            longitude = Double.parseDouble(longitudePref);
         }
     }
 

@@ -1,12 +1,6 @@
 package com.rwssistent.LARA.activities;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-//import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +9,8 @@ import android.widget.EditText;
 import com.rwssistent.LARA.R;
 import com.rwssistent.LARA.helpers.PreferenceHelper;
 import com.rwssistent.LARA.utils.Constants;
+
+//import android.support.v7.app.ActionBarActivity;
 
 /**
  * Created by Samme on 19-3-2015.
@@ -87,15 +83,15 @@ public class SettingsActivity extends ActionBarActivity {
      * Save the preferences in the SharedPreferences
      */
     private void saveCoordinates() {
-        String longitude = "";
         String latitude = "";
+        String longitude = "";
 
-        if (longitudeInput != null && longitudeInput.getText() != null && !longitudeInput.getText().toString().equals("")) {
-            longitude = longitudeInput.getText().toString();
-        }
 
         if (latitudeInput != null && latitudeInput.getText() != null && !latitudeInput.getText().toString().equals("")) {
             latitude = latitudeInput.getText().toString();
+        }
+        if (longitudeInput != null && longitudeInput.getText() != null && !longitudeInput.getText().toString().equals("")) {
+            longitude = longitudeInput.getText().toString();
         }
         PreferenceHelper.savePreference(this, Constants.PREF_LONGITUDE_NAME, longitude, Constants.PREF_FILE_NAME);
         PreferenceHelper.savePreference(this, Constants.PREF_LATITUDE_NAME, latitude, Constants.PREF_FILE_NAME);

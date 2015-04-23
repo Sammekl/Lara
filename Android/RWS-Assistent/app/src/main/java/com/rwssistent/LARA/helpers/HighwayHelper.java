@@ -1,6 +1,8 @@
 package com.rwssistent.LARA.helpers;
 
+import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.rwssistent.LARA.model.Highway;
 import com.rwssistent.LARA.model.Node;
@@ -13,42 +15,52 @@ import java.util.List;
  */
 public class HighwayHelper {
 
+    private Highway previousHighway;
     private List<Highway> previousHighways = new ArrayList<>();
-    ;
-    private List<Highway> currentHighways;
 
-    public Highway getCurrentHighway(Node nearestNode, List<Highway> highways) {
+    public Highway getCurrentHighway(Context context, Node nearestNode, List<Highway> highways) {
         Highway highwayToDisplay = null;
-        currentHighways = new ArrayList<>();
+        List<Highway> currentHighways = new ArrayList<>();
 //
 //        // ====================
 //        // TEST
 //        // ====================
-//        previousHighways.add(new Highway(1, 100, 130, "Dorpsstraat", null));
-//        previousHighways.add(new Highway(1, 50, 80, "Emmalaan", null));
-//        previousHighways.add(new Highway(1, 100, 130, "Molenweg", null));
-//        previousHighways.add(new Highway(1, 100, 130, "Martijn(ga)weg", null));
+        previousHighways.add(new Highway(1, 100, 130, "Emmalaan", null));
+        previousHighways.add(new Highway(1, 50, 80, "Beatrixplatsoen", null));
+        previousHighways.add(new Highway(1, 100, 130, "Julianalaan", null));
+        previousHighways.add(new Highway(1, 100, 130, "Thuisweide", null));
 
         mainLoop:
         for (Highway highway : highways) {
             if (highway.getNodes().contains(nearestNode.getId())) {
                 currentHighways.add(highway);
-                // Controleer current & previous op zelfde wegen
-                for (Highway previousHighway : previousHighways) {
-                    // TODO Previous way, niet alleen previouswayS. Hierdoor worden geen zijstraten meer opgenomen
-                    if (highway.getRoadName().equals(previousHighway.getRoadName())) {
-                        highwayToDisplay = highway;
-                        Log.i(getClass().getSimpleName(), "Way found: " + highway.getRoadName() + " same as previous way.");
-                        break mainLoop;
-                    }
-                }
-                if (highwayToDisplay == null) {
+                if (previousHighway != null && highway.getRoadName().equals(previousHighway.getRoadName())) {
                     highwayToDisplay = highway;
+//                    Toast.makeText(context, "U bevindt zich nog op dezelfde weg als hiervoor", Toast.LENGTH_SHORT).show();
+                    Log.i(getClass().getSimpleName(), "Way found: " + highway.getRoadName() + " same as the previous way.");
+                    break;
+                } else {
+                    // Controleer current & previous op zelfde wegen
+                    for (Highway pHighway : previousHighways) {
+                        // TODO Previous way, niet alleen previouswayS. Hierdoor worden geen zijstraten meer opgenomen
+                        if (highway.getRoadName().equals(pHighway.getRoadName())) {
+                            highwayToDisplay = highway;
+                            Log.i(getClass().getSimpleName(), "Way found: " + highway.getRoadName() + " same as one of the previous ways.");
+//                            Toast.makeText(context, "U bevindt zich op een weg die hiervoor al is gevonden", Toast.LENGTH_SHORT).show();
+                            break mainLoop;
+                        }
+                    }
+                    if (highwayToDisplay == null) {
+                        highwayToDisplay = highway;
+                    }
                 }
             }
         }
         previousHighways.clear();
         previousHighways = currentHighways;
+
+        // Set previous highway
+        previousHighway = highwayToDisplay;
         return highwayToDisplay;
     }
 }
