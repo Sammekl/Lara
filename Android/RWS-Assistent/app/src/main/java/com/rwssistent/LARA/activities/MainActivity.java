@@ -119,6 +119,7 @@ public class MainActivity extends ActionBarActivity {
                 roadName.setVisibility(View.VISIBLE);
                 roadName.setText(String.valueOf(highway.getRoadName()));
             }
+            // TODO RoadRef
         } else {
             // TODO Error laten zien (geen weg gevonden). Geef ook een optie om naar locatie/instellingen te gaan (van de telefoon)
         }
