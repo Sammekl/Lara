@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -44,26 +45,38 @@ public class MainActivity extends ActionBarActivity {
     private List<Highway> allHighways;
 
     private Location pollLocation;
+    LocationManager locationManager;
+    LocationListener locationListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         this.getTextViews();
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.drawable.ic_lara_action);
 
-        ImageView img= (ImageView) findViewById(R.id.imageViewSpeed);
+        ImageView img = (ImageView) findViewById(R.id.imageViewSpeed);
         img.setImageResource(R.drawable.verkeersbord);
 
         laraService = new LaraService();
-
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        this.getLocationFromPreferences();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         startLocationService();
+        Log.i(getClass().getSimpleName(), "Activity resumed. LocationManager started polling.");
+    }
+
+    @Override
+    protected void onPause() {
+        Log.i(getClass().getSimpleName(), "Activity paused. LocationManager stopped polling.");
+        locationManager.removeUpdates(locationListener);
+        super.onPause();
     }
 
     @Override
@@ -95,11 +108,11 @@ public class MainActivity extends ActionBarActivity {
                 maxSpeed.setTextSize(15);
                 speedUnit.setVisibility(View.INVISIBLE);
             }
-            if (highway.getLanes() > 0) {
-                numOfLanes.setText(String.valueOf(highway.getLanes()) + " " + this.getResources().getString(R.string.lanes));
-                numOfLanes.setVisibility(View.VISIBLE);
-            }
-            if (highway.getRoadName() != null && highway.getRoadName() != "") {
+//            if (highway.getLanes() > 0) {
+//                numOfLanes.setText(String.valueOf(highway.getLanes()) + " " + this.getResources().getString(R.string.lanes));
+//                numOfLanes.setVisibility(View.VISIBLE);
+//            }
+            if (highway.getRoadName() != null && !highway.getRoadName().equals("")) {
                 roadName.setText(String.valueOf(highway.getRoadName()));
             }
         } else {
@@ -108,17 +121,15 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void startLocationService() {
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        LocationListener locationListener = new LocationListener() {
+        locationListener = new LocationListener() {
 
             boolean firstRun = true;
 
             @Override
             public void onLocationChanged(Location location) {
-                longitude = location.getLongitude();
-                latitude = location.getLatitude();
-                longitude = location.getLongitude();
-//                currentLocation.setText("Lat: " + latitude + " | Long: " + longitude);
+//                latitude = location.getLatitude();
+//                longitude = location.getLongitude();
+                currentLocation.setText("Lat: " + latitude + " | Long: " + longitude);
 
                 if (firstRun) {
                     setPollLocation(location);
@@ -208,9 +219,9 @@ public class MainActivity extends ActionBarActivity {
     private void getTextViews() {
         maxSpeed = (TextView) findViewById(R.id.maxspeed);
 //        numOfLanes = (TextView) findViewById(R.id.lanes);
-//        roadName = (TextView) findViewById(R.id.roadName);
-//        speedUnit = (TextView) findViewById(R.id.speedUnit);
-//        currentLocation = (TextView) findViewById(R.id.current_location);
+        roadName = (TextView) findViewById(R.id.roadName);
+        speedUnit = (TextView) findViewById(R.id.speedUnit);
+        currentLocation = (TextView) findViewById(R.id.current_location);
     }
 
     /**
