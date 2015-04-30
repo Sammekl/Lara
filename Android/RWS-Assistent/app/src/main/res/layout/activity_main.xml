@@ -59,9 +59,29 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/imageViewLanes"
-            android:src="@drawable/driebanen"
+            android:src="@drawable/eenbaan"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/roadName"
+            android:layout_centerHorizontal="true"
+            android:text="N235"
+            android:layout_alignParentBottom="true"
+            android:textSize="30sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/roadReference"
+            android:layout_above="@id/roadName"
+            android:layout_centerHorizontal="true"
+            android:text="Soestdijksestraatweg"
+            android:textSize="20sp"
+            android:visibility="visible"/>
 
 
     </RelativeLayout>

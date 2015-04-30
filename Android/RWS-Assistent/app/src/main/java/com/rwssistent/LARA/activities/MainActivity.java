@@ -118,7 +118,7 @@ public class MainActivity extends ActionBarActivity {
                 longitude = location.getLongitude();
                 latitude = location.getLatitude();
                 longitude = location.getLongitude();
-                currentLocation.setText("Lat: " + latitude + " | Long: " + longitude);
+//                currentLocation.setText("Lat: " + latitude + " | Long: " + longitude);
 
                 if (firstRun) {
                     setPollLocation(location);
