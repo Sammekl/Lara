@@ -46,7 +46,8 @@ public class MainActivity extends ActionBarActivity {
     private List<Highway> allHighways;
 
     private Location pollLocation;
-
+    LocationManager locationManager;
+    LocationListener locationListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,11 +58,11 @@ public class MainActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.drawable.ic_lara_action);
 
-        ImageView img= (ImageView) findViewById(R.id.imageViewSpeed);
+        ImageView img = (ImageView) findViewById(R.id.imageViewSpeed);
         img.setImageResource(R.drawable.verkeersbord);
 
         laraService = new LaraService();
-
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         this.getLocationFromPreferences();
     }
 
@@ -69,6 +70,14 @@ public class MainActivity extends ActionBarActivity {
     protected void onResume() {
         super.onResume();
         startLocationService();
+        Log.i(getClass().getSimpleName(), "Activity resumed. LocationManager started polling.");
+    }
+
+    @Override
+    protected void onPause() {
+        Log.i(getClass().getSimpleName(), "Activity paused. LocationManager stopped polling.");
+        locationManager.removeUpdates(locationListener);
+        super.onPause();
     }
 
     @Override
@@ -110,8 +119,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void startLocationService() {
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        LocationListener locationListener = new LocationListener() {
+        locationListener = new LocationListener() {
 
             boolean firstRun = true;
 
@@ -177,6 +185,7 @@ public class MainActivity extends ActionBarActivity {
 
     /**
      * Poll the nearest highway with the current location
+     *
      * @param latitude  current latitude
      * @param longitude current longitude
      */
