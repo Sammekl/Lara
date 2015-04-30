@@ -38,11 +38,10 @@ public class HighwayHelper {
                     highwayToDisplay = highway;
 //                    Toast.makeText(context, "U bevindt zich nog op dezelfde weg als hiervoor", Toast.LENGTH_SHORT).show();
                     Log.i(getClass().getSimpleName(), "Way found: " + highway.getRoadName() + " same as the previous way.");
-                    break;
+                    break mainLoop;
                 } else {
                     // Controleer current & previous op zelfde wegen
                     for (Highway pHighway : previousHighways) {
-                        // TODO Previous way, niet alleen previouswayS. Hierdoor worden geen zijstraten meer opgenomen
                         if (highway.getRoadName().equals(pHighway.getRoadName())) {
                             highwayToDisplay = highway;
                             Log.i(getClass().getSimpleName(), "Way found: " + highway.getRoadName() + " same as one of the previous ways.");

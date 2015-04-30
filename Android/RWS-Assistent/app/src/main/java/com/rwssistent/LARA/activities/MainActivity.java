@@ -9,12 +9,14 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -45,10 +47,12 @@ public class MainActivity extends ActionBarActivity {
 
     private Location pollLocation;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         this.getTextViews();
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.drawable.ic_lara_action);
@@ -58,6 +62,7 @@ public class MainActivity extends ActionBarActivity {
 
         laraService = new LaraService();
 
+        this.getLocationFromPreferences();
     }
 
     @Override
@@ -88,18 +93,15 @@ public class MainActivity extends ActionBarActivity {
         if (highway != null) {
             if (highway.getMaxSpeed() > 0) {
                 maxSpeed.setText(String.valueOf(highway.getMaxSpeed()));
-                maxSpeed.setTextSize(80);
                 speedUnit.setVisibility(View.VISIBLE);
             } else {
                 maxSpeed.setText(R.string.unknown_maxspeed);
-                maxSpeed.setTextSize(15);
-                speedUnit.setVisibility(View.INVISIBLE);
             }
-            if (highway.getLanes() > 0) {
-                numOfLanes.setText(String.valueOf(highway.getLanes()) + " " + this.getResources().getString(R.string.lanes));
-                numOfLanes.setVisibility(View.VISIBLE);
-            }
-            if (highway.getRoadName() != null && highway.getRoadName() != "") {
+//            if (highway.getLanes() > 0) {
+//                numOfLanes.setText(String.valueOf(highway.getLanes()) + " " + this.getResources().getString(R.string.lanes));
+//                numOfLanes.setVisibility(View.VISIBLE);
+//            }
+            if (highway.getRoadName() != null && !highway.getRoadName().equals("")) {
                 roadName.setText(String.valueOf(highway.getRoadName()));
             }
         } else {
@@ -115,9 +117,8 @@ public class MainActivity extends ActionBarActivity {
 
             @Override
             public void onLocationChanged(Location location) {
-                longitude = location.getLongitude();
-                latitude = location.getLatitude();
-                longitude = location.getLongitude();
+//                latitude = location.getLatitude();
+//                longitude = location.getLongitude();
                 currentLocation.setText("Lat: " + latitude + " | Long: " + longitude);
 
                 if (firstRun) {
@@ -208,9 +209,9 @@ public class MainActivity extends ActionBarActivity {
     private void getTextViews() {
         maxSpeed = (TextView) findViewById(R.id.maxspeed);
 //        numOfLanes = (TextView) findViewById(R.id.lanes);
-//        roadName = (TextView) findViewById(R.id.roadName);
-//        speedUnit = (TextView) findViewById(R.id.speedUnit);
-//        currentLocation = (TextView) findViewById(R.id.current_location);
+        roadName = (TextView) findViewById(R.id.roadName);
+        speedUnit = (TextView) findViewById(R.id.speedUnit);
+        currentLocation = (TextView) findViewById(R.id.current_location);
     }
 
     /**
