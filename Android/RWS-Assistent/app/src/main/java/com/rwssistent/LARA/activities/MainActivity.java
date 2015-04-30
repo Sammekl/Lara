@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -15,9 +16,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.rwssistent.LARA.R;
 import com.rwssistent.LARA.helpers.PreferenceHelper;
@@ -32,7 +35,7 @@ import java.util.List;
 public class MainActivity extends ActionBarActivity {
 
     private TextView maxSpeed;
-    private TextView numOfLanes;
+    private ImageView numOfLanes;
     private TextView roadName;
     private TextView speedUnit;
     private TextView currentLocation;
@@ -51,8 +54,10 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
         this.getTextViews();
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.drawable.ic_lara_action);
@@ -62,7 +67,7 @@ public class MainActivity extends ActionBarActivity {
 
         laraService = new LaraService();
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        this.getLocationFromPreferences();
+//        this.getLocationFromPreferences();
     }
 
     @Override
@@ -101,11 +106,9 @@ public class MainActivity extends ActionBarActivity {
         if (highway != null) {
             if (highway.getMaxSpeed() > 0) {
                 maxSpeed.setText(String.valueOf(highway.getMaxSpeed()));
-                maxSpeed.setTextSize(80);
                 speedUnit.setVisibility(View.VISIBLE);
             } else {
                 maxSpeed.setText(R.string.unknown_maxspeed);
-                maxSpeed.setTextSize(15);
                 speedUnit.setVisibility(View.INVISIBLE);
             }
 //            if (highway.getLanes() > 0) {
@@ -113,6 +116,7 @@ public class MainActivity extends ActionBarActivity {
 //                numOfLanes.setVisibility(View.VISIBLE);
 //            }
             if (highway.getRoadName() != null && !highway.getRoadName().equals("")) {
+                roadName.setVisibility(View.VISIBLE);
                 roadName.setText(String.valueOf(highway.getRoadName()));
             }
         } else {
@@ -127,10 +131,9 @@ public class MainActivity extends ActionBarActivity {
 
             @Override
             public void onLocationChanged(Location location) {
-//                latitude = location.getLatitude();
-//                longitude = location.getLongitude();
-                currentLocation.setText("Lat: " + latitude + " | Long: " + longitude);
-
+                latitude = location.getLatitude();
+                longitude = location.getLongitude();
+//                Toast.makeText(getActivity(), "Lat: " + latitude + " | Long: " + longitude, Toast.LENGTH_SHORT).show();
                 if (firstRun) {
                     setPollLocation(location);
                     laraService.getHighwayData(getActivity(), latitude, longitude);
@@ -218,10 +221,10 @@ public class MainActivity extends ActionBarActivity {
 
     private void getTextViews() {
         maxSpeed = (TextView) findViewById(R.id.maxspeed);
-//        numOfLanes = (TextView) findViewById(R.id.lanes);
+        numOfLanes = (ImageView) findViewById(R.id.imageViewLanes);
         roadName = (TextView) findViewById(R.id.roadName);
         speedUnit = (TextView) findViewById(R.id.speedUnit);
-        currentLocation = (TextView) findViewById(R.id.current_location);
+//        currentLocation = (TextView) findViewById(R.id.current_location);
     }
 
     /**

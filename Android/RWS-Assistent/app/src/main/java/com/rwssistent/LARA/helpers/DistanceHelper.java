@@ -23,7 +23,7 @@ public class DistanceHelper {
             }
         }
         Long timeTaken = System.currentTimeMillis() - startTime;
-        Log.d("DistanceHelper", "time taken: " + timeTaken);
+        Log.d("DistanceHelper", "time taken: " + timeTaken + "ms");
         return node;
     }
 
