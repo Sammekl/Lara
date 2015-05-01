@@ -1,26 +1,20 @@
 package com.rwssistent.LARA.activities;
 
-import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.rwssistent.LARA.R;
 import com.rwssistent.LARA.helpers.PreferenceHelper;
@@ -38,7 +32,6 @@ public class MainActivity extends ActionBarActivity {
     private ImageView numOfLanes;
     private TextView roadName;
     private TextView speedUnit;
-    private TextView currentLocation;
 
     private double longitude;
     private double latitude;
@@ -50,6 +43,8 @@ public class MainActivity extends ActionBarActivity {
     private Location pollLocation;
     LocationManager locationManager;
     LocationListener locationListener;
+
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,13 +106,34 @@ public class MainActivity extends ActionBarActivity {
                 maxSpeed.setText(R.string.unknown_maxspeed);
                 speedUnit.setVisibility(View.INVISIBLE);
             }
-//            if (highway.getLanes() > 0) {
-//                numOfLanes.setText(String.valueOf(highway.getLanes()) + " " + this.getResources().getString(R.string.lanes));
-//                numOfLanes.setVisibility(View.VISIBLE);
-//            }
+            switch (highway.getLanes()) {
+                case 1:
+                    numOfLanes.setImageDrawable(getResources().getDrawable(R.drawable.eenbaan));
+                    break;
+                case 2:
+                    numOfLanes.setImageDrawable(getResources().getDrawable(R.drawable.tweebanen));
+                    break;
+                case 3:
+                    numOfLanes.setImageDrawable(getResources().getDrawable(R.drawable.driebanen));
+                    break;
+                case 4:
+                    numOfLanes.setImageDrawable(getResources().getDrawable(R.drawable.vierbanen));
+                    break;
+                case 5:
+                    numOfLanes.setImageDrawable(getResources().getDrawable(R.drawable.vijfbanen));
+                    break;
+                default:
+                    numOfLanes.setImageDrawable(getResources().getDrawable(R.drawable.eenbaan));
+                    break;
+            }
             if (highway.getRoadName() != null && !highway.getRoadName().equals("")) {
                 roadName.setVisibility(View.VISIBLE);
                 roadName.setText(String.valueOf(highway.getRoadName()));
+                if (highway.getRoadName().length() > 21) {
+                    roadName.setTextSize(20);
+                } else {
+                    roadName.setTextSize(30);
+                }
             }
             // TODO RoadRef
         } else {
@@ -134,7 +150,7 @@ public class MainActivity extends ActionBarActivity {
             public void onLocationChanged(Location location) {
                 latitude = location.getLatitude();
                 longitude = location.getLongitude();
-//                Toast.makeText(getActivity(), "Lat: " + latitude + " | Long: " + longitude, Toast.LENGTH_SHORT).show();
+                dismissProgressDialog();
                 if (firstRun) {
                     setPollLocation(location);
                     laraService.getHighwayData(getActivity(), latitude, longitude);
@@ -147,6 +163,7 @@ public class MainActivity extends ActionBarActivity {
             public void onStatusChanged(String provider, int status, Bundle extras) {
 
             }
+
             @Override
             public void onProviderEnabled(String provider) {
                 Log.d("Latitude", "enable");
@@ -158,6 +175,7 @@ public class MainActivity extends ActionBarActivity {
             }
         };
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0, locationListener);
+        showLoadingProgressDialog();
     }
 
     /**
@@ -190,6 +208,7 @@ public class MainActivity extends ActionBarActivity {
 
     /**
      * Poll the nearest highway with the current location
+     *
      * @param latitude  current latitude
      * @param longitude current longitude
      */
@@ -245,7 +264,28 @@ public class MainActivity extends ActionBarActivity {
         return this;
     }
 
-    public void setPollLocation(Location pollLocation) {
+    private void setPollLocation(Location pollLocation) {
         this.pollLocation = pollLocation;
+    }
+
+    private void showLoadingProgressDialog() {
+        this.showProgressDialog(this.getString(R.string.dialog_get_location));
+    }
+
+    private void showProgressDialog(CharSequence message) {
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setIndeterminate(true);
+        }
+
+        progressDialog.setMessage(message);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
+    }
+
+    private void dismissProgressDialog() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
     }
 }

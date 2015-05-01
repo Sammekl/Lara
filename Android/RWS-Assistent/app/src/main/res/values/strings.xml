@@ -33,6 +33,8 @@
     <string name="dialog_exit_text">Weet u zeker dat u de applicatie wilt afsluiten?</string>
     <string name="dialog_btn_cancel">Annuleren</string>
     <string name="dialog_btn_exit">Afsluiten</string>
+    <string name="dialog_get_highways">De wegen worden opgehaald…</string>
+    <string name="dialog_get_location">Uw locatie wordt opgehaald…</string>
     <!-- /Dialogs -->
 
     <!-- Buttons-->
