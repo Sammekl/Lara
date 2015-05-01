@@ -147,7 +147,6 @@ public class MainActivity extends ActionBarActivity {
             public void onStatusChanged(String provider, int status, Bundle extras) {
 
             }
-
             @Override
             public void onProviderEnabled(String provider) {
                 Log.d("Latitude", "enable");
@@ -207,7 +206,7 @@ public class MainActivity extends ActionBarActivity {
                     laraService.getHighwayData(this, latitude, longitude);
                 }
                 if (allHighways != null) {
-                    Highway highway = laraService.pollNearestHighway(this, node, allHighways);
+                    Highway highway = laraService.pollNearestHighway(node, allHighways);
                     if (highway != null) {
                         displayValues(highway);
                     }
