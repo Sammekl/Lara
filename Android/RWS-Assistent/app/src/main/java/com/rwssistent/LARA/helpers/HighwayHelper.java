@@ -18,45 +18,48 @@ public class HighwayHelper {
     private Highway previousHighway;
     private List<Highway> previousHighways = new ArrayList<>();
 
-    public Highway getCurrentHighway(Context context, Node nearestNode, List<Highway> highways) {
+    public Highway getCurrentHighway(Node nearestNode, List<Highway> highways) {
         Highway highwayToDisplay = null;
         List<Highway> currentHighways = new ArrayList<>();
 //
 //        // ====================
 //        // TEST
 //        // ====================
-        previousHighways.add(new Highway(1, 100, 130, "Emmalaan", null));
-        previousHighways.add(new Highway(1, 50, 80, "Beatrixplatsoen", null));
-        previousHighways.add(new Highway(1, 100, 130, "Julianalaan", null));
-        previousHighways.add(new Highway(1, 100, 130, "Thuisweide", null));
+//        previousHighways.add(new Highway(1, 100, 130, "Oudenoord", null));
+//        previousHighways.add(new Highway(1, 50, 80, "Beatrixplatsoen", null));
+//        previousHighways.add(new Highway(1, 100, 130, "Julianalaan", null));
+//        previousHighways.add(new Highway(1, 100, 130, "Thuisweide", null));
 
-        mainLoop:
         for (Highway highway : highways) {
             if (highway.getNodes().contains(nearestNode.getId())) {
                 currentHighways.add(highway);
-                for (Highway h : highways) {
-                    if (previousHighway != null && h.getRoadName().equals(previousHighway.getRoadName())) {
-                        highwayToDisplay = h;
+                if (previousHighway != null && highway.getRoadName().equals(previousHighway.getRoadName())) {
+                    highwayToDisplay = highway;
 //                      Toast.makeText(context, "U bevindt zich nog op dezelfde weg als hiervoor", Toast.LENGTH_SHORT).show();
-                        Log.i(getClass().getSimpleName(), "Way found: " + highway.getRoadName() + " same as the previous way.");
-                        break mainLoop;
-                    }
+                    Log.i(getClass().getSimpleName(), "Way found: " + highway.getRoadName() + " same as the previous way.");
+                    return returnHighway(currentHighways, highwayToDisplay);
                 }
+            }
+        }
+        for (Highway highway : highways) {
+            if (highway.getNodes().contains(nearestNode.getId())) {
                 // Controleer current & previous op zelfde wegen
                 for (Highway pHighway : previousHighways) {
                     if (highway.getRoadName().equals(pHighway.getRoadName())) {
                         highwayToDisplay = highway;
                         Log.i(getClass().getSimpleName(), "Way found: " + highway.getRoadName() + " same as one of the previous ways.");
 //                            Toast.makeText(context, "U bevindt zich op een weg die hiervoor al is gevonden", Toast.LENGTH_SHORT).show();
-                        break mainLoop;
+                        return returnHighway(currentHighways, highwayToDisplay);
                     }
                 }
-                if (highwayToDisplay == null) {
-                    highwayToDisplay = highway;
-                }
-
             }
+
         }
+        return returnHighway(currentHighways, currentHighways.get(0));
+    }
+
+    private Highway returnHighway(List<Highway> currentHighways, Highway highwayToDisplay) {
+
         previousHighways.clear();
         previousHighways = currentHighways;
 

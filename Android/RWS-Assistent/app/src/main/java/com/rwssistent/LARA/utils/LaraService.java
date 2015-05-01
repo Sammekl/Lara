@@ -35,8 +35,8 @@ public class LaraService {
         return DistanceHelper.distance(lat1, lon1, lat2, lon2);
     }
 
-    public Highway pollNearestHighway(Context context, Node node, List<Highway> allHighways) {
-        return highwayHelper.getCurrentHighway(context, node, allHighways);
+    public Highway pollNearestHighway(Node node, List<Highway> allHighways) {
+        return highwayHelper.getCurrentHighway(node, allHighways);
     }
 
 }
