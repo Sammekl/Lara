@@ -1,5 +1,7 @@
 package com.rwssistent.LARA.model;
 
+import java.sql.Time;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -10,6 +12,8 @@ public class Highway {
     private int lanes;
     private int maxSpeed;
     private int maxSpeedConditional;
+    private Calendar maxSpeedConditionalStart;
+    private Calendar maxSpeedConditionalEnd;
     private String roadName;
     private String roadType;
 
@@ -49,6 +53,22 @@ public class Highway {
 
     public void setMaxSpeedConditional(int maxSpeedConditional) {
         this.maxSpeedConditional = maxSpeedConditional;
+    }
+
+    public Calendar getMaxSpeedConditionalStart() {
+        return maxSpeedConditionalStart;
+    }
+
+    public void setMaxSpeedConditionalStart(Calendar maxSpeedConditionalStart) {
+        this.maxSpeedConditionalStart = maxSpeedConditionalStart;
+    }
+
+    public Calendar getMaxSpeedConditionalEnd() {
+        return maxSpeedConditionalEnd;
+    }
+
+    public void setMaxSpeedConditionalEnd(Calendar maxSpeedConditionalEnd) {
+        this.maxSpeedConditionalEnd = maxSpeedConditionalEnd;
     }
 
     public String getRoadName() {
