@@ -9,7 +9,10 @@ import com.rwssistent.LARA.utils.Constants;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -44,6 +47,35 @@ public class JSONHelper {
                 }
                 if (tagsObj.has(Constants.PREF_API_WAY_MAXSPEED)) {
                     highway.setMaxSpeed(tagsObj.getInt(Constants.PREF_API_WAY_MAXSPEED));
+                }
+                if (tagsObj.has(Constants.PREF_API_WAY_MAXSPEED_CONDITIONAL)) {
+                    String conditional = tagsObj.getString(Constants.PREF_API_WAY_MAXSPEED_CONDITIONAL);
+                    String[] parts = conditional.split("@");
+
+                    //maxspeed
+                    parts[0] = parts[0].replace(" ","");
+                    int maxspeed = Integer.parseInt(parts[0]);
+                    highway.setMaxSpeedConditional(maxspeed);
+
+                    //timeslot
+                    Log.d("JSONHelper", "timeslot: " + parts[1]);
+                    parts[1] = parts[1].replace("(","");
+                    parts[1] = parts[1].replace(")","");
+                    parts[1] = parts[1].replace(" ","");
+
+                    String[] timeslot = parts[1].split("-");
+
+                    Date dateStart = new SimpleDateFormat("HH:mm").parse(timeslot[0]);
+                    Calendar calendarStart = Calendar.getInstance();
+                    calendarStart.setTime(dateStart);
+                    calendarStart.add(Calendar.DATE, 1);
+                    highway.setMaxSpeedConditionalStart(calendarStart);
+
+                    Date dateEnd = new SimpleDateFormat("HH:mm").parse(timeslot[1]);
+                    Calendar calendarEnd = Calendar.getInstance();
+                    calendarEnd.setTime(dateEnd);
+                    calendarEnd.add(Calendar.DATE, 1);
+                    highway.setMaxSpeedConditionalEnd(calendarEnd);
                 }
                 // If has ref
                 if (tagsObj.has(Constants.PREF_API_WAY_ROAD_REF)) {

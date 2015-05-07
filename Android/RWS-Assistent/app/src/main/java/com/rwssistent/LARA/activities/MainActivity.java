@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rwssistent.LARA.R;
+import com.rwssistent.LARA.helpers.HighwayHelper;
 import com.rwssistent.LARA.helpers.PreferenceHelper;
 import com.rwssistent.LARA.model.Highway;
 import com.rwssistent.LARA.model.Node;
@@ -62,7 +63,7 @@ public class MainActivity extends ActionBarActivity {
 
         laraService = new LaraService();
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-//        this.getLocationFromPreferences();
+        //this.getLocationFromPreferences();
     }
 
     @Override
@@ -98,9 +99,20 @@ public class MainActivity extends ActionBarActivity {
     // ============================================
 
     public void displayValues(Highway highway) {
+        HighwayHelper highwayHelper = new HighwayHelper();
+
         if (highway != null) {
             if (highway.getMaxSpeed() > 0) {
-                maxSpeed.setText(String.valueOf(highway.getMaxSpeed()));
+                String maxspeed = "";
+                if(highwayHelper.ConditionalValid(highway))
+                {
+                    maxspeed = String.valueOf(highway.getMaxSpeedConditional());
+                }
+                else
+                {
+                    maxspeed = String.valueOf(highway.getMaxSpeed());
+                }
+                maxSpeed.setText(maxspeed);
                 speedUnit.setVisibility(View.VISIBLE);
             } else {
                 maxSpeed.setText(R.string.unknown_maxspeed);

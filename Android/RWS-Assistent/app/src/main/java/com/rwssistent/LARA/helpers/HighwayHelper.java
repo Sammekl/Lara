@@ -7,7 +7,10 @@ import android.widget.Toast;
 import com.rwssistent.LARA.model.Highway;
 import com.rwssistent.LARA.model.Node;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -55,7 +58,31 @@ public class HighwayHelper {
             }
 
         }
-        return returnHighway(currentHighways, currentHighways.get(0));
+        if(!currentHighways.isEmpty()) {
+            return returnHighway(currentHighways, currentHighways.get(0));
+        }
+        else return null;
+    }
+
+    public boolean ConditionalValid(Highway highway) {
+        Boolean result = false;
+        if (highway.getMaxSpeedConditionalStart()!= null && highway.getMaxSpeedConditionalEnd()!= null) {
+            Calendar currentCalendar = Calendar.getInstance(); //Create Calendar-Object
+            currentCalendar.setTime(new Date());               //Set the Calendar to now
+            int currentHour = currentCalendar.get(Calendar.HOUR_OF_DAY);
+            int startHour = highway.getMaxSpeedConditionalStart().get(Calendar.HOUR_OF_DAY);
+            int endHour = highway.getMaxSpeedConditionalEnd().get(Calendar.HOUR_OF_DAY);
+
+            Log.d("JSONHelper", "dateCurrent: " + currentHour);
+            Log.d("JSONHelper", "dateStart: " + startHour);
+            Log.d("JSONHelper", "dateEnd: " + endHour);
+
+            if(currentHour <= endHour && currentHour >= startHour) {
+                result = true;
+            }
+        }
+
+        return result;
     }
 
     private Highway returnHighway(List<Highway> currentHighways, Highway highwayToDisplay) {
