@@ -7,8 +7,8 @@
     </style>
 
     <style name="LaraActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <item name="android:background" tools:ignore="NewApi">@color/laraBlue</item>
-        <item name="background">@color/laraBlue</item>
+        <item name="android:background" tools:ignore="NewApi">@color/laraDark</item>
+        <item name="background">@color/laraDark</item>
     </style>
 
 </resources>

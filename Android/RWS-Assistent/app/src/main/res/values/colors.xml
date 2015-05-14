@@ -1,3 +1,4 @@
 <resources  xmlns:tools="http://schemas.android.com/tools">
     <color name="laraBlue">#00ADEF</color>
+    <color name="laraDark">#303030</color>
 </resources>

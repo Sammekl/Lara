@@ -118,26 +118,26 @@ public class MainActivity extends ActionBarActivity {
                 maxSpeed.setText(R.string.unknown_maxspeed);
                 speedUnit.setVisibility(View.INVISIBLE);
             }
-            switch (highway.getLanes()) {
-                case 1:
-                    numOfLanes.setImageDrawable(getResources().getDrawable(R.drawable.eenbaan));
-                    break;
-                case 2:
-                    numOfLanes.setImageDrawable(getResources().getDrawable(R.drawable.tweebanen));
-                    break;
-                case 3:
-                    numOfLanes.setImageDrawable(getResources().getDrawable(R.drawable.driebanen));
-                    break;
-                case 4:
-                    numOfLanes.setImageDrawable(getResources().getDrawable(R.drawable.vierbanen));
-                    break;
-                case 5:
-                    numOfLanes.setImageDrawable(getResources().getDrawable(R.drawable.vijfbanen));
-                    break;
-                default:
-                    numOfLanes.setImageDrawable(getResources().getDrawable(R.drawable.eenbaan));
-                    break;
-            }
+//            switch (highway.getLanes()) {
+//                case 1:
+//                    numOfLanes.setImageDrawable(getResources().getDrawable(R.drawable.eenbaan));
+//                    break;
+//                case 2:
+//                    numOfLanes.setImageDrawable(getResources().getDrawable(R.drawable.tweebanen));
+//                    break;
+//                case 3:
+//                    numOfLanes.setImageDrawable(getResources().getDrawable(R.drawable.driebanen));
+//                    break;
+//                case 4:
+//                    numOfLanes.setImageDrawable(getResources().getDrawable(R.drawable.vierbanen));
+//                    break;
+//                case 5:
+//                    numOfLanes.setImageDrawable(getResources().getDrawable(R.drawable.vijfbanen));
+//                    break;
+//                default:
+//                    numOfLanes.setImageDrawable(getResources().getDrawable(R.drawable.eenbaan));
+//                    break;
+//            }
             if (highway.getRoadName() != null && !highway.getRoadName().equals("")) {
                 roadName.setVisibility(View.VISIBLE);
                 roadName.setText(String.valueOf(highway.getRoadName()));
@@ -252,7 +252,7 @@ public class MainActivity extends ActionBarActivity {
 
     private void getTextViews() {
         maxSpeed = (TextView) findViewById(R.id.maxspeed);
-        numOfLanes = (ImageView) findViewById(R.id.imageViewLanes);
+//        numOfLanes = (ImageView) findViewById(R.id.imageViewLanes);
         roadName = (TextView) findViewById(R.id.roadName);
         speedUnit = (TextView) findViewById(R.id.speedUnit);
 //        currentLocation = (TextView) findViewById(R.id.current_location);
