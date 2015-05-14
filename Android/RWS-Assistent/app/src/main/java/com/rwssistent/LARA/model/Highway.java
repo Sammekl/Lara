@@ -9,6 +9,7 @@ import java.util.List;
  */
 public class Highway {
 
+    private long id;
     private int lanes;
     private int maxSpeed;
     private int maxSpeedConditional;
@@ -23,7 +24,8 @@ public class Highway {
 
     }
 
-    public Highway(int lanes, int maxSpeed, int maxSpeedConditional, String roadName, List<Long> nodes) {
+    public Highway(long id, int lanes, int maxSpeed, int maxSpeedConditional, String roadName, List<Long> nodes) {
+        this.id = id;
         this.lanes = lanes;
         this.maxSpeed = maxSpeed;
         this.maxSpeedConditional = maxSpeedConditional;
@@ -93,5 +95,13 @@ public class Highway {
 
     public void setNodes(List<Long> nodes) {
         this.nodes = nodes;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

@@ -32,6 +32,7 @@ public class Constants {
     // -WAY- //
     public static final String PREF_API_WAY = "way";
 
+    public static final String PREF_API_WAY_ID = "id";
     public static final String PREF_API_WAY_TAGS = "tags";
     public static final String PREF_API_WAY_LANES = "lanes";
     public static final String PREF_API_WAY_MAXSPEED = "maxspeed";

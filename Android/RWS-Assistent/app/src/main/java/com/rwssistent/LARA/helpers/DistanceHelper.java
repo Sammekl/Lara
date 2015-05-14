@@ -23,7 +23,25 @@ public class DistanceHelper {
             }
         }
         Long timeTaken = System.currentTimeMillis() - startTime;
-        Log.d("DistanceHelper", "time taken: " + timeTaken + "ms");
+        Log.d("DistanceHelper", "time taken (nearestNode): " + timeTaken + "ms");
+        return node;
+    }
+
+    public static Node getNextNode(List<Node> nodes, Node currentNode, Node previousNode) {
+        Long startTime = System.currentTimeMillis();
+        Node node = null;
+        double result = 0;
+        for (Node n : nodes) {
+            double tempResult = distance(n.getLat(), n.getLon(), currentNode.getLat(), currentNode.getLon());
+            if (node == null || tempResult < result) {
+                if (node.getId() != currentNode.getId() || node.getId() != previousNode.getId()) {
+                    node = n;
+                    result = tempResult;
+                }
+            }
+        }
+        Long timeTaken = System.currentTimeMillis() - startTime;
+        Log.d("DistanceHelper", "time taken (nextNode): " + timeTaken + "ms");
         return node;
     }
 

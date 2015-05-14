@@ -36,12 +36,16 @@ public class JSONHelper {
             }
             for (JSONObject jsonWay : jsonObjects) {
 
+
+                Highway highway = new Highway();
+
+                if (jsonWay.has(Constants.PREF_API_WAY_ID)) {
+                    highway.setId(jsonWay.getLong(Constants.PREF_API_WAY_ID));
+                }
                 // ==================
                 // TAGS
                 // ==================
-
                 JSONObject tagsObj = jsonWay.getJSONObject(Constants.PREF_API_WAY_TAGS);
-                Highway highway = new Highway();
                 if (tagsObj.has(Constants.PREF_API_WAY_LANES)) {
                     highway.setLanes(tagsObj.getInt(Constants.PREF_API_WAY_LANES));
                 }
@@ -53,15 +57,15 @@ public class JSONHelper {
                     String[] parts = conditional.split("@");
 
                     //maxspeed
-                    parts[0] = parts[0].replace(" ","");
+                    parts[0] = parts[0].replace(" ", "");
                     int maxspeed = Integer.parseInt(parts[0]);
                     highway.setMaxSpeedConditional(maxspeed);
 
                     //timeslot
                     Log.d("JSONHelper", "timeslot: " + parts[1]);
-                    parts[1] = parts[1].replace("(","");
-                    parts[1] = parts[1].replace(")","");
-                    parts[1] = parts[1].replace(" ","");
+                    parts[1] = parts[1].replace("(", "");
+                    parts[1] = parts[1].replace(")", "");
+                    parts[1] = parts[1].replace(" ", "");
 
                     String[] timeslot = parts[1].split("-");
 

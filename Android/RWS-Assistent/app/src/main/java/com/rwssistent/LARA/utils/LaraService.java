@@ -27,16 +27,32 @@ public class LaraService {
         roadTask.execute();
     }
 
-    public Node pollNearestNode(double latitude, double longitude, List<Node> nodes) {
-        return DistanceHelper.getNearestNode(nodes, longitude, latitude);
+    public Node pollNearestNode(List<Node> nodes, double lat, double lon) {
+        return DistanceHelper.getNearestNode(nodes, lat, lon);
     }
 
     public double distanceFromPollLocation(double lat1, double lon1, double lat2, double lon2) {
         return DistanceHelper.distance(lat1, lon1, lat2, lon2);
     }
 
-    public Highway pollNearestHighway(Node node, List<Highway> allHighways) {
-        return highwayHelper.getCurrentHighway(node, allHighways);
+    public Highway getEntireHighway(Node node, List<Highway> allHighways) {
+        return highwayHelper.getEntireHighway(node, allHighways);
+    }
+
+    public List<Highway> getAllHighwaysFromNode(Node node, List<Highway> allHighways) {
+        return highwayHelper.getAllHighwaysFromNode(node, allHighways);
+    }
+
+    public List<Node> getAllNodesFromAllHighwaysFromCurrentNode(Node node, List<Highway> allHighways, List<Node> allNodes) {
+        return highwayHelper.getAllNodesFromAllHighwaysFromCurrentNode(node, allHighways, allNodes);
+    }
+
+    public List<Node> getAllNodesFromHighway(Highway currentHighway, List<Node> allNodes) {
+        return highwayHelper.getAllNodesFromHighway(currentHighway, allNodes);
+    }
+
+    public Node getNextNode(Highway currentHighway, Node currentNode, Node previousNode, List<Node> allNodes) {
+        return highwayHelper.getNextNode(currentHighway, currentNode, previousNode, allNodes);
     }
 
 }

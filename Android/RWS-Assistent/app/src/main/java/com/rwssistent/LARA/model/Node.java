@@ -15,6 +15,11 @@ public class Node {
         this.lon = lon;
     }
 
+    public Node(double lat, double lon) {
+        this.lat = lat;
+        this.lon = lon;
+    }
+
     public Node() {
 
     }

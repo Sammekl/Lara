@@ -1,13 +1,10 @@
 package com.rwssistent.LARA.helpers;
 
-import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.rwssistent.LARA.model.Highway;
 import com.rwssistent.LARA.model.Node;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -21,9 +18,64 @@ public class HighwayHelper {
     private Highway previousHighway;
     private List<Highway> previousHighways = new ArrayList<>();
 
-    public Highway getCurrentHighway(Node nearestNode, List<Highway> highways) {
-        Highway highwayToDisplay = null;
-        List<Highway> currentHighways = new ArrayList<>();
+
+    public Highway getEntireHighway(Node node, List<Highway> allHighways) {
+        Highway highway = null;
+        for (Highway h : allHighways) {
+            if (h.getNodes().contains(node.getId())) {
+                highway = h;
+            }
+        }
+        return highway;
+    }
+
+    public List<Highway> getAllHighwaysFromNode(Node node, List<Highway> allHighways) {
+        List<Highway> highways = new ArrayList<>();
+        for (Highway h : allHighways) {
+            if (h.getNodes().contains(node.getId())) {
+                highways.add(h);
+            }
+        }
+        return highways;
+    }
+
+    public Node getNextNode(Highway currentHighway, Node currentNode, Node previousNode, List<Node> allNodes) {
+        Node nextNode = null;
+        List<Node> allNodesFromHighway = this.getAllNodesFromHighway(currentHighway, allNodes);
+        if (allNodesFromHighway != null && allNodesFromHighway.size() > 0) {
+            Node node = DistanceHelper.getNextNode(allNodesFromHighway, currentNode, previousNode);
+            if (node != null) {
+                nextNode = node;
+            }
+        }
+        return nextNode;
+    }
+
+    public List<Node> getAllNodesFromAllHighwaysFromCurrentNode(Node node, List<Highway> allHighways, List<Node> allNodes) {
+        List<Node> nodes = new ArrayList<>();
+        for (Highway h : allHighways) {
+            if (h.getNodes().contains(node.getId())) {
+                nodes.addAll(getAllNodesFromHighway(h, allNodes));
+            }
+        }
+        return nodes;
+    }
+
+    public List<Node> getAllNodesFromHighway(Highway currentHighway, List<Node> allNodes) {
+        List<Node> nodesFromHighway = new ArrayList<>();
+        List<Long> nodeIdsInHighway = currentHighway.getNodes();
+
+        // Doorzoek alle nodes en voeg nodes die bij snelweg horen toe aan de lijst.
+        for (Node n : allNodes) {
+            if (nodeIdsInHighway.contains(n.getId())) {
+                nodesFromHighway.add(n);
+            }
+        }
+        return nodesFromHighway;
+    }
+//    public Highway getCurrentHighway(Node nearestNode, List<Highway> highways) {
+//        Highway highwayToDisplay = null;
+//        List<Highway> currentHighways = new ArrayList<>();
 //
 //        // ====================
 //        // TEST
@@ -32,41 +84,41 @@ public class HighwayHelper {
 //        previousHighways.add(new Highway(1, 50, 80, "Beatrixplatsoen", null));
 //        previousHighways.add(new Highway(1, 100, 130, "Julianalaan", null));
 //        previousHighways.add(new Highway(1, 100, 130, "Thuisweide", null));
-
-        for (Highway highway : highways) {
-            if (highway.getNodes().contains(nearestNode.getId())) {
-                currentHighways.add(highway);
-                if (previousHighway != null && highway.getRoadName().equals(previousHighway.getRoadName())) {
-                    highwayToDisplay = highway;
-//                      Toast.makeText(context, "U bevindt zich nog op dezelfde weg als hiervoor", Toast.LENGTH_SHORT).show();
-                    Log.i(getClass().getSimpleName(), "Way found: " + highway.getRoadName() + " same as the previous way.");
-                    return returnHighway(currentHighways, highwayToDisplay);
-                }
-            }
-        }
-        for (Highway highway : highways) {
-            if (highway.getNodes().contains(nearestNode.getId())) {
-                // Controleer current & previous op zelfde wegen
-                for (Highway pHighway : previousHighways) {
-                    if (highway.getRoadName().equals(pHighway.getRoadName())) {
-                        highwayToDisplay = highway;
-                        Log.i(getClass().getSimpleName(), "Way found: " + highway.getRoadName() + " same as one of the previous ways.");
-//                            Toast.makeText(context, "U bevindt zich op een weg die hiervoor al is gevonden", Toast.LENGTH_SHORT).show();
-                        return returnHighway(currentHighways, highwayToDisplay);
-                    }
-                }
-            }
-
-        }
-        if(!currentHighways.isEmpty()) {
-            return returnHighway(currentHighways, currentHighways.get(0));
-        }
-        else return null;
-    }
+//
+//        for (Highway highway : highways) {
+//            if (highway.getNodes().contains(nearestNode.getId())) {
+//                currentHighways.add(highway);
+//                if (previousHighway != null && highway.getRoadName().equals(previousHighway.getRoadName())) {
+//                    highwayToDisplay = highway;
+////                      Toast.makeText(context, "U bevindt zich nog op dezelfde weg als hiervoor", Toast.LENGTH_SHORT).show();
+//                    Log.i(getClass().getSimpleName(), "Way found: " + highway.getRoadName() + " same as the previous way.");
+//                    return returnHighway(currentHighways, highwayToDisplay);
+//                }
+//            }
+//        }
+//        for (Highway highway : highways) {
+//            if (highway.getNodes().contains(nearestNode.getId())) {
+//                // Controleer current & previous op zelfde wegen
+//                for (Highway pHighway : previousHighways) {
+//                    if (highway.getRoadName().equals(pHighway.getRoadName())) {
+//                        highwayToDisplay = highway;
+//                        Log.i(getClass().getSimpleName(), "Way found: " + highway.getRoadName() + " same as one of the previous ways.");
+////                            Toast.makeText(context, "U bevindt zich op een weg die hiervoor al is gevonden", Toast.LENGTH_SHORT).show();
+//                        return returnHighway(currentHighways, highwayToDisplay);
+//                    }
+//                }
+//            }
+//
+//        }
+//        if(!currentHighways.isEmpty()) {
+//            return returnHighway(currentHighways, currentHighways.get(0));
+//        }
+//        else return null;
+//    }
 
     public boolean ConditionalValid(Highway highway) {
         Boolean result = false;
-        if (highway.getMaxSpeedConditionalStart()!= null && highway.getMaxSpeedConditionalEnd()!= null) {
+        if (highway.getMaxSpeedConditionalStart() != null && highway.getMaxSpeedConditionalEnd() != null) {
             Calendar currentCalendar = Calendar.getInstance(); //Create Calendar-Object
             currentCalendar.setTime(new Date());               //Set the Calendar to now
             int currentHour = currentCalendar.get(Calendar.HOUR_OF_DAY);
@@ -77,7 +129,7 @@ public class HighwayHelper {
             Log.d("JSONHelper", "dateStart: " + startHour);
             Log.d("JSONHelper", "dateEnd: " + endHour);
 
-            if(currentHour <= endHour && currentHour >= startHour) {
+            if (currentHour <= endHour && currentHour >= startHour) {
                 result = true;
             }
         }
