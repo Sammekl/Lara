@@ -33,7 +33,6 @@ import java.util.List;
 public class MainActivity extends ActionBarActivity {
 
     private TextView maxSpeed;
-    private ImageView numOfLanes;
     private TextView roadName;
     private TextView speedUnit;
 
@@ -47,10 +46,9 @@ public class MainActivity extends ActionBarActivity {
     private List<Highway> currentHighways;
     private List<Highway> previousHighways;
 
-    private Node nextNode;
     private Node currentNode;
     private Node previousNode;
-    private Highway currentHighway;
+    private Highway previousHighway;
 
     private Location pollLocation;
     LocationManager locationManager;
@@ -121,7 +119,7 @@ public class MainActivity extends ActionBarActivity {
                 msg += highway.getRoadName() + "\n";
             }
         }
-        msg += "Current highways:\n";
+        msg += "\nCurrent highways:\n";
         if (currentHighways != null) {
             for (Highway highway : currentHighways) {
                 msg += highway.getRoadName() + "\n";
@@ -154,26 +152,6 @@ public class MainActivity extends ActionBarActivity {
                 maxSpeed.setText(R.string.unknown_maxspeed);
                 speedUnit.setVisibility(View.INVISIBLE);
             }
-//            switch (highway.getLanes()) {
-//                case 1:
-//                    numOfLanes.setImageDrawable(getResources().getDrawable(R.drawable.eenbaan));
-//                    break;
-//                case 2:
-//                    numOfLanes.setImageDrawable(getResources().getDrawable(R.drawable.tweebanen));
-//                    break;
-//                case 3:
-//                    numOfLanes.setImageDrawable(getResources().getDrawable(R.drawable.driebanen));
-//                    break;
-//                case 4:
-//                    numOfLanes.setImageDrawable(getResources().getDrawable(R.drawable.vierbanen));
-//                    break;
-//                case 5:
-//                    numOfLanes.setImageDrawable(getResources().getDrawable(R.drawable.vijfbanen));
-//                    break;
-//                default:
-//                    numOfLanes.setImageDrawable(getResources().getDrawable(R.drawable.eenbaan));
-//                    break;
-//            }
             if (highway.getRoadName() != null && !highway.getRoadName().equals("")) {
                 roadName.setVisibility(View.VISIBLE);
                 roadName.setText(String.valueOf(highway.getRoadName()));
@@ -284,19 +262,22 @@ public class MainActivity extends ActionBarActivity {
             currentHighways = laraService.getAllHighwaysFromNode(currentNode, allHighways);
             if (previousNode == null) {
                 displayValues(currentHighways.get(0));
+                previousHighway = currentHighways.get(0);
             } else {
                 previousHighways = laraService.getAllHighwaysFromNode(previousNode, allHighways);
                 for (Highway currentHighway : currentHighways) {
-                    if (previousHighways.contains(currentHighway)) {
+                    if (currentHighway.getId() == previousHighway.getId()) {
+                        displayValues(currentHighway);
+                    } else if (previousHighways.contains(currentHighway)) {
                         Log.d(getClass().getSimpleName(), "Highway gevonden: " + currentHighway.getRoadName());
                         // TODO display deze highway
                         displayValues(currentHighway);
+                        previousHighway = currentHighway;
                         break;
                     }
                 }
             }
         }
-
 
         // If current location is 800+ meters away from the original pollLocation :
         if (laraService.distanceFromPollLocation(pollLocation.getLatitude(), pollLocation.getLongitude(),
@@ -310,7 +291,6 @@ public class MainActivity extends ActionBarActivity {
 
     private void getTextViews() {
         maxSpeed = (TextView) findViewById(R.id.maxspeed);
-//        numOfLanes = (ImageView) findViewById(R.id.imageViewLanes);
         roadName = (TextView) findViewById(R.id.roadName);
         speedUnit = (TextView) findViewById(R.id.speedUnit);
     }
