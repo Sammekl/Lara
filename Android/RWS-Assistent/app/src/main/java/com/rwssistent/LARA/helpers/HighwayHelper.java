@@ -2,6 +2,7 @@ package com.rwssistent.LARA.helpers;
 
 import android.util.Log;
 
+import com.rwssistent.LARA.exceptions.LaraException;
 import com.rwssistent.LARA.model.Highway;
 import com.rwssistent.LARA.model.Node;
 
@@ -39,6 +40,9 @@ public class HighwayHelper {
         return highways;
     }
 
+    /**
+     * Wordt niet gebruikt
+     */
     public Node getNextNode(Highway currentHighway, Node currentNode, Node previousNode, List<Node> allNodes) {
         Node nextNode = null;
         List<Node> allNodesFromHighway = this.getAllNodesFromHighway(currentHighway, allNodes);
@@ -53,23 +57,45 @@ public class HighwayHelper {
 
     public List<Node> getAllNodesFromAllHighwaysFromCurrentNode(Node node, List<Highway> allHighways, List<Node> allNodes) {
         List<Node> nodes = new ArrayList<>();
-        for (Highway h : allHighways) {
-            if (h.getNodes().contains(node.getId())) {
-                nodes.addAll(getAllNodesFromHighway(h, allNodes));
+        try {
+            if (allHighways == null) {
+                throw new LaraException("allHighways is null.");
             }
+            if (node == null) {
+                throw new LaraException("Node is null.");
+            }
+            for (Highway h : allHighways) {
+                if (h.getNodes() == null) {
+                    throw new LaraException("Highway: " + h.getId() + " heeft geen nodes.");
+                }
+                if (h.getNodes().contains(node.getId())) {
+                    nodes.addAll(getAllNodesFromHighway(h, allNodes));
+                }
+            }
+        } catch (LaraException le) {
+            Log.e(getClass().getSimpleName(), "getAllNodesFromAllHighwaysFromCurrentNode(): " + le.getMessage());
         }
         return nodes;
     }
 
     public List<Node> getAllNodesFromHighway(Highway currentHighway, List<Node> allNodes) {
         List<Node> nodesFromHighway = new ArrayList<>();
-        List<Long> nodeIdsInHighway = currentHighway.getNodes();
-
-        // Doorzoek alle nodes en voeg nodes die bij snelweg horen toe aan de lijst.
-        for (Node n : allNodes) {
-            if (nodeIdsInHighway.contains(n.getId())) {
-                nodesFromHighway.add(n);
+        try {
+            if(currentHighway == null) {
+                throw new LaraException("currentHighway is null");
             }
+            if(allNodes == null) {
+                throw new LaraException("allNodes is null");
+            }
+            List<Long> nodeIdsInHighway = currentHighway.getNodes();
+            // Doorzoek alle nodes en voeg nodes die bij snelweg horen toe aan de lijst.
+            for (Node n : allNodes) {
+                if (nodeIdsInHighway.contains(n.getId())) {
+                    nodesFromHighway.add(n);
+                }
+            }
+        } catch (LaraException le) {
+            Log.e(getClass().getSimpleName(), "getAllNodesFromHighway(): " + le.getMessage());
         }
         return nodesFromHighway;
     }
@@ -118,22 +144,28 @@ public class HighwayHelper {
 
     public boolean ConditionalValid(Highway highway) {
         Boolean result = false;
-        if (highway.getMaxSpeedConditionalStart() != null && highway.getMaxSpeedConditionalEnd() != null) {
-            Calendar currentCalendar = Calendar.getInstance(); //Create Calendar-Object
-            currentCalendar.setTime(new Date());               //Set the Calendar to now
-            int currentHour = currentCalendar.get(Calendar.HOUR_OF_DAY);
-            int startHour = highway.getMaxSpeedConditionalStart().get(Calendar.HOUR_OF_DAY);
-            int endHour = highway.getMaxSpeedConditionalEnd().get(Calendar.HOUR_OF_DAY);
-
-            Log.d("JSONHelper", "dateCurrent: " + currentHour);
-            Log.d("JSONHelper", "dateStart: " + startHour);
-            Log.d("JSONHelper", "dateEnd: " + endHour);
-
-            if (currentHour <= endHour && currentHour >= startHour) {
-                result = true;
+        try {
+            if(highway == null) {
+                throw new LaraException("Highway is null.");
             }
-        }
+            if (highway.getMaxSpeedConditionalStart() != null && highway.getMaxSpeedConditionalEnd() != null) {
+                Calendar currentCalendar = Calendar.getInstance(); //Create Calendar-Object
+                currentCalendar.setTime(new Date());               //Set the Calendar to now
+                int currentHour = currentCalendar.get(Calendar.HOUR_OF_DAY);
+                int startHour = highway.getMaxSpeedConditionalStart().get(Calendar.HOUR_OF_DAY);
+                int endHour = highway.getMaxSpeedConditionalEnd().get(Calendar.HOUR_OF_DAY);
 
+                Log.d("JSONHelper", "dateCurrent: " + currentHour);
+                Log.d("JSONHelper", "dateStart: " + startHour);
+                Log.d("JSONHelper", "dateEnd: " + endHour);
+
+                if (currentHour <= endHour && currentHour >= startHour) {
+                    result = true;
+                }
+            }
+        }catch (LaraException le) {
+            Log.e(getClass().getSimpleName(), "ConditionalValid(): " + le.getMessage());
+        }
         return result;
     }
 

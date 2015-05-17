@@ -93,8 +93,10 @@ public class JSONHelper {
                 // no ref, just a name
                 else if (tagsObj.has(Constants.PREF_API_WAY_ROAD_NAME)) {
                     highway.setRoadName(tagsObj.getString(Constants.PREF_API_WAY_ROAD_NAME));
+                } else if (highway.getMaxSpeed() == 0) {
+                    continue;
                 } else {
-                    highway.setRoadName(Constants.PREF_API_NO_ROAD_NAME);
+                    highway.setRoadName("");
                 }
 
                 // ==================

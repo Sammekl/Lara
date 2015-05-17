@@ -8,7 +8,7 @@
     <string name="latitude">Latitude</string>
     <string name="no_data_found">Geen data gevonden</string>
     <string name="no_maxspeed_found">Geen maximale snelheid gevonden</string>
-    <string name="unknown_maxspeed">...</string>
+    <string name="unknown_maxspeed">\?</string>
     <string name="testspeed">50</string>
     <string name="speed_unit">KM/H</string>
     <string name="lanes">rijstroken</string>

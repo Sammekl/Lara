@@ -2,6 +2,7 @@ package com.rwssistent.LARA.helpers;
 
 import android.util.Log;
 
+import com.rwssistent.LARA.exceptions.LaraException;
 import com.rwssistent.LARA.model.Node;
 
 import java.util.List;
@@ -12,18 +13,22 @@ import java.util.List;
 public class DistanceHelper {
 
     public static Node getNearestNode(List<Node> nodes, double latitude, double longitude) {
-        Long startTime = System.currentTimeMillis();
         Node node = null;
         double result = 0;
-        for (Node n : nodes) {
-            double tempResult = distance(n.getLat(), n.getLon(), latitude, longitude);
-            if (node == null || tempResult < result) {
-                node = n;
-                result = tempResult;
+        try {
+            if(nodes == null) {
+                throw new LaraException("Lijst met nodes is null.");
             }
+            for (Node n : nodes) {
+                double tempResult = distance(n.getLat(), n.getLon(), latitude, longitude);
+                if (node == null || tempResult < result) {
+                    node = n;
+                    result = tempResult;
+                }
+            }
+        } catch(LaraException le) {
+            Log.e("DistanceHelper", "getNearestNode(): " + le.getMessage());
         }
-        Long timeTaken = System.currentTimeMillis() - startTime;
-        Log.d("DistanceHelper", "time taken (nearestNode): " + timeTaken + "ms");
         return node;
     }
 
