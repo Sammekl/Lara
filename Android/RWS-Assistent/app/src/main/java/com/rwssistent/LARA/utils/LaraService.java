@@ -1,7 +1,6 @@
 package com.rwssistent.LARA.utils;
 
 import android.app.Activity;
-import android.content.Context;
 
 import com.rwssistent.LARA.helpers.DistanceHelper;
 import com.rwssistent.LARA.helpers.HighwayHelper;

@@ -29,7 +29,6 @@ import com.rwssistent.LARA.utils.Constants;
 import com.rwssistent.LARA.utils.LaraService;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -287,27 +286,29 @@ public class MainActivity extends ActionBarActivity {
                     }
                     allNodesFromAllHighwaysFromCurrentNode = laraService.getAllNodesFromAllHighwaysFromCurrentNode(nearestNode, allHighways, allNodes);
                 }
-
+                if (currentNode == null) {
+                    throw new LaraException(Constants.PREF_EXCP_NODE_NULL);
+                }
                 currentHighways = laraService.getAllHighwaysFromNode(currentNode, allHighways);
-                if (currentHighways == null || currentHighways.get(0) == null) {
-                    throw new LaraException("currentHighways is null of is een lege lijst.");
+                if (currentHighways == null || currentHighways.size() == 0) {
+                    throw new LaraException(Constants.PREF_EXCP_CURRENTHIGHWAYS_NULL);
                 }
                 if (previousNode == null) {
-                    Log.d(getClass().getSimpleName(), "Geen previousNode, toon de eerste in currentHighways: '" + currentHighways.get(0).getRoadName() + "'");
+                    Log.d(getClass().getSimpleName(), String.format(Constants.PREF_LOG_NO_PREVNODE, currentHighways.get(0).getRoadName()));
                     displayValues(currentHighways.get(0));
                     previousHighway = currentHighways.get(0);
                 } else {
                     previousHighways = laraService.getAllHighwaysFromNode(previousNode, allHighways);
                     for (Highway currentHighway : currentHighways) {
                         if (currentHighway.getId() == previousHighway.getId()) {
-                            Log.d(getClass().getSimpleName(), "CurrentHighway '"  + currentHighway.getRoadName() + "' is zelfde als previousHighway, deze wordt nu getoond.");
+                            Log.d(getClass().getSimpleName(), String.format(Constants.PREF_LOG_CUR_EQUALS_PREV, currentHighway.getRoadName()));
                             displayValues(currentHighway);
                         } else if (currentHighways.contains(previousHighway)) {
-                            Log.d(getClass().getSimpleName(), "Één van de huidige wegen is zelfde als previousHighway, toon de previous Highway: '" + previousHighway.getRoadName() + "'");
+                            Log.d(getClass().getSimpleName(), String.format(Constants.PREF_LOG_CURS_EQUALS_PREV, previousHighway.getRoadName()));
                             displayValues(previousHighway);
                             break;
                         } else if (previousHighways.contains(currentHighway)) {
-                            Log.d(getClass().getSimpleName(), "Één van de previous wegen is zelfde als huidige weg, toon deze: '" + currentHighway.getRoadName() + "'");
+                            Log.d(getClass().getSimpleName(), String.format(Constants.PREF_LOG_PREVS_EQUALS_CUR, currentHighway.getRoadName()));
                             displayValues(currentHighway);
                             previousHighway = currentHighway;
                             break;

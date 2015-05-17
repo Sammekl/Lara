@@ -53,5 +53,16 @@ public class Constants {
 
     // -/API-- //
 
+    // -LOG-- //
+    public static final String PREF_LOG_NO_PREVNODE = "Geen previousNode, toon de eerste in currentHighways: '%s'";
+    public static final String PREF_LOG_CUR_EQUALS_PREV = "CurrentHighway '%s' is zelfde als previousHighway, deze wordt nu getoond.";
+    public static final String PREF_LOG_CURS_EQUALS_PREV = " Één van de huidige wegen is zelfde als previousHighway, toon de previous Highway: '%s'";
+    public static final String PREF_LOG_PREVS_EQUALS_CUR = "Één van de previous wegen is zelfde als huidige weg, toon deze: '%s'";
+    // /LOG-- //
+
+    // -EXCEPTIONS-- //
+    public static final String PREF_EXCP_NODE_NULL = "Huidige node is null. Dit kan komen doordat de lijst met alle Nodes van de weg null is.";
+    public static final String PREF_EXCP_CURRENTHIGHWAYS_NULL = "CurrentHighways is null. Dit kan komen doordat er geen wegen zijn die bij deze node horen.";
+    // -/EXCEPTIONS-- //
 
 }
