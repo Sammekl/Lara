@@ -20,6 +20,12 @@ import java.util.List;
  */
 public class JSONHelper {
 
+    /**
+     * Parse de string bestaande uit JSON naar een lijst met Highways
+     *
+     * @param result de JSON String die geparst moet worden
+     * @return De lijst met Highways
+     */
     public static List<Highway> getHighwaysFromResult(String result) {
         List<Highway> highways = new ArrayList<>();
         Long startTime = System.currentTimeMillis();
@@ -118,6 +124,12 @@ public class JSONHelper {
         return highways;
     }
 
+    /**
+     * Parse de string bestaande uit JSON naar een lijst met Nodes
+     *
+     * @param result de JSON String die geparst moet worden
+     * @return De lijst met Nodes
+     */
     public static List<Node> getNodesFromResult(String result) {
         Long startTime = System.currentTimeMillis();
         List<Node> nodes = new ArrayList<>();

@@ -16,10 +16,13 @@ import java.util.List;
  */
 public class HighwayHelper {
 
-    private Highway previousHighway;
-    private List<Highway> previousHighways = new ArrayList<>();
-
-
+    /**
+     * Haalt de gehele Highway op van de huidige node.
+     *
+     * @param node        de node waarvan de weg opgehaald moet worden
+     * @param allHighways alle wegen waaruit gekozen kan worden
+     * @return Het highway object
+     */
     public Highway getEntireHighway(Node node, List<Highway> allHighways) {
         Highway highway = null;
         for (Highway h : allHighways) {
@@ -30,6 +33,13 @@ public class HighwayHelper {
         return highway;
     }
 
+    /**
+     * Zelfde als getEntireHighway() alleen haalt alle wegen op i.p.v. 1
+     *
+     * @param node        de node waarvan de wegen opgehaald moeten worden
+     * @param allHighways alle wegen waaruit gekozen kan worden
+     * @return Een list met Highways
+     */
     public List<Highway> getAllHighwaysFromNode(Node node, List<Highway> allHighways) {
         List<Highway> highways = new ArrayList<>();
         for (Highway h : allHighways) {
@@ -55,6 +65,14 @@ public class HighwayHelper {
         return nextNode;
     }
 
+    /**
+     * Haalt alle nodes die bij dezelfde weg(en) horen als de node die wordt meegegeven als parameter op.
+     *
+     * @param node        De node waarvan alle nodes van bijbehorende wegen opgehaald moeten worden
+     * @param allHighways Alle wegen
+     * @param allNodes    Alle nodes
+     * @return Een lijst met nodes die bij dezelfde weg(en) horen als de node die wordt meegegeven als parameter
+     */
     public List<Node> getAllNodesFromAllHighwaysFromCurrentNode(Node node, List<Highway> allHighways, List<Node> allNodes) {
         List<Node> nodes = new ArrayList<>();
         try {
@@ -78,13 +96,20 @@ public class HighwayHelper {
         return nodes;
     }
 
+    /**
+     * Haalt alle nodes op van de Highway.
+     *
+     * @param currentHighway De highway waarvan de nodes opgehaald moeten worden
+     * @param allNodes       Alle nodes waar uit gekozen kan worden
+     * @return Een lijst met alle nodes die bij deze weg horen.
+     */
     public List<Node> getAllNodesFromHighway(Highway currentHighway, List<Node> allNodes) {
         List<Node> nodesFromHighway = new ArrayList<>();
         try {
-            if(currentHighway == null) {
+            if (currentHighway == null) {
                 throw new LaraException("currentHighway is null");
             }
-            if(allNodes == null) {
+            if (allNodes == null) {
                 throw new LaraException("allNodes is null");
             }
             List<Long> nodeIdsInHighway = currentHighway.getNodes();
@@ -99,53 +124,17 @@ public class HighwayHelper {
         }
         return nodesFromHighway;
     }
-//    public Highway getCurrentHighway(Node nearestNode, List<Highway> highways) {
-//        Highway highwayToDisplay = null;
-//        List<Highway> currentHighways = new ArrayList<>();
-//
-//        // ====================
-//        // TEST
-//        // ====================
-//        previousHighways.add(new Highway(1, 100, 130, "Oudenoord", null));
-//        previousHighways.add(new Highway(1, 50, 80, "Beatrixplatsoen", null));
-//        previousHighways.add(new Highway(1, 100, 130, "Julianalaan", null));
-//        previousHighways.add(new Highway(1, 100, 130, "Thuisweide", null));
-//
-//        for (Highway highway : highways) {
-//            if (highway.getNodes().contains(nearestNode.getId())) {
-//                currentHighways.add(highway);
-//                if (previousHighway != null && highway.getRoadName().equals(previousHighway.getRoadName())) {
-//                    highwayToDisplay = highway;
-////                      Toast.makeText(context, "U bevindt zich nog op dezelfde weg als hiervoor", Toast.LENGTH_SHORT).show();
-//                    Log.i(getClass().getSimpleName(), "Way found: " + highway.getRoadName() + " same as the previous way.");
-//                    return returnHighway(currentHighways, highwayToDisplay);
-//                }
-//            }
-//        }
-//        for (Highway highway : highways) {
-//            if (highway.getNodes().contains(nearestNode.getId())) {
-//                // Controleer current & previous op zelfde wegen
-//                for (Highway pHighway : previousHighways) {
-//                    if (highway.getRoadName().equals(pHighway.getRoadName())) {
-//                        highwayToDisplay = highway;
-//                        Log.i(getClass().getSimpleName(), "Way found: " + highway.getRoadName() + " same as one of the previous ways.");
-////                            Toast.makeText(context, "U bevindt zich op een weg die hiervoor al is gevonden", Toast.LENGTH_SHORT).show();
-//                        return returnHighway(currentHighways, highwayToDisplay);
-//                    }
-//                }
-//            }
-//
-//        }
-//        if(!currentHighways.isEmpty()) {
-//            return returnHighway(currentHighways, currentHighways.get(0));
-//        }
-//        else return null;
-//    }
 
-    public boolean ConditionalValid(Highway highway) {
+    /**
+     * Checkt of de conditionele snelheid geldig is
+     *
+     * @param highway de snelweg met een conditionele snelheid
+     * @return of de conditionele snelheid geldig is
+     */
+    public boolean getConditionalValid(Highway highway) {
         Boolean result = false;
         try {
-            if(highway == null) {
+            if (highway == null) {
                 throw new LaraException("Highway is null.");
             }
             if (highway.getMaxSpeedConditionalStart() != null && highway.getMaxSpeedConditionalEnd() != null) {
@@ -163,19 +152,9 @@ public class HighwayHelper {
                     result = true;
                 }
             }
-        }catch (LaraException le) {
-            Log.e(getClass().getSimpleName(), "ConditionalValid(): " + le.getMessage());
+        } catch (LaraException le) {
+            Log.e(getClass().getSimpleName(), "getConditionalValid(): " + le.getMessage());
         }
         return result;
-    }
-
-    private Highway returnHighway(List<Highway> currentHighways, Highway highwayToDisplay) {
-
-        previousHighways.clear();
-        previousHighways = currentHighways;
-
-        // Set previous highway
-        previousHighway = highwayToDisplay;
-        return highwayToDisplay;
     }
 }

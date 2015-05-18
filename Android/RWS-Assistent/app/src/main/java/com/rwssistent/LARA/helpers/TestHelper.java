@@ -10,6 +10,12 @@ import java.util.List;
  */
 public class TestHelper {
 
+    /**
+     * Geef de dorpsweg in Maartensdijk terug. Deze heeft 3 zijstraten (Tuinlaan > Otto Doornenbalweg > Bantamlaan)
+     * http://puu.sh/hQp8P.jpg
+     *
+     * @return De lijst met Nodes
+     */
     public static List<Node> getSingleHighway() {
         // Geef de dorpsweg in Maartensdijk terug. Deze heeft 3 zijstraten (Tuinlaan > Otto Doornenbalweg > Bantamlaan) http://puu.sh/hQp8P.jpg
         List<Node> nodes = new ArrayList<>();
@@ -26,9 +32,14 @@ public class TestHelper {
         return nodes;
     }
 
+    /**
+     * Soestdijkseweg in Bilthoven > Gezichtslaan > Gezichtslaan > Gezichtslaan > Hobbemalaan
+     * http://puu.sh/hQqi3.png
+     *
+     * @return Een lijst met Nodes.
+     */
     public static List<Node> getMultipleHighways() {
-        // Soestdijkseweg in Bilthoven > Gezichtslaan > Gezichtslaan > Gezichtslaan > Hobbemalaan
-        // http://puu.sh/hQqi3.png
+
         List<Node> nodes = new ArrayList<>();
         nodes.add(new Node(52.14203, 5.2149));
         nodes.add(new Node(52.14159, 5.2145));
@@ -55,6 +66,11 @@ public class TestHelper {
         return nodes;
     }
 
+    /**
+     * Geef een Node uit dat gat waar Martijn was, hier is een onbekende weg
+     *
+     * @return Een lijst met een enkele node
+     */
     public static List<Node> getOneCoordinateHighway() {
         List<Node> toReturn = new ArrayList<>();
         toReturn.add(new Node(52.14173, 5.09687));

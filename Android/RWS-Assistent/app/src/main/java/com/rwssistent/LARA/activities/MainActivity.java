@@ -60,7 +60,6 @@ public class MainActivity extends ActionBarActivity {
 
     private int testIndex = 0;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +79,9 @@ public class MainActivity extends ActionBarActivity {
         //this.getLocationFromPreferences();
     }
 
+    /**
+     * Start de locatieService
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -87,6 +89,9 @@ public class MainActivity extends ActionBarActivity {
         Log.i(getClass().getSimpleName(), "Activity resumed. LocationManager started polling.");
     }
 
+    /**
+     * Verwijder de locationUpdates
+     */
     @Override
     protected void onPause() {
         Log.i(getClass().getSimpleName(), "Activity paused. LocationManager stopped polling.");
@@ -113,6 +118,11 @@ public class MainActivity extends ActionBarActivity {
     // Public Methods
     // ============================================
 
+    /**
+     * Toon de info van de huidige en previousHighways
+     *
+     * @param view De geklikte button
+     */
     public void doInfo(View view) {
         AlertDialog.Builder adb = new AlertDialog.Builder(this);
         adb.setTitle("Info");
@@ -139,13 +149,16 @@ public class MainActivity extends ActionBarActivity {
         adb.show();
     }
 
+    /**
+     * Display de values van de highway
+     *
+     * @param highway de highway die getoond moet worden
+     */
     public void displayValues(Highway highway) {
-        HighwayHelper highwayHelper = new HighwayHelper();
-
         if (highway != null) {
             if (highway.getMaxSpeed() > 0) {
                 String maxspeed = "";
-                if (highwayHelper.ConditionalValid(highway)) {
+                if (laraService.getConditionalValid(highway)) {
                     maxspeed = String.valueOf(highway.getMaxSpeedConditional());
                 } else {
                     maxspeed = String.valueOf(highway.getMaxSpeed());
@@ -171,6 +184,9 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+    /**
+     * Start de locatieService die elke x aantal ms een locatieupdate vraagt
+     */
     public void startLocationService() {
         locationListener = new LocationListener() {
 

@@ -27,11 +27,7 @@ import java.util.List;
 public class RoadTask extends BackgroundTask {
 
     private String url;
-    private double longitude;
-    private double latitude;
     private MainActivity mainActivity;
-    private List<Highway> previousHighways = new ArrayList<>();
-    private List<Highway> currentHighways;
 
     /**
      * @param activity The activity which invoked this task
@@ -87,28 +83,8 @@ public class RoadTask extends BackgroundTask {
             mainActivity.setAllHighways(highways);
         }
     }
-
-    public double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
-
-    public double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
     public void setUrl(String url) {
         this.url = url;
     }
 
-    public String getUrl() {
-        return url;
-    }
 }
