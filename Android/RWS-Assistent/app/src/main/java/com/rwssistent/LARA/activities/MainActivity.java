@@ -169,7 +169,7 @@ public class MainActivity extends ActionBarActivity {
                 maxSpeed.setText(R.string.unknown_maxspeed);
                 speedUnit.setVisibility(View.INVISIBLE);
             }
-            if (highway.getRoadName() != null && !highway.getRoadName().equals("")) {
+            if (highway.getRoadName() != null) {
                 roadName.setVisibility(View.VISIBLE);
                 roadName.setText(String.valueOf(highway.getRoadName()));
                 if (highway.getRoadName().length() > 21) {
@@ -177,11 +177,35 @@ public class MainActivity extends ActionBarActivity {
                 } else {
                     roadName.setTextSize(30);
                 }
+            } else {
+                roadName.setVisibility(View.INVISIBLE);
             }
-            // TODO RoadRef
-        } else {
-            // TODO Error laten zien (geen weg gevonden). Geef ook een optie om naar locatie/instellingen te gaan (van de telefoon)
         }
+    }
+
+    /**
+     * Set from RoadTask
+     *
+     * @param nodes all the nodes found within the radius
+     */
+
+    public void setAllNodes(List<Node> nodes) {
+        if (allNodes != null) {
+            this.allNodes.clear();
+        }
+        this.allNodes = nodes;
+    }
+
+    /**
+     * Set from RoadTask
+     *
+     * @param highways all the highways found within the radius
+     */
+    public void setAllHighways(List<Highway> highways) {
+        if (allHighways != null) {
+            this.allHighways.clear();
+        }
+        this.allHighways = highways;
     }
 
     /**
@@ -196,7 +220,7 @@ public class MainActivity extends ActionBarActivity {
             public void onLocationChanged(Location location) {
                 List<Node> testNodes = null;
                 // Uncomment de volgende regel om te testen met de TestHelper.
-//                testNodes = TestHelper.getMultipleHighways();
+//                testNodes = TestHelper.getHighwaysWithUnknownHighway();
                 if (testNodes != null) {
                     if (testIndex >= testNodes.size()) {
                         Log.d(getClass().getSimpleName(), "Alle nodes in testNodes zijn geweest.");
@@ -244,31 +268,6 @@ public class MainActivity extends ActionBarActivity {
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0, locationListener);
 
         showLoadingProgressDialog();
-    }
-
-    /**
-     * Set from RoadTask
-     *
-     * @param nodes all the nodes found within the radius
-     */
-
-    public void setAllNodes(List<Node> nodes) {
-        if (allNodes != null) {
-            this.allNodes.clear();
-        }
-        this.allNodes = nodes;
-    }
-
-    /**
-     * Set from RoadTask
-     *
-     * @param highways all the highways found within the radius
-     */
-    public void setAllHighways(List<Highway> highways) {
-        if (allHighways != null) {
-            this.allHighways.clear();
-        }
-        this.allHighways = highways;
     }
 
     // ============================================
@@ -319,6 +318,7 @@ public class MainActivity extends ActionBarActivity {
                         if (currentHighway.getId() == previousHighway.getId()) {
                             Log.d(getClass().getSimpleName(), String.format(Constants.PREF_LOG_CUR_EQUALS_PREV, currentHighway.getRoadName()));
                             displayValues(currentHighway);
+                            break;
                         } else if (currentHighways.contains(previousHighway)) {
                             Log.d(getClass().getSimpleName(), String.format(Constants.PREF_LOG_CURS_EQUALS_PREV, previousHighway.getRoadName()));
                             displayValues(previousHighway);

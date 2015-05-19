@@ -72,19 +72,62 @@ public class TestHelper {
      * @return Een lijst met een enkele node
      */
     public static List<Node> getOneCoordinateHighway() {
-        List<Node> toReturn = new ArrayList<>();
-        toReturn.add(new Node(52.14173, 5.09687));
-        toReturn.add(new Node(52.14173, 5.09687));
-        toReturn.add(new Node(52.14173, 5.09687));
-        toReturn.add(new Node(52.14173, 5.09687));
-        toReturn.add(new Node(52.14173, 5.09687));
-        toReturn.add(new Node(52.14173, 5.09687));
-        toReturn.add(new Node(52.14173, 5.09687));
-        toReturn.add(new Node(52.14173, 5.09687));
-        toReturn.add(new Node(52.14173, 5.09687));
-        toReturn.add(new Node(52.14173, 5.09687));
-        toReturn.add(new Node(52.14173, 5.09687));
-        toReturn.add(new Node(52.14173, 5.09687));
-        return toReturn;
+        List<Node> nodes = new ArrayList<>();
+        nodes.add(new Node(52.14173, 5.09687));
+        nodes.add(new Node(52.14173, 5.09687));
+        nodes.add(new Node(52.14173, 5.09687));
+        nodes.add(new Node(52.14173, 5.09687));
+        nodes.add(new Node(52.14173, 5.09687));
+        nodes.add(new Node(52.14173, 5.09687));
+        nodes.add(new Node(52.14173, 5.09687));
+        nodes.add(new Node(52.14173, 5.09687));
+        nodes.add(new Node(52.14173, 5.09687));
+        nodes.add(new Node(52.14173, 5.09687));
+        nodes.add(new Node(52.14173, 5.09687));
+        nodes.add(new Node(52.14173, 5.09687));
+        return nodes;
+    }
+
+    /**
+     * Geef een lijst met Nodes van een weg wat langs een onbekende weg loopt http://puu.sh/hSQ9V.png
+     *
+     * @return Een lijst met een nodes
+     */
+    public static List<Node> getHighwaysWithUnknownHighway() {
+        List<Node> nodes = new ArrayList<>();
+        nodes.add(new Node(52.13020, 5.19766));
+        nodes.add(new Node(52.13032, 5.19764));
+        nodes.add(new Node(52.13054, 5.19775));
+        nodes.add(new Node(52.13069, 5.19784));
+        nodes.add(new Node(52.13085, 5.19795));
+        nodes.add(new Node(52.13099, 5.19806));
+        nodes.add(new Node(52.13114, 5.19818));
+        nodes.add(new Node(52.13128, 5.19830));
+        nodes.add(new Node(52.13146, 5.19845));
+        nodes.add(new Node(52.13158, 5.19854));
+        nodes.add(new Node(52.13175, 5.19868));
+        nodes.add(new Node(52.13190, 5.19881));
+        nodes.add(new Node(52.13202, 5.19891));
+        nodes.add(new Node(52.13214, 5.19901));
+        nodes.add(new Node(52.13221, 5.19908));
+        nodes.add(new Node(52.13230, 5.19916));
+        nodes.add(new Node(52.13241, 5.19926));
+        nodes.add(new Node(52.13251, 5.19935));
+        nodes.add(new Node(52.13262, 5.19944));
+
+        // Onbekende weg
+        nodes.add(new Node(52.1308352, 5.1988611));
+        nodes.add(new Node(52.1308352, 5.1988611));
+
+        nodes.add(new Node(52.13263, 5.19964));
+        nodes.add(new Node(52.13262, 5.19981));
+        nodes.add(new Node(52.13257, 5.20006));
+        nodes.add(new Node(52.13249, 5.20039));
+        nodes.add(new Node(52.13242, 5.20066));
+        nodes.add(new Node(52.13235, 5.20096));
+        nodes.add(new Node(52.13217, 5.20161));
+
+
+        return nodes;
     }
 }
