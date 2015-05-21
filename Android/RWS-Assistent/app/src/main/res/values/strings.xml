@@ -19,6 +19,10 @@
     <string name="vehicle_type_title">Type Motorvoertuig</string>
     <string name="preferred_speed_unit">Snelheids Eenheid</string>
     <string name="preferred_language">Taal</string>
+
+    <string name="vehicle_type_key">vehicleType</string>
+    <string name="speed_unit_key">speedUnit</string>
+    <string name="language_key">language</string>
     <!-- /Preferences-->
 
     <!-- Arrays -->

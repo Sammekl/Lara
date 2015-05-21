@@ -16,9 +16,9 @@
     </string-array>
 
     <string-array name="vehicleValues">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
+        <item>Auto</item>
+        <item>Aanhangwagen</item>
+        <item>Bus</item>
     </string-array>
 
     <string-array name="speedUnitArray">
@@ -27,8 +27,8 @@
     </string-array>
 
     <string-array name="speedUnitValues">
-        <item>1</item>
-        <item>2</item>
+        <item>KM/H</item>
+        <item>MPH</item>
     </string-array>
 
     <string-array name="languageArray">
@@ -37,7 +37,7 @@
     </string-array>
 
     <string-array name="languageValues">
-        <item>1</item>
-        <item>2</item>
+        <item>NL</item>
+        <item>EN</item>
     </string-array>
 </resources>
