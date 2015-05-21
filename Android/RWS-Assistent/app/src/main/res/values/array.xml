@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+        The items in the "xxxValues" array correspond with the items in the "xxxArray" array.
+        These values are used to refer to the items in the further code.
+        For an example look at the preference.xml file and look for the tag "android:default_value"
+
+        For reference on how we reached our categories for the vehicle types see:
+        http://www.anwb.nl/bestemmingen/landeninformatie/vakantie/bestemmingIndex.html?btiId=BTI_426&themaId=BEST_P_62
+    -->
+
+    <string-array name="vehicleArray">
+        <item>Auto of Camper</item>
+        <item>Auto met aanhangwagen tot 3500 kg</item>
+        <item>Auto of Camper boven 3500 kg, Auto met aanhangwagen boven 3500kg, Autobus of Vrachtwagen</item>
+    </string-array>
+
+    <string-array name="vehicleValues">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="speedUnitArray">
+        <item>KM/H</item>
+        <item>MPH</item>
+    </string-array>
+
+    <string-array name="speedUnitValues">
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="languageArray">
+        <item>Nederlands</item>
+        <item>English</item>
+    </string-array>
+
+    <string-array name="languageValues">
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+</resources>

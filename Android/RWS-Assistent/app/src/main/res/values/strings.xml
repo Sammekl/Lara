@@ -15,6 +15,12 @@
     <string name="empty"></string>
     <!-- /General Strings -->
 
+    <!-- Preferences-->
+    <string name="vehicle_type_title">Type Motorvoertuig</string>
+    <string name="preferred_speed_unit">Snelheids Eenheid</string>
+    <string name="preferred_language">Taal</string>
+    <!-- /Preferences-->
+
     <!-- Arrays -->
     <string-array name="menuItems">
         <item>Home</item>

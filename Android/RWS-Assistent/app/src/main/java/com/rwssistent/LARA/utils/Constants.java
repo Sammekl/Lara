@@ -11,6 +11,10 @@ public class Constants {
     public static final String PREF_FILE_NAME = PREFIX + "PREFERENCES";
     public static final String PREF_LONGITUDE_NAME = PREFIX + "LONGITUDE";
     public static final String PREF_LATITUDE_NAME = PREFIX + "LATITUDE";
+
+    public static final String PREF_VEHICLE_TYPE_NAME = PREFIX + "VEHICLE_TYPE";
+    public static final String PREF_SPEED_UNIT_NAME = PREFIX + "SPEED_UNIT";
+    public static final String PREF_LANGUAGE_NAME = PREFIX + "LANGUAGE";
     // -/PREFERENCES-- //
 
     // --API-- //

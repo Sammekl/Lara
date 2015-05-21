@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ListPreference
+        android:title="@string/vehicle_type_title"
+        android:summary="%s"
+        android:key="vehicleType"
+        android:defaultValue="1"
+        android:entries="@array/vehicleArray"
+        android:entryValues="@array/vehicleValues" />
+
+    <ListPreference
+        android:title="@string/preferred_speed_unit"
+        android:summary="%s"
+        android:key="speedType"
+        android:defaultValue="1"
+        android:entries="@array/speedUnitArray"
+        android:entryValues="@array/speedUnitValues" />
+
+    <ListPreference
+        android:title="@string/preferred_language"
+        android:summary="%s"
+        android:key="downloadType"
+        android:defaultValue="1"
+        android:entries="@array/languageArray"
+        android:entryValues="@array/languageValues" />
+</PreferenceScreen>
