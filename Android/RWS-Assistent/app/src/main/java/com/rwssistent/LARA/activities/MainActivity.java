@@ -5,10 +5,12 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -21,7 +23,6 @@ import android.widget.TextView;
 import com.rwssistent.LARA.R;
 import com.rwssistent.LARA.exceptions.LaraException;
 import com.rwssistent.LARA.helpers.HighwayHelper;
-import com.rwssistent.LARA.helpers.PreferenceHelper;
 import com.rwssistent.LARA.helpers.TestHelper;
 import com.rwssistent.LARA.model.Highway;
 import com.rwssistent.LARA.model.Node;
@@ -37,6 +38,9 @@ public class MainActivity extends ActionBarActivity {
     private TextView maxSpeed;
     private TextView roadName;
     private TextView speedUnit;
+
+    private String vehicleTypeFromPrefs;
+    private String speedUnitFromPrefs;
 
     private double longitude;
     private double latitude;
@@ -58,6 +62,8 @@ public class MainActivity extends ActionBarActivity {
 
     private ProgressDialog progressDialog;
 
+    SharedPreferences prefs;
+
     private int testIndex = 0;
 
     @Override
@@ -72,11 +78,17 @@ public class MainActivity extends ActionBarActivity {
         getSupportActionBar().setIcon(R.drawable.ic_lara_action);
 
         ImageView img = (ImageView) findViewById(R.id.imageViewSpeed);
-        img.setImageResource(R.drawable.verkeersbord);
+        img.setImageResource(R.drawable.im_verkeersbord);
 
         laraService = new LaraService();
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        this.getLocationFromPreferences();
+        //this.getLocationFromPreferences();
+
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        getPreferences();
+        getTextViews();
+        speedUnit.setText(speedUnitFromPrefs);
     }
 
     /**
@@ -87,6 +99,10 @@ public class MainActivity extends ActionBarActivity {
         super.onResume();
         startLocationService();
         Log.i(getClass().getSimpleName(), "Activity resumed. LocationManager started polling.");
+
+        getPreferences();
+        getTextViews();
+        speedUnit.setText(speedUnitFromPrefs);
     }
 
     /**
@@ -158,11 +174,22 @@ public class MainActivity extends ActionBarActivity {
         if (highway != null) {
             if (highway.getMaxSpeed() > 0) {
                 String maxspeed = "";
-                if (laraService.getConditionalValid(highway)) {
+                if (highway.getMaxSpeed() > 90 && vehicleTypeFromPrefs.equals("Aanhangwagen")){
+                    maxspeed = "90";
+                }
+                else if(highway.getMaxSpeed() > 80 && vehicleTypeFromPrefs.equals("Bus")){
+                    maxspeed = "80";
+                }
+                else if (laraService.getConditionalValid(highway)) {
                     maxspeed = String.valueOf(highway.getMaxSpeedConditional());
                 } else {
                     maxspeed = String.valueOf(highway.getMaxSpeed());
                 }
+
+                if(speedUnitFromPrefs.equals("MPH")) {
+                    maxspeed = convertToMPH(maxspeed);
+                }
+
                 maxSpeed.setText(maxspeed);
                 speedUnit.setVisibility(View.VISIBLE);
             } else {
@@ -352,18 +379,32 @@ public class MainActivity extends ActionBarActivity {
         speedUnit = (TextView) findViewById(R.id.speedUnit);
     }
 
+    private void getPreferences(){
+        vehicleTypeFromPrefs  = prefs.getString(getString(R.string.vehicle_type_key), "Auto");
+        speedUnitFromPrefs = prefs.getString(getString(R.string.speed_unit_key), "KM/H");
+    }
+
+    private String convertToMPH(String speedString){
+
+        double speed = Double.valueOf(speedString);
+        double speedInMPH = speed * 0.6215;
+        double roundedMPH = Math.round(speedInMPH);
+
+        return String.valueOf((int)roundedMPH);
+    }
+
     /**
      * Test method used for custom location
      */
     private void getLocationFromPreferences() {
-        String latitudePref = PreferenceHelper.readPreference(this, Constants.PREF_LATITUDE_NAME, null, Constants.PREF_FILE_NAME);
-        if (latitudePref != null && !latitudePref.isEmpty()) {
-            latitude = Double.parseDouble(latitudePref);
-        }
-        String longitudePref = PreferenceHelper.readPreference(this, Constants.PREF_LONGITUDE_NAME, null, Constants.PREF_FILE_NAME);
-        if (longitudePref != null && !longitudePref.isEmpty()) {
-            longitude = Double.parseDouble(longitudePref);
-        }
+       // String latitudePref = PreferenceHelper.readPreference(this, Constants.PREF_LATITUDE_NAME, null, Constants.PREF_FILE_NAME);
+      //  if (latitudePref != null && !latitudePref.isEmpty()) {
+            latitude = 52.06506;
+       // }
+        //String longitudePref = PreferenceHelper.readPreference(this, Constants.PREF_LONGITUDE_NAME, null, Constants.PREF_FILE_NAME);
+        //if (longitudePref != null && !longitudePref.isEmpty()) {
+            longitude = 5.30319;
+       // }
     }
 
     private MainActivity getActivity() {

@@ -10,9 +10,9 @@
     -->
 
     <string-array name="vehicleArray">
-        <item>Car or Camper</item>
-        <item>Car with trailer up to 3500 kg (7716 lbs)</item>
-        <item>Car or Camper above 3500 kg (7716 lbs), Car or Camper with trailer above 3500 kg (7716 lbs), Bus of Semi-Truck</item>
+        <item>Auto of Camper</item>
+        <item>Auto met aanhangwagen tot 3500 kg</item>
+        <item>Auto of Camper boven 3500 kg, Auto met aanhangwagen boven 3500kg, Autobus of Vrachtwagen</item>
     </string-array>
 
     <string-array name="vehicleValues">
@@ -30,4 +30,5 @@
         <item>KM/H</item>
         <item>MPH</item>
     </string-array>
+
 </resources>

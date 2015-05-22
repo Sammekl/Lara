@@ -2,17 +2,17 @@
     <string name="app_name">Lara</string>
 
     <!-- General Strings -->
-    <string name="action_settings">Settings</string>
-    <string name="no_data_found">No Data Found</string>
-    <string name="no_maxspeed_found">No speed limit found</string>
+    <string name="action_settings">Instellingen</string>
+    <string name="no_data_found">Geen data gevonden</string>
+    <string name="no_maxspeed_found">Geen maximale snelheid gevonden</string>
     <string name="unknown_maxspeed">\?</string>
     <string name="speed_unit">KM/H</string>
     <string name="empty"></string>
     <!-- /General Strings -->
 
     <!-- Preferences-->
-    <string name="vehicle_type_title">Vehicle type</string>
-    <string name="preferred_speed_unit">Speed Unit</string>
+    <string name="vehicle_type_title">Type voertuig</string>
+    <string name="preferred_speed_unit">Snelheids eenheid</string>
 
     <!-- DO NOT TRANSLATE THE KEY STRINGS! -->
     <string name="vehicle_type_key">vehicleType</string>
@@ -20,10 +20,8 @@
     <!-- /DO NOT TRANSLATE THE KEY STRINGS! -->
 
     <!-- /Preferences-->
-
     <string name="dialog_get_highways">…</string>
-    <string name="dialog_get_location">Your location is being determined…</string>
+    <string name="dialog_get_location">Uw locatie word bepaald...</string>
     <!-- /Dialogs -->
-
 
 </resources>

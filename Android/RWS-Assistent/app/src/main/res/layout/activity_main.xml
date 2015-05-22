@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:src="@drawable/verkeersbord" />
+        android:src="@drawable/im_verkeersbord" />
 
     <TextView
         android:id="@+id/maxspeed"

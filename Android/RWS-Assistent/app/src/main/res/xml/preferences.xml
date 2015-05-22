@@ -17,11 +17,4 @@
         android:entries="@array/speedUnitArray"
         android:entryValues="@array/speedUnitValues" />
 
-    <ListPreference
-        android:title="@string/preferred_language"
-        android:summary="%s"
-        android:key="@string/language_key"
-        android:defaultValue="NL"
-        android:entries="@array/languageArray"
-        android:entryValues="@array/languageValues" />
 </PreferenceScreen>
