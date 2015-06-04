@@ -90,6 +90,10 @@ public class LaraService {
         return highwayHelper.getAllNodesFromAllHighwaysFromCurrentNode(node, allHighways, allNodes);
     }
 
+    public List<Node> getPreviousNextNodeFromHighway(Highway highway, Node currentNode, List<Node> allNodes) {
+        return highwayHelper.getPreviousNextNodeFromHighway(highway,currentNode, allNodes);
+    }
+
     /**
      * Haalt alle nodes op van de Highway.
      *

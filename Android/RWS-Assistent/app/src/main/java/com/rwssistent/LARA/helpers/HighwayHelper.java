@@ -126,6 +126,38 @@ public class HighwayHelper {
     }
 
     /**
+     * Haalt de vorige en volgende node op van de Highway.
+     *
+     * @param highway De highway waarvan de nodes opgehaald moeten worden
+     * @param currentNode De node waarvan de volgende en vorige nodes opgehaald moeten worden
+     * @param allNodes       Alle nodes waar uit gekozen kan worden
+     * @return Een lijst met de vorige en volgende node van deze weg.
+     */
+
+    public List<Node> getPreviousNextNodeFromHighway(Highway highway, Node currentNode, List<Node> allNodes) {
+        Long currentNodeId = currentNode.getId();
+        List<Node> returnNodes = new ArrayList<>();
+        List<Long> highwayNodes = highway.getNodes();
+
+        int index = highwayNodes.indexOf(currentNodeId);
+        int previousIndex = index - 1;
+        int nextIndex = index + 1;
+
+        Long previousNodeId = highwayNodes.get(previousIndex);
+        Long nextNodeId = highwayNodes.get(nextIndex);
+
+        for(Node n : allNodes) {
+            if(previousNodeId != -1 && previousNodeId == n.getId()) {
+                returnNodes.add(n);
+            }
+            if(nextNodeId != -1 && nextNodeId == n.getId()) {
+                returnNodes.add(n);
+            }
+        }
+        return returnNodes;
+    }
+
+    /**
      * Checkt of de conditionele snelheid geldig is
      *
      * @param highway de snelweg met een conditionele snelheid

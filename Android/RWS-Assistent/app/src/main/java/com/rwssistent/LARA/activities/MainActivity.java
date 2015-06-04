@@ -315,8 +315,13 @@ public class MainActivity extends ActionBarActivity {
         try {
             if (allNodes != null) {
                 if (currentNode == null) {
+                    // Dichtsbijzijnde node ophalen
                     nearestNode = laraService.pollNearestNode(allNodes, latitude, longitude);
+
+                    // Nodes van highways dichtsbijzijnde node ophalen
                     allNodesFromAllHighwaysFromCurrentNode = laraService.getAllNodesFromAllHighwaysFromCurrentNode(nearestNode, allHighways, allNodes);
+
+
                     currentNode = nearestNode;
                 }
                 // Als er voorheen al een node is gevonden, set de previousNode met deze waarde en haal de hele weg op.
@@ -326,8 +331,10 @@ public class MainActivity extends ActionBarActivity {
                     if (nearestNode != previousNode) {
                         currentNode = nearestNode;
                     }
-                    allNodesFromAllHighwaysFromCurrentNode = laraService.getAllNodesFromAllHighwaysFromCurrentNode(nearestNode, allHighways, allNodes);
+                    allNodesFromAllHighwaysFromCurrentNode = laraService.getPreviousNextNodeFromHighway(previousHighway, nearestNode, allNodes);
+
                 }
+                // Als er geen current node is
                 if (currentNode == null) {
                     throw new LaraException(Constants.PREF_EXCP_NODE_NULL);
                 }
