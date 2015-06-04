@@ -125,6 +125,54 @@ public class HighwayHelper {
         return nodesFromHighway;
     }
 
+    /** Geeft alle nodes van alle wegen die de currentNode hebben
+     * @param currentNode de currentNode
+     * @param allHighways alle wegen
+     * @param allNodes alle nodes
+     * @return Een lijst met Nodes
+     */
+
+    public List<Node> getAllNextNodesFromCurrentNode(Node currentNode, List<Highway> allHighways, List<Node> allNodes) {
+        Long currentNodeId = currentNode.getId();
+
+        List<Node> returnNodes = new ArrayList<>();
+        List<Highway> highwaysOfCurrentNode = new ArrayList<>();
+        for (Highway h : allHighways) {
+            if (h.getNodes().contains(currentNodeId)) {
+                highwaysOfCurrentNode.add(h);
+            }
+        }
+
+        for (Highway h : highwaysOfCurrentNode) {
+            int indexCurrent = h.getNodes().indexOf(currentNodeId);
+            int previousIndex = indexCurrent - 1;
+            int nextIndex = indexCurrent + 1;
+
+            if (h.getNodes().size() >= nextIndex) {
+                Long nextNodeId = h.getNodes().get(nextIndex);
+                if (nextNodeId != null && nextNodeId > 0) {
+                    for (Node n : allNodes) {
+                        if (n.getId() == nextNodeId) {
+                            returnNodes.add(n);
+                        }
+                    }
+                }
+            }
+            if (previousIndex >= 0) {
+                Long nextNodeId = h.getNodes().get(nextIndex);
+                if (nextNodeId != null && nextNodeId > 0) {
+                    for (Node n : allNodes) {
+                        if (n.getId() == nextNodeId) {
+                            returnNodes.add(n);
+                        }
+                    }
+                }
+            }
+
+        }
+        return returnNodes;
+    }
+
     /**
      * Checkt of de conditionele snelheid geldig is
      *
