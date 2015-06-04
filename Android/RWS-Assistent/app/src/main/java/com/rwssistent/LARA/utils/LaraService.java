@@ -53,7 +53,7 @@ public class LaraService {
      * @param lon2 de latitude van locatie 2
      * @return De afstand in km tussen locatie1 en locatie2
      */
-    public double distanceFromPollLocation(double lat1, double lon1, double lat2, double lon2) {
+    public double distanceBetweenLocations(double lat1, double lon1, double lat2, double lon2) {
         return DistanceHelper.distance(lat1, lon1, lat2, lon2);
     }
 

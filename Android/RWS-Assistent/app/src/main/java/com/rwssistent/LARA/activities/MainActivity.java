@@ -45,12 +45,13 @@ public class MainActivity extends ActionBarActivity {
 
     private List<Node> allNodes;
     private List<Highway> allHighways;
-    private List<Node> allNodesFromAllHighwaysFromCurrentNode;
     private List<Highway> currentHighways;
     private List<Highway> previousHighways;
 
     private Node currentNode;
     private Node previousNode;
+
+    private double distanceToNearestNode;
 
     private LaraLocation previousLocation;
     private LaraLocation currentLocation;
@@ -323,13 +324,23 @@ public class MainActivity extends ActionBarActivity {
             }
             // get Current node
             List<Node> allNodesFromCurrentNode = laraService.getAllNextNodesFromCurrentNode(currentNode, allHighways, allNodes);
+
+            // Bereken de bearing met alle nodes in allNodesFromCurrentNode
+            // + sla ze op in een lijst van type NodeBearing = Node node, double bearing.
+
+            // Bereken de bearing tussen vorige node (currentNode) en de nieuwe locatie
+            // Doe dit als distanceBetweenLocation vanaf currentLocation en nearestNode verstreken is.
+
             nearestNode = laraService.getNodeInCourse(allNodesFromCurrentNode, previousLocation, currentLocation);
+            distanceToNearestNode = laraService.distanceBetweenLocations(currentLocation.getLat(), currentLocation.getLon(),
+                    nearestNode.getLat(), nearestNode.getLon());
+
             List<Highway> allHighwaysFromNode = laraService.getAllHighwaysFromNode(nearestNode, allHighways);
 
             currentNode = nearestNode;
 
             for (Highway highway : allHighwaysFromNode) {
-                if (highway.getId() == previousHighway.getId()) {
+                if (highway.getRoadName().equals(previousHighway.getRoadName())) {
                     displayValues(highway);
                     return;
                 }
@@ -343,7 +354,7 @@ public class MainActivity extends ActionBarActivity {
         }
 
         // If current location is 800+ meters away from the original pollLocation :
-        if (laraService.distanceFromPollLocation(pollLocation.getLatitude(), pollLocation.getLongitude(),
+        if (laraService.distanceBetweenLocations(pollLocation.getLatitude(), pollLocation.getLongitude(),
                 latitude, longitude) > 0.8) {
             Log.d(getClass().getSimpleName(), "pollNearestHighway > verder dan 800m!");
             pollLocation.setLatitude(latitude);
