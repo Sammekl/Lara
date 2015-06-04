@@ -125,34 +125,50 @@ public class HighwayHelper {
         return nodesFromHighway;
     }
 
-    /**
-     * Haalt de vorige en volgende node op van de Highway.
-     *
-     * @param highway De highway waarvan de nodes opgehaald moeten worden
-     * @param currentNode De node waarvan de volgende en vorige nodes opgehaald moeten worden
-     * @param allNodes       Alle nodes waar uit gekozen kan worden
-     * @return Een lijst met de vorige en volgende node van deze weg.
+    /** Geeft alle nodes van alle wegen die de currentNode hebben
+     * @param currentNode de currentNode
+     * @param allHighways alle wegen
+     * @param allNodes alle nodes
+     * @return Een lijst met Nodes
      */
 
-    public List<Node> getPreviousNextNodeFromHighway(Highway highway, Node currentNode, List<Node> allNodes) {
+    public List<Node> getAllNextNodesFromCurrentNode(Node currentNode, List<Highway> allHighways, List<Node> allNodes) {
         Long currentNodeId = currentNode.getId();
+
         List<Node> returnNodes = new ArrayList<>();
-        List<Long> highwayNodes = highway.getNodes();
-
-        int index = highwayNodes.indexOf(currentNodeId);
-        int previousIndex = index - 1;
-        int nextIndex = index + 1;
-
-        Long previousNodeId = highwayNodes.get(previousIndex);
-        Long nextNodeId = highwayNodes.get(nextIndex);
-
-        for(Node n : allNodes) {
-            if(previousNodeId != -1 && previousNodeId == n.getId()) {
-                returnNodes.add(n);
+        List<Highway> highwaysOfCurrentNode = new ArrayList<>();
+        for (Highway h : allHighways) {
+            if (h.getNodes().contains(currentNodeId)) {
+                highwaysOfCurrentNode.add(h);
             }
-            if(nextNodeId != -1 && nextNodeId == n.getId()) {
-                returnNodes.add(n);
+        }
+
+        for (Highway h : highwaysOfCurrentNode) {
+            int indexCurrent = h.getNodes().indexOf(currentNodeId);
+            int previousIndex = indexCurrent - 1;
+            int nextIndex = indexCurrent + 1;
+
+            if (h.getNodes().size() >= nextIndex) {
+                Long nextNodeId = h.getNodes().get(nextIndex);
+                if (nextNodeId != null && nextNodeId > 0) {
+                    for (Node n : allNodes) {
+                        if (n.getId() == nextNodeId) {
+                            returnNodes.add(n);
+                        }
+                    }
+                }
             }
+            if (previousIndex >= 0) {
+                Long nextNodeId = h.getNodes().get(nextIndex);
+                if (nextNodeId != null && nextNodeId > 0) {
+                    for (Node n : allNodes) {
+                        if (n.getId() == nextNodeId) {
+                            returnNodes.add(n);
+                        }
+                    }
+                }
+            }
+
         }
         return returnNodes;
     }

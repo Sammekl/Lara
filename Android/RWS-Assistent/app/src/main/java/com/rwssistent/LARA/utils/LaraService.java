@@ -5,6 +5,7 @@ import android.app.Activity;
 import com.rwssistent.LARA.helpers.DistanceHelper;
 import com.rwssistent.LARA.helpers.HighwayHelper;
 import com.rwssistent.LARA.model.Highway;
+import com.rwssistent.LARA.model.LaraLocation;
 import com.rwssistent.LARA.model.Node;
 import com.rwssistent.LARA.tasks.RoadTask;
 
@@ -90,8 +91,8 @@ public class LaraService {
         return highwayHelper.getAllNodesFromAllHighwaysFromCurrentNode(node, allHighways, allNodes);
     }
 
-    public List<Node> getPreviousNextNodeFromHighway(Highway highway, Node currentNode, List<Node> allNodes) {
-        return highwayHelper.getPreviousNextNodeFromHighway(highway,currentNode, allNodes);
+    public List<Node> getAllNextNodesFromCurrentNode(Node currentNode, List<Highway> allHighways, List<Node> allNodes) {
+        return highwayHelper.getAllNextNodesFromCurrentNode(currentNode, allHighways, allNodes);
     }
 
     /**
@@ -113,5 +114,9 @@ public class LaraService {
      */
     public boolean getConditionalValid(Highway highway) {
         return highwayHelper.getConditionalValid(highway);
+    }
+
+    public Node getNodeInCourse(List<Node> nodes, LaraLocation previousLocation, LaraLocation currentLocation) {
+        return DistanceHelper.getNodeInCourse(nodes, previousLocation, currentLocation);
     }
 }

@@ -22,14 +22,11 @@ import android.widget.TextView;
 
 import com.rwssistent.LARA.R;
 import com.rwssistent.LARA.exceptions.LaraException;
-import com.rwssistent.LARA.helpers.HighwayHelper;
-import com.rwssistent.LARA.helpers.TestHelper;
 import com.rwssistent.LARA.model.Highway;
+import com.rwssistent.LARA.model.LaraLocation;
 import com.rwssistent.LARA.model.Node;
-import com.rwssistent.LARA.utils.Constants;
 import com.rwssistent.LARA.utils.LaraService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -54,6 +51,10 @@ public class MainActivity extends ActionBarActivity {
 
     private Node currentNode;
     private Node previousNode;
+
+    private LaraLocation previousLocation;
+    private LaraLocation currentLocation;
+
     private Highway previousHighway;
 
     private Location pollLocation;
@@ -174,19 +175,17 @@ public class MainActivity extends ActionBarActivity {
         if (highway != null) {
             if (highway.getMaxSpeed() > 0) {
                 String maxspeed = "";
-                if (highway.getMaxSpeed() > 90 && vehicleTypeFromPrefs.equals("Aanhangwagen")){
+                if (highway.getMaxSpeed() > 90 && vehicleTypeFromPrefs.equals("Aanhangwagen")) {
                     maxspeed = "90";
-                }
-                else if(highway.getMaxSpeed() > 80 && vehicleTypeFromPrefs.equals("Bus")){
+                } else if (highway.getMaxSpeed() > 80 && vehicleTypeFromPrefs.equals("Bus")) {
                     maxspeed = "80";
-                }
-                else if (laraService.getConditionalValid(highway)) {
+                } else if (laraService.getConditionalValid(highway)) {
                     maxspeed = String.valueOf(highway.getMaxSpeedConditional());
                 } else {
                     maxspeed = String.valueOf(highway.getMaxSpeed());
                 }
 
-                if(speedUnitFromPrefs.equals("MPH")) {
+                if (speedUnitFromPrefs.equals("MPH")) {
                     maxspeed = convertToMPH(maxspeed);
                 }
 
@@ -265,6 +264,7 @@ public class MainActivity extends ActionBarActivity {
                     latitude = location.getLatitude();
                     longitude = location.getLongitude();
                 }
+                currentLocation = new LaraLocation(latitude, longitude, location.getAccuracy());
                 dismissProgressDialog();
                 if (firstRun) {
                     // Used for pollLocation
@@ -308,64 +308,36 @@ public class MainActivity extends ActionBarActivity {
      * @param longitude current longitude
      */
     private void pollNearestHighway(double latitude, double longitude) {
-        if (allNodesFromAllHighwaysFromCurrentNode == null) {
-            allNodesFromAllHighwaysFromCurrentNode = new ArrayList<>();
-        }
         Node nearestNode;
         try {
-            if (allNodes != null) {
-                if (currentNode == null) {
-                    // Dichtsbijzijnde node ophalen
-                    nearestNode = laraService.pollNearestNode(allNodes, latitude, longitude);
+            if (currentNode == null) {
+                nearestNode = laraService.pollNearestNode(allNodes, latitude, longitude);
+                currentNode = nearestNode;
+                previousNode = nearestNode;
 
-                    // Nodes van highways dichtsbijzijnde node ophalen
-                    allNodesFromAllHighwaysFromCurrentNode = laraService.getAllNodesFromAllHighwaysFromCurrentNode(nearestNode, allHighways, allNodes);
+                // Display
+                Highway highwayToDisplay = laraService.getEntireHighway(currentNode, allHighways);
+                displayValues(highwayToDisplay);
+                previousHighway = highwayToDisplay;
+                return;
+            }
+            // get Current node
+            List<Node> allNodesFromCurrentNode = laraService.getAllNextNodesFromCurrentNode(currentNode, allHighways, allNodes);
+            nearestNode = laraService.getNodeInCourse(allNodesFromCurrentNode, previousLocation, currentLocation);
+            List<Highway> allHighwaysFromNode = laraService.getAllHighwaysFromNode(nearestNode, allHighways);
 
+            currentNode = nearestNode;
 
-                    currentNode = nearestNode;
-                }
-                // Als er voorheen al een node is gevonden, set de previousNode met deze waarde en haal de hele weg op.
-                else {
-                    previousNode = currentNode;
-                    nearestNode = laraService.pollNearestNode(allNodesFromAllHighwaysFromCurrentNode, latitude, longitude);
-                    if (nearestNode != previousNode) {
-                        currentNode = nearestNode;
-                    }
-                    allNodesFromAllHighwaysFromCurrentNode = laraService.getPreviousNextNodeFromHighway(previousHighway, nearestNode, allNodes);
-
-                }
-                // Als er geen current node is
-                if (currentNode == null) {
-                    throw new LaraException(Constants.PREF_EXCP_NODE_NULL);
-                }
-                currentHighways = laraService.getAllHighwaysFromNode(currentNode, allHighways);
-                if (currentHighways == null || currentHighways.size() == 0) {
-                    throw new LaraException(Constants.PREF_EXCP_CURRENTHIGHWAYS_NULL);
-                }
-                if (previousNode == null) {
-                    Log.d(getClass().getSimpleName(), String.format(Constants.PREF_LOG_NO_PREVNODE, currentHighways.get(0).getRoadName()));
-                    displayValues(currentHighways.get(0));
-                    previousHighway = currentHighways.get(0);
-                } else {
-                    previousHighways = laraService.getAllHighwaysFromNode(previousNode, allHighways);
-                    for (Highway currentHighway : currentHighways) {
-                        if (currentHighway.getId() == previousHighway.getId()) {
-                            Log.d(getClass().getSimpleName(), String.format(Constants.PREF_LOG_CUR_EQUALS_PREV, currentHighway.getRoadName()));
-                            displayValues(currentHighway);
-                            break;
-                        } else if (currentHighways.contains(previousHighway)) {
-                            Log.d(getClass().getSimpleName(), String.format(Constants.PREF_LOG_CURS_EQUALS_PREV, previousHighway.getRoadName()));
-                            displayValues(previousHighway);
-                            break;
-                        } else if (previousHighways.contains(currentHighway)) {
-                            Log.d(getClass().getSimpleName(), String.format(Constants.PREF_LOG_PREVS_EQUALS_CUR, currentHighway.getRoadName()));
-                            displayValues(currentHighway);
-                            previousHighway = currentHighway;
-                            break;
-                        }
-                    }
+            for (Highway highway : allHighwaysFromNode) {
+                if (highway.getId() == previousHighway.getId()) {
+                    displayValues(highway);
+                    return;
                 }
             }
+            Highway highwayToDisplay = laraService.getEntireHighway(nearestNode, allHighways);
+            displayValues(highwayToDisplay);
+
+            throw new LaraException("Mag niet");
         } catch (LaraException le) {
             Log.e(getClass().getSimpleName(), "pollNearestHighway(): " + le.getMessage());
         }
@@ -378,6 +350,8 @@ public class MainActivity extends ActionBarActivity {
             pollLocation.setLongitude(longitude);
             laraService.getHighwayData(this, latitude, longitude);
         }
+        // Set previousLocation met value van huidige locatie want de cycle is klaar.
+        previousLocation = currentLocation;
     }
 
     private void getTextViews() {
@@ -386,32 +360,32 @@ public class MainActivity extends ActionBarActivity {
         speedUnit = (TextView) findViewById(R.id.speedUnit);
     }
 
-    private void getPreferences(){
-        vehicleTypeFromPrefs  = prefs.getString(getString(R.string.vehicle_type_key), "Auto");
+    private void getPreferences() {
+        vehicleTypeFromPrefs = prefs.getString(getString(R.string.vehicle_type_key), "Auto");
         speedUnitFromPrefs = prefs.getString(getString(R.string.speed_unit_key), "KM/H");
     }
 
-    private String convertToMPH(String speedString){
+    private String convertToMPH(String speedString) {
 
         double speed = Double.valueOf(speedString);
         double speedInMPH = speed * 0.6215;
         double roundedMPH = Math.round(speedInMPH);
 
-        return String.valueOf((int)roundedMPH);
+        return String.valueOf((int) roundedMPH);
     }
 
     /**
      * Test method used for custom location
      */
     private void getLocationFromPreferences() {
-       // String latitudePref = PreferenceHelper.readPreference(this, Constants.PREF_LATITUDE_NAME, null, Constants.PREF_FILE_NAME);
-      //  if (latitudePref != null && !latitudePref.isEmpty()) {
-            latitude = 52.06506;
-       // }
+        // String latitudePref = PreferenceHelper.readPreference(this, Constants.PREF_LATITUDE_NAME, null, Constants.PREF_FILE_NAME);
+        //  if (latitudePref != null && !latitudePref.isEmpty()) {
+        latitude = 52.06506;
+        // }
         //String longitudePref = PreferenceHelper.readPreference(this, Constants.PREF_LONGITUDE_NAME, null, Constants.PREF_FILE_NAME);
         //if (longitudePref != null && !longitudePref.isEmpty()) {
-            longitude = 5.30319;
-       // }
+        longitude = 5.30319;
+        // }
     }
 
     private MainActivity getActivity() {
