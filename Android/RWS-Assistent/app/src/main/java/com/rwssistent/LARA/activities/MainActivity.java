@@ -25,8 +25,10 @@ import com.rwssistent.LARA.exceptions.LaraException;
 import com.rwssistent.LARA.model.Highway;
 import com.rwssistent.LARA.model.LaraLocation;
 import com.rwssistent.LARA.model.Node;
+import com.rwssistent.LARA.model.NodeBearing;
 import com.rwssistent.LARA.utils.LaraService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -327,13 +329,25 @@ public class MainActivity extends ActionBarActivity {
 
             // Bereken de bearing met alle nodes in allNodesFromCurrentNode
             // + sla ze op in een lijst van type NodeBearing = Node node, double bearing.
-
-            // Bereken de bearing tussen vorige node (currentNode) en de nieuwe locatie
-            // Doe dit als distanceBetweenLocation vanaf currentLocation en nearestNode verstreken is.
+            List<NodeBearing> nodeWithBearings = new ArrayList<>();
+            for (Node node : allNodesFromCurrentNode) {
+                nodeWithBearings.add(new NodeBearing(node,
+                        laraService.rumbLineBearing(currentNode.getLat(), currentNode.getLon(), node.getLat(), node.getLon())));
+            }
 
             nearestNode = laraService.getNodeInCourse(allNodesFromCurrentNode, previousLocation, currentLocation);
+
+            if (nearestNode == null) {
+                throw new LaraException("nearestNode is null.");
+            }
+
             distanceToNearestNode = laraService.distanceBetweenLocations(currentLocation.getLat(), currentLocation.getLon(),
                     nearestNode.getLat(), nearestNode.getLon());
+
+            // Bereken de bearing tussen vorige node (currentNode) en de nieuwe locatie
+            double bearingBetweenLastNodeAndLocation = laraService.rumbLineBearing(currentNode.getLat(), currentNode.getLon(),
+                    currentLocation.getLat(), currentLocation.getLon());
+            // Doe dit als distanceBetweenLocation vanaf currentLocation en nearestNode verstreken is.
 
             List<Highway> allHighwaysFromNode = laraService.getAllHighwaysFromNode(nearestNode, allHighways);
 
@@ -348,7 +362,6 @@ public class MainActivity extends ActionBarActivity {
             Highway highwayToDisplay = laraService.getEntireHighway(nearestNode, allHighways);
             displayValues(highwayToDisplay);
 
-            throw new LaraException("Mag niet");
         } catch (LaraException le) {
             Log.e(getClass().getSimpleName(), "pollNearestHighway(): " + le.getMessage());
         }

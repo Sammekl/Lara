@@ -116,7 +116,17 @@ public class LaraService {
         return highwayHelper.getConditionalValid(highway);
     }
 
+    /**
+     * @param nodes
+     * @param previousLocation
+     * @param currentLocation
+     * @return
+     */
     public Node getNodeInCourse(List<Node> nodes, LaraLocation previousLocation, LaraLocation currentLocation) {
         return DistanceHelper.getNodeInCourse(nodes, previousLocation, currentLocation);
+    }
+
+    public double rumbLineBearing(double lat1, double lon1, double lat2, double lon2) {
+        return DistanceHelper.rumbLineBearing(lat1, lon1, lat2, lon2);
     }
 }
