@@ -21,7 +21,7 @@
 
     <!-- /Preferences-->
     <string name="dialog_get_highways">…</string>
-    <string name="dialog_get_location">Uw locatie word bepaald...</string>
+    <string name="dialog_get_location">Uw locatie wordt bepaald...</string>
     <!-- /Dialogs -->
 
 </resources>
