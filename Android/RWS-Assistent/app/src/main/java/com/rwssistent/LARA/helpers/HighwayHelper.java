@@ -152,17 +152,18 @@ public class HighwayHelper {
                 Long nextNodeId = h.getNodes().get(nextIndex);
                 if (nextNodeId != null && nextNodeId > 0) {
                     for (Node n : allNodes) {
-                        if (n.getId() == nextNodeId) {
+                        if (n.getId().equals(nextNodeId)) {
+                            Log.i("Node found: ", "" + n.getId());
                             returnNodes.add(n);
                         }
                     }
                 }
             }
             if (previousIndex >= 0) {
-                Long nextNodeId = h.getNodes().get(nextIndex);
-                if (nextNodeId != null && nextNodeId > 0) {
+                Long previousNodeId = h.getNodes().get(previousIndex);
+                if (previousNodeId != null && previousNodeId > 0) {
                     for (Node n : allNodes) {
-                        if (n.getId() == nextNodeId) {
+                        if (n.getId().equals(previousNodeId)) {
                             returnNodes.add(n);
                         }
                     }
