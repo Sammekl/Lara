@@ -313,62 +313,65 @@ public class MainActivity extends ActionBarActivity {
     private void pollNearestHighway(double latitude, double longitude) {
         Node nearestNode;
         try {
-            if (currentNode == null) {
-                nearestNode = laraService.pollNearestNode(allNodes, latitude, longitude);
-                currentNode = nearestNode;
-                previousNode = nearestNode;
+            if (allNodes != null) {
+                if (currentNode == null) {
+                    nearestNode = laraService.pollNearestNode(allNodes, latitude, longitude);
+                    currentNode = nearestNode;
+                    previousNode = nearestNode;
 
-                // Display
-                Highway highwayToDisplay = laraService.getEntireHighway(currentNode, allHighways);
-                displayValues(highwayToDisplay);
-                previousHighway = highwayToDisplay;
-                return;
-            }
-            // get Current node
-            List<Node> allNodesFromCurrentNode = laraService.getAllNextNodesFromCurrentNode(currentNode, allHighways, allNodes);
-
-            // Bereken de bearing met alle nodes in allNodesFromCurrentNode
-            // + sla ze op in een lijst van type NodeBearing = Node node, double bearing.
-            List<NodeBearing> nodeWithBearings = new ArrayList<>();
-            for (Node node : allNodesFromCurrentNode) {
-                nodeWithBearings.add(new NodeBearing(node,
-                        laraService.rumbLineBearing(currentNode.getLat(), currentNode.getLon(), node.getLat(), node.getLon())));
-            }
-
-            nearestNode = laraService.getNodeInCourse(allNodesFromCurrentNode, previousLocation, currentLocation);
-
-            if (nearestNode == null) {
-                throw new LaraException("nearestNode is null.");
-            }
-
-            distanceToNearestNode = laraService.distanceBetweenLocations(currentLocation.getLat(), currentLocation.getLon(),
-                    nearestNode.getLat(), nearestNode.getLon());
-
-            // Bereken de bearing tussen vorige node (currentNode) en de nieuwe locatie
-            double bearingBetweenLastNodeAndLocation = laraService.rumbLineBearing(currentNode.getLat(), currentNode.getLon(),
-                    currentLocation.getLat(), currentLocation.getLon());
-            // Doe dit als distanceBetweenLocation vanaf currentLocation en nearestNode verstreken is.
-
-            List<Highway> allHighwaysFromNode = laraService.getAllHighwaysFromNode(nearestNode, allHighways);
-
-            currentNode = nearestNode;
-
-            for (Highway highway : allHighwaysFromNode) {
-                if (highway.getRoadName().equals(previousHighway.getRoadName())) {
-                    displayValues(highway);
+                    // Display
+                    Highway highwayToDisplay = laraService.getEntireHighway(currentNode, allHighways);
+                    displayValues(highwayToDisplay);
+                    previousHighway = highwayToDisplay;
                     return;
                 }
-            }
-            Highway highwayToDisplay = laraService.getEntireHighway(nearestNode, allHighways);
-            displayValues(highwayToDisplay);
+                // get Current node
+                List<Node> allNodesFromCurrentNode = laraService.getAllNextNodesFromCurrentNode(currentNode, allHighways, allNodes);
 
-        } catch (LaraException le) {
+                // Bereken de bearing met alle nodes in allNodesFromCurrentNode
+                // + sla ze op in een lijst van type NodeBearing = Node node, double bearing.
+                List<NodeBearing> nodeWithBearings = new ArrayList<>();
+                for (Node node : allNodesFromCurrentNode) {
+                    nodeWithBearings.add(new NodeBearing(node,
+                            laraService.rumbLineBearing(currentNode.getLat(), currentNode.getLon(), node.getLat(), node.getLon())));
+                }
+
+                nearestNode = laraService.getNodeInCourse(allNodesFromCurrentNode, previousLocation, currentLocation);
+
+                if (nearestNode == null) {
+                    throw new LaraException("nearestNode is null.");
+                }
+
+                distanceToNearestNode = laraService.distanceBetweenLocations(currentLocation.getLat(), currentLocation.getLon(),
+                        nearestNode.getLat(), nearestNode.getLon());
+
+                // Bereken de bearing tussen vorige node (currentNode) en de nieuwe locatie
+                double bearingBetweenLastNodeAndLocation = laraService.rumbLineBearing(currentNode.getLat(), currentNode.getLon(),
+                        currentLocation.getLat(), currentLocation.getLon());
+                // Doe dit als distanceBetweenLocation vanaf currentLocation en nearestNode verstreken is.
+
+                List<Highway> allHighwaysFromNode = laraService.getAllHighwaysFromNode(nearestNode, allHighways);
+
+                currentNode = nearestNode;
+
+                for (Highway highway : allHighwaysFromNode) {
+                    if (highway.getRoadName().equals(previousHighway.getRoadName())) {
+                        displayValues(highway);
+                        return;
+                    }
+                }
+                Highway highwayToDisplay = laraService.getEntireHighway(nearestNode, allHighways);
+                displayValues(highwayToDisplay);
+            }
+        } catch (LaraException le ){
             Log.e(getClass().getSimpleName(), "pollNearestHighway(): " + le.getMessage());
         }
 
         // If current location is 800+ meters away from the original pollLocation :
         if (laraService.distanceBetweenLocations(pollLocation.getLatitude(), pollLocation.getLongitude(),
-                latitude, longitude) > 0.8) {
+                latitude, longitude) > 0.8)
+
+        {
             Log.d(getClass().getSimpleName(), "pollNearestHighway > verder dan 800m!");
             pollLocation.setLatitude(latitude);
             pollLocation.setLongitude(longitude);
