@@ -17,4 +17,12 @@
         android:entries="@array/speedUnitArray"
         android:entryValues="@array/speedUnitValues" />
 
+    <Preference android:title="@string/disclaimer" >
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.rwssistent.LARA"
+            android:targetClass="com.rwssistent.LARA.activities.DisclaimerActivity"
+            />
+    </Preference>
+
 </PreferenceScreen>

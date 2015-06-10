@@ -14,14 +14,29 @@
     <string name="vehicle_type_title">Type voertuig</string>
     <string name="preferred_speed_unit">Snelheids eenheid</string>
 
+    <string name="disclaimer">Over</string>
+    <string name="disclaimer_intro">Lara is uw persoonlijke rij-assistent. </string>
+    <string name="disclaimer_data">Lara haalt haar data van Openstreetmaps. Deze data is opensource en kan door iedereen worden aangepast \n \n
+        Hierdoor is het mogelijk dat Lara verkeerde informatie weergeeft. Wij zijn niet aanspraakelijk voor boetes die u krijgt tijdens het gebruik van onze app. \n \n
+        Houdt uw aandacht altijd bij de weg en blijf kijken naar de snelheidsborden. \n
+        Lara is om u te ondersteunen, niet om verkeersborden te vervangen.</string>
+
     <!-- DO NOT TRANSLATE THE KEY STRINGS! -->
     <string name="vehicle_type_key">vehicleType</string>
     <string name="speed_unit_key">speedUnit</string>
     <!-- /DO NOT TRANSLATE THE KEY STRINGS! -->
 
     <!-- /Preferences-->
+
+    <!-- Dialogs -->
+
     <string name="dialog_get_highways">…</string>
-    <string name="dialog_get_location">Uw locatie wordt bepaald...</string>
+    <string name="dialog_get_location">Uw locatie word bepaald...</string>
+
+    <string name="firstTime_Dialog_Title">Let op:</string>
+    <string name="firstTime_Dialog_Message">Deze app is ontworpen om u te assisteren, niet om de verkeersborden te vervangen. \n \n
+    Houdt uw aandacht altijd bij de weg!</string>
+
     <!-- /Dialogs -->
 
 </resources>
