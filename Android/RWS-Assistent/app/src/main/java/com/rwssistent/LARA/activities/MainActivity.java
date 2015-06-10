@@ -123,7 +123,9 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onPause() {
         Log.i(getClass().getSimpleName(), "Activity paused. LocationManager stopped polling.");
-        locationManager.removeUpdates(locationListener);
+        if (locationListener != null) {
+            locationManager.removeUpdates(locationListener);
+        }
         super.onPause();
     }
 
