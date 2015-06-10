@@ -67,6 +67,7 @@ public class MainActivity extends ActionBarActivity {
     private ProgressDialog progressDialog;
 
     SharedPreferences prefs;
+    Boolean firstTime;
 
     private int testIndex = 0;
 
@@ -93,25 +94,6 @@ public class MainActivity extends ActionBarActivity {
         getPreferences();
         getTextViews();
         speedUnit.setText(speedUnitFromPrefs);
-
-        Boolean firstTime = prefs.getBoolean("firstTime", true); //see if it's run before, default no
-        if (firstTime) {
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(R.string.firstTime_Dialog_Title);
-            builder.setMessage(R.string.firstTime_Dialog_Message);
-            builder.setPositiveButton("OK", null);
-            AlertDialog dialog = builder.show();
-
-
-            TextView messageView = (TextView) dialog.findViewById(android.R.id.message);
-            messageView.setGravity(Gravity.CENTER);
-
-            SharedPreferences.Editor edit = prefs.edit();
-            // edit.putBoolean("firstTime", false); //set to has run
-            // edit.commit(); //apply
-
-        }
     }
 
     /**
@@ -120,7 +102,13 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        startLocationService();
+
+        firstTime = prefs.getBoolean("firstTime", true); //see if it's run before, default no
+        if (firstTime) {
+            this.showDisclaimer();
+        } else {
+            startLocationService();
+        }
         Log.i(getClass().getSimpleName(), "Activity resumed. LocationManager started polling.");
 
         getPreferences();
@@ -168,7 +156,7 @@ public class MainActivity extends ActionBarActivity {
         adb.setTitle("Info");
         String msg = "";
         msg += "Previous highway:\n";
-                msg += previousHighway.getRoadName() + "\n";
+        msg += previousHighway.getRoadName() + "\n";
         adb.setMessage(msg);
         adb.setIcon(android.R.drawable.ic_dialog_alert);
         adb.setNegativeButton("OK", new DialogInterface.OnClickListener() {
@@ -383,7 +371,7 @@ public class MainActivity extends ActionBarActivity {
                             break;
                         }
                     }
-                    if(!highwayIsSet) {
+                    if (!highwayIsSet) {
                         displayValues(allHighwaysFromNode.get(0));
                         previousHighway = allHighwaysFromNode.get(0);
                     }
@@ -470,6 +458,28 @@ public class MainActivity extends ActionBarActivity {
         if (progressDialog != null) {
             progressDialog.dismiss();
         }
+    }
+
+    private void showDisclaimer() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.firstTime_Dialog_Title);
+        builder.setMessage(R.string.firstTime_Dialog_Message);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                SharedPreferences.Editor edit = prefs.edit();
+                edit.putBoolean("firstTime", false); //set to has run
+                edit.apply(); //apply
+                startLocationService();
+            }
+        });
+        builder.setCancelable(false);
+        AlertDialog dialog = builder.show();
+
+        TextView messageView = (TextView) dialog.findViewById(android.R.id.message);
+        messageView.setGravity(Gravity.CENTER);
+
+
     }
 
 }
