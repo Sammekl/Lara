@@ -5,8 +5,10 @@ import android.util.Log;
 import com.rwssistent.LARA.exceptions.LaraException;
 import com.rwssistent.LARA.model.LaraLocation;
 import com.rwssistent.LARA.model.Node;
+import com.rwssistent.LARA.model.NodeBearing;
 
 import java.sql.Time;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -111,6 +113,30 @@ public class DistanceHelper {
         return (rad2deg(Math.atan2(dLon, dPhi)) + 360) % 360;
     }
 
+    /**
+     * Geef de node die het meest in de buurt is van de targetBearing
+     * @param targetBearing de bearing waar de gebruiker op zit
+     * @param nodeBearingList de lijst met mogelijke nodes + bearing
+     * @return de node die het meest in de buurt komt van de huidige bearing.
+     */
+    public static Node giveNearestBearingNode(double targetBearing, List<NodeBearing> nodeBearingList) {
+        Node returnNode = null;
+        double min = Integer.MAX_VALUE;
+
+        for (NodeBearing nodeBearing : nodeBearingList) {
+            final double diff = Math.abs(nodeBearing.getBearing() - targetBearing);
+            final double diffIn360 = Math.abs(nodeBearing.getBearing() - 360 - targetBearing);
+            if(diff < min) {
+                min = diff;
+                returnNode = nodeBearing.getNode();
+            }
+            if (diffIn360 < min) {
+                min = diffIn360;
+                returnNode = nodeBearing.getNode();
+            }
+        }
+        return returnNode;
+    }
     /**
      * Geeft de snelheid tussen twee locaties in kmph
      *

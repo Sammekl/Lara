@@ -7,6 +7,7 @@ import com.rwssistent.LARA.helpers.HighwayHelper;
 import com.rwssistent.LARA.model.Highway;
 import com.rwssistent.LARA.model.LaraLocation;
 import com.rwssistent.LARA.model.Node;
+import com.rwssistent.LARA.model.NodeBearing;
 import com.rwssistent.LARA.tasks.RoadTask;
 
 import java.util.List;
@@ -128,5 +129,8 @@ public class LaraService {
 
     public double rumbLineBearing(double lat1, double lon1, double lat2, double lon2) {
         return DistanceHelper.rumbLineBearing(lat1, lon1, lat2, lon2);
+    }
+    public Node giveNearestBearingNode(double targetBearing, List<NodeBearing> nodeBearingList) {
+        return DistanceHelper.giveNearestBearingNode(targetBearing, nodeBearingList);
     }
 }
