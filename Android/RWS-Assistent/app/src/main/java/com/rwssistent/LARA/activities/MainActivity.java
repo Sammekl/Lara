@@ -10,6 +10,8 @@ import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
@@ -42,6 +44,9 @@ public class MainActivity extends ActionBarActivity {
 
     private String vehicleTypeFromPrefs;
     private String speedUnitFromPrefs;
+    private String maxspeed = "";
+
+    private int oldSpeed = 0;
 
     private double longitude;
     private double latitude;
@@ -65,6 +70,8 @@ public class MainActivity extends ActionBarActivity {
     LocationListener locationListener;
 
     private ProgressDialog progressDialog;
+
+    MediaPlayer mediaPlayer = null;
 
     SharedPreferences prefs;
     Boolean firstTime;
@@ -177,7 +184,6 @@ public class MainActivity extends ActionBarActivity {
     public void displayValues(Highway highway) {
         if (highway != null) {
             if (highway.getMaxSpeed() > 0) {
-                String maxspeed = "";
                 if (highway.getMaxSpeed() > 90 && vehicleTypeFromPrefs.equals("Aanhangwagen")) {
                     maxspeed = "90";
                 } else if (highway.getMaxSpeed() > 80 && vehicleTypeFromPrefs.equals("Bus")) {
@@ -190,6 +196,18 @@ public class MainActivity extends ActionBarActivity {
 
                 if (speedUnitFromPrefs.equals("MPH")) {
                     maxspeed = convertToMPH(maxspeed);
+                }
+
+                if (oldSpeed != Integer.valueOf(maxspeed)) {
+
+                    Thread thread = new Thread() {
+                        @Override
+                        public void run() {
+                            playSound(Integer.valueOf(maxspeed));
+                        }
+                    };
+                    thread.run();
+                    oldSpeed = Integer.valueOf(maxspeed);
                 }
 
                 maxSpeed.setText(maxspeed);
@@ -481,6 +499,104 @@ public class MainActivity extends ActionBarActivity {
         TextView messageView = (TextView) dialog.findViewById(android.R.id.message);
         messageView.setGravity(Gravity.CENTER);
 
+
+    }
+
+    private void playSound(int speed){
+
+        if (mediaPlayer != null) {
+            mediaPlayer.reset();
+            mediaPlayer.release();
+        }
+
+        if(speedUnitFromPrefs.equals("KM/H")){
+
+            if(speed == 15){
+                mediaPlayer = MediaPlayer.create(this, R.raw.kmh_15);
+            }
+
+            if(speed == 30){
+                mediaPlayer = MediaPlayer.create(this, R.raw.kmh_30);
+            }
+
+            if(speed == 50){
+                mediaPlayer = MediaPlayer.create(this, R.raw.kmh_50);
+            }
+
+            if(speed == 60){
+                mediaPlayer = MediaPlayer.create(this, R.raw.kmh_60);
+            }
+
+            if(speed == 70){
+                mediaPlayer = MediaPlayer.create(this, R.raw.kmh_70);
+            }
+
+            if(speed == 80){
+                mediaPlayer = MediaPlayer.create(this, R.raw.kmh_80);
+            }
+
+            if(speed == 90){
+                mediaPlayer = MediaPlayer.create(this, R.raw.kmh_90);
+            }
+
+            if(speed == 100){
+                mediaPlayer = MediaPlayer.create(this, R.raw.kmh_100);
+            }
+
+            if(speed == 120){
+                mediaPlayer = MediaPlayer.create(this, R.raw.kmh_120);
+            }
+
+            if(speed == 130){
+                mediaPlayer = MediaPlayer.create(this, R.raw.kmh_130);
+            }
+        }
+
+        if(speedUnitFromPrefs.equals("MPH")){
+
+            if(speed == 9){
+                mediaPlayer = MediaPlayer.create(this, R.raw.mph_9);
+            }
+
+            if(speed == 19){
+                mediaPlayer = MediaPlayer.create(this, R.raw.mph_19);
+            }
+
+            if(speed == 31){
+                mediaPlayer = MediaPlayer.create(this, R.raw.mph_31);
+            }
+
+            if(speed == 37){
+                mediaPlayer = MediaPlayer.create(this, R.raw.mph_37);
+            }
+
+            if(speed == 44){
+                mediaPlayer = MediaPlayer.create(this, R.raw.mph_44);
+            }
+
+            if(speed == 50){
+                mediaPlayer = MediaPlayer.create(this, R.raw.mph_50);
+            }
+
+            if(speed == 56){
+                mediaPlayer = MediaPlayer.create(this, R.raw.mph_56);
+            }
+
+            if(speed == 62){
+                mediaPlayer = MediaPlayer.create(this, R.raw.mph_62);
+            }
+
+            if(speed == 75){
+                mediaPlayer = MediaPlayer.create(this, R.raw.mph_75);
+            }
+
+            if(speed == 81){
+                mediaPlayer = MediaPlayer.create(this, R.raw.mph_81);
+            }
+
+        }
+
+        mediaPlayer.start();
 
     }
 
