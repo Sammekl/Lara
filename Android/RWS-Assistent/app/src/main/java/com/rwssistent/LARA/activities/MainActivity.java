@@ -1,6 +1,7 @@
 package com.rwssistent.LARA.activities;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,6 +14,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -84,15 +86,34 @@ public class MainActivity extends ActionBarActivity {
         ImageView img = (ImageView) findViewById(R.id.imageViewSpeed);
         img.setImageResource(R.drawable.im_verkeersbord);
 
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
         laraService = new LaraService();
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         //this.getLocationFromPreferences();
 
-        prefs = PreferenceManager.getDefaultSharedPreferences(this);
-
         getPreferences();
         getTextViews();
         speedUnit.setText(speedUnitFromPrefs);
+
+        Boolean firstTime = prefs.getBoolean("firstTime", true); //see if it's run before, default no
+        if (firstTime) {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(R.string.firstTime_Dialog_Title);
+            builder.setMessage(R.string.firstTime_Dialog_Message);
+            builder.setPositiveButton("OK", null);
+            AlertDialog dialog = builder.show();
+
+
+            TextView messageView = (TextView) dialog.findViewById(android.R.id.message);
+            messageView.setGravity(Gravity.CENTER);
+
+            SharedPreferences.Editor edit = prefs.edit();
+            // edit.putBoolean("firstTime", false); //set to has run
+            // edit.commit(); //apply
+
+        }
     }
 
     /**
@@ -107,6 +128,7 @@ public class MainActivity extends ActionBarActivity {
         getPreferences();
         getTextViews();
         speedUnit.setText(speedUnitFromPrefs);
+
     }
 
     /**
@@ -443,4 +465,5 @@ public class MainActivity extends ActionBarActivity {
             progressDialog.dismiss();
         }
     }
+
 }
