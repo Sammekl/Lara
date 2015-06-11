@@ -152,27 +152,6 @@ public class MainActivity extends ActionBarActivity {
     // ============================================
 
     /**
-     * Toon de info van de huidige en previousHighways
-     *
-     * @param view De geklikte button
-     */
-    public void doInfo(View view) {
-        AlertDialog.Builder adb = new AlertDialog.Builder(this);
-        adb.setTitle("Info");
-        String msg = "";
-        msg += "Previous highway:\n";
-        msg += previousHighway.getRoadName() + "\n";
-        adb.setMessage(msg);
-        adb.setIcon(android.R.drawable.ic_dialog_alert);
-        adb.setNegativeButton("OK", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        adb.show();
-    }
-
-    /**
      * Display de values van de highway
      *
      * @param highway de highway die getoond moet worden

@@ -16,7 +16,7 @@
 
     <string name="disclaimer">Over</string>
     <string name="disclaimer_intro">Lara is uw persoonlijke rij-assistent. </string>
-    <string name="disclaimer_data">Lara haalt haar data van Openstreetmaps. Deze data is opensource en kan door iedereen worden aangepast \n \n
+    <string name="disclaimer_data">Lara haalt haar data van OpenStreetMaps. Deze data is open source en kan door iedereen worden aangepast \n \n
         Hierdoor is het mogelijk dat Lara verkeerde informatie weergeeft. Wij zijn niet aanspraakelijk voor boetes die u krijgt tijdens het gebruik van onze app. \n \n
         Houdt uw aandacht altijd bij de weg en blijf kijken naar de snelheidsborden. \n
         Lara is om u te ondersteunen, niet om verkeersborden te vervangen.</string>

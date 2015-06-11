@@ -9,14 +9,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity">
 
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="INFO"
-        android:id="@+id/infoButton"
-        android:onClick="doInfo" />
-
     <ImageView
         android:id="@+id/imageViewSpeed"
         android:layout_width="wrap_content"

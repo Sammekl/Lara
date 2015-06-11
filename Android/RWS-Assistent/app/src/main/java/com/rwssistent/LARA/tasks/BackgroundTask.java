@@ -16,8 +16,6 @@ public abstract class BackgroundTask extends AsyncTask<Void, Void, String> {
     ///////////////////////////////////
 
     protected Activity activity;
-    protected ProgressDialog progressDialog;
-
     public BackgroundTask(Activity activity) {
         this.activity = activity;
     }
@@ -25,8 +23,6 @@ public abstract class BackgroundTask extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-
-        showLoadingProgressDialog();
     }
 
     @Override
@@ -38,7 +34,6 @@ public abstract class BackgroundTask extends AsyncTask<Void, Void, String> {
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
         doProcessResult(result);
-        dismissProgressDialog();
     }
     ///////////////////////////////////
     // Public Methods
@@ -47,29 +42,4 @@ public abstract class BackgroundTask extends AsyncTask<Void, Void, String> {
     public abstract void doProcessResult(String result);
 
     public abstract String doTask();
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Private Methods
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-
-    private void showLoadingProgressDialog() {
-        this.showProgressDialog(activity.getString(R.string.dialog_get_highways));
-    }
-
-    private void showProgressDialog(CharSequence message) {
-        if (progressDialog == null) {
-            progressDialog = new ProgressDialog(this.activity);
-            progressDialog.setIndeterminate(true);
-        }
-
-        progressDialog.setMessage(message);
-        progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.show();
-    }
-
-    private void dismissProgressDialog() {
-        if (progressDialog != null) {
-            progressDialog.dismiss();
-        }
-    }
 }

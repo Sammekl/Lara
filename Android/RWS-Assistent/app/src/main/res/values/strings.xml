@@ -16,7 +16,7 @@
 
     <string name="disclaimer">About</string>
     <string name="disclaimer_intro">Lara is your personal driving assistent.</string>
-    <string name="disclaimer_data">Lara gets its data from Openstreetmaps. This data is opensource and can be altered by anyone.\n \n
+    <string name="disclaimer_data">Lara gets its data from OpenStreetMaps. This data is open source and can be altered by anyone.\n \n
         Due to this fact, it is possible that Lara shows incorrect information. We are not liable for any tickets or fines you may get while using our app. \n \n
         Always keep your attention on the road and look out for speed limit signs on the road. \n
         Lara is only here to help the driver, not to replace the signs on the road.</string>
