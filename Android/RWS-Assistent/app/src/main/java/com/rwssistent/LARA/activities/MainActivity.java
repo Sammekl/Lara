@@ -211,6 +211,7 @@ public class MainActivity extends ActionBarActivity {
             } else {
                 maxSpeed.setText(R.string.unknown_maxspeed);
                 speedUnit.setVisibility(View.INVISIBLE);
+                oldSpeed = 0;
             }
             if (highway.getRoadName() != null) {
                 roadName.setVisibility(View.VISIBLE);
