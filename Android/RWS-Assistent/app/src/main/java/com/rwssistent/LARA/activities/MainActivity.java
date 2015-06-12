@@ -1,7 +1,6 @@
 package com.rwssistent.LARA.activities;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -10,10 +9,10 @@ import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Gravity;
@@ -26,7 +25,6 @@ import android.widget.TextView;
 
 import com.rwssistent.LARA.R;
 import com.rwssistent.LARA.exceptions.LaraException;
-import com.rwssistent.LARA.helpers.TestHelper;
 import com.rwssistent.LARA.model.Highway;
 import com.rwssistent.LARA.model.LaraLocation;
 import com.rwssistent.LARA.model.Node;
@@ -290,8 +288,9 @@ public class MainActivity extends ActionBarActivity {
         };
 
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0, locationListener);
-
-        showLoadingProgressDialog();
+        if(locationIsOn()) {
+            showLoadingProgressDialog();
+        }
     }
 
     // ============================================
@@ -349,7 +348,7 @@ public class MainActivity extends ActionBarActivity {
                     // Is het verschil tussen currentNode + nearestBearingNode en currentNode + currentLocation meer dan 20? Zoek opnieuw naar dichtstbijzijnde node.
                     double bearingBetweenLastNodeAndNextNode = laraService.rumbLineBearing(currentNode.getLat(), currentNode.getLon(), nearestBearingNode.getLat(), nearestBearingNode.getLon());
 
-                    if((bearingBetweenLastNodeAndLocation - bearingBetweenLastNodeAndNextNode) > 30
+                    if ((bearingBetweenLastNodeAndLocation - bearingBetweenLastNodeAndNextNode) > 30
                             || (bearingBetweenLastNodeAndNextNode - bearingBetweenLastNodeAndLocation) > 30) {
                         Log.e(getClass().getSimpleName(), "De bearing naar de volgende node is te groot. Waarschijnlijk is de gebruiker op de verkeerde weg. Zoek een nieuwe node");
                         currentNode = laraService.pollNearestNode(allNodes, currentLocation.getLat(), currentLocation.getLon());
@@ -364,7 +363,7 @@ public class MainActivity extends ActionBarActivity {
                                 break;
                             }
                         }
-                        if(!highwayIsSet) {
+                        if (!highwayIsSet) {
                             displayValues(allHighwaysFromNewNode.get(0));
                             previousHighway = allHighwaysFromNewNode.get(0);
                         }
@@ -486,95 +485,95 @@ public class MainActivity extends ActionBarActivity {
         messageView.setGravity(Gravity.CENTER);
     }
 
-    private void playSound(int speed){
+    private void playSound(int speed) {
 
         if (mediaPlayer != null) {
             mediaPlayer.reset();
             mediaPlayer.release();
         }
 
-        if(speedUnitFromPrefs.equals("KM/H")){
+        if (speedUnitFromPrefs.equals("KM/H")) {
 
-            if(speed == 15){
+            if (speed == 15) {
                 mediaPlayer = MediaPlayer.create(this, R.raw.kmh_15);
             }
 
-            if(speed == 30){
+            if (speed == 30) {
                 mediaPlayer = MediaPlayer.create(this, R.raw.kmh_30);
             }
 
-            if(speed == 50){
+            if (speed == 50) {
                 mediaPlayer = MediaPlayer.create(this, R.raw.kmh_50);
             }
 
-            if(speed == 60){
+            if (speed == 60) {
                 mediaPlayer = MediaPlayer.create(this, R.raw.kmh_60);
             }
 
-            if(speed == 70){
+            if (speed == 70) {
                 mediaPlayer = MediaPlayer.create(this, R.raw.kmh_70);
             }
 
-            if(speed == 80){
+            if (speed == 80) {
                 mediaPlayer = MediaPlayer.create(this, R.raw.kmh_80);
             }
 
-            if(speed == 90){
+            if (speed == 90) {
                 mediaPlayer = MediaPlayer.create(this, R.raw.kmh_90);
             }
 
-            if(speed == 100){
+            if (speed == 100) {
                 mediaPlayer = MediaPlayer.create(this, R.raw.kmh_100);
             }
 
-            if(speed == 120){
+            if (speed == 120) {
                 mediaPlayer = MediaPlayer.create(this, R.raw.kmh_120);
             }
 
-            if(speed == 130){
+            if (speed == 130) {
                 mediaPlayer = MediaPlayer.create(this, R.raw.kmh_130);
             }
         }
 
-        if(speedUnitFromPrefs.equals("MPH")){
+        if (speedUnitFromPrefs.equals("MPH")) {
 
-            if(speed == 9){
+            if (speed == 9) {
                 mediaPlayer = MediaPlayer.create(this, R.raw.mph_9);
             }
 
-            if(speed == 19){
+            if (speed == 19) {
                 mediaPlayer = MediaPlayer.create(this, R.raw.mph_19);
             }
 
-            if(speed == 31){
+            if (speed == 31) {
                 mediaPlayer = MediaPlayer.create(this, R.raw.mph_31);
             }
 
-            if(speed == 37){
+            if (speed == 37) {
                 mediaPlayer = MediaPlayer.create(this, R.raw.mph_37);
             }
 
-            if(speed == 44){
+            if (speed == 44) {
                 mediaPlayer = MediaPlayer.create(this, R.raw.mph_44);
             }
 
-            if(speed == 50){
+            if (speed == 50) {
                 mediaPlayer = MediaPlayer.create(this, R.raw.mph_50);
             }
 
-            if(speed == 56){
+            if (speed == 56) {
                 mediaPlayer = MediaPlayer.create(this, R.raw.mph_56);
             }
 
-            if(speed == 62){
+            if (speed == 62) {
                 mediaPlayer = MediaPlayer.create(this, R.raw.mph_62);
             }
 
-            if(speed == 75){
+            if (speed == 75) {
                 mediaPlayer = MediaPlayer.create(this, R.raw.mph_75);
             }
 
-            if(speed == 81){
+            if (speed == 81) {
                 mediaPlayer = MediaPlayer.create(this, R.raw.mph_81);
             }
 
@@ -584,4 +583,35 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
+    private boolean locationIsOn() {
+        try {
+            if (Settings.Secure.getInt(this.getContentResolver(), Settings.Secure.LOCATION_MODE) == 0) {
+                Log.e(getClass().getSimpleName(), "Location is off, prompt to go to settings");
+//                Toast.makeText(MainActivity.this, R.string.no_location_content, Toast.LENGTH_LONG).show();
+                showLocationPrompt();
+                return false;
+            }
+        } catch (Settings.SettingNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    private void showLocationPrompt() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.no_location_title);
+        builder.setMessage(R.string.no_location_content);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+            }
+        });
+        builder.setCancelable(false);
+        AlertDialog dialog = builder.show();
+
+        TextView messageView = (TextView) dialog.findViewById(android.R.id.message);
+        messageView.setGravity(Gravity.CENTER);
+    }
 }

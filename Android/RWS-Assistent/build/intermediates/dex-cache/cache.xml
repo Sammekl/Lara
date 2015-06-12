@@ -2,32 +2,32 @@
 <items version="2" >
 
     <item
-        jar="C:\Users\Dion\Documents\GitHub\RWS-Assistent\Android\RWS-Assistent\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\21.0.3\classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
-        <dex dex="C:\Users\Dion\Documents\GitHub\RWS-Assistent\Android\RWS-Assistent\app\build\intermediates\pre-dexed\debug\classes-2ebcfda955d668f330889354824fa8c5316dafa9.jar" />
-    </item>
-    <item
-        jar="C:\Users\Dion\Documents\GitHub\RWS-Assistent\Android\RWS-Assistent\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\libs\internal_impl-21.0.3.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
-        <dex dex="C:\Users\Dion\Documents\GitHub\RWS-Assistent\Android\RWS-Assistent\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-dfae631beb541b4a255975a39c061f82b0771cd1.jar" />
-    </item>
-    <item
-        jar="C:\Users\Dion\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\21.0.3\support-annotations-21.0.3.jar"
+        jar="D:\Programma&apos;s\Android SDK\extras\android\m2repository\com\android\support\support-annotations\21.0.3\support-annotations-21.0.3.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
-        <dex dex="C:\Users\Dion\Documents\GitHub\RWS-Assistent\Android\RWS-Assistent\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-0bd022540f53279765385703391c9ad4b7c38d65.jar" />
+        <dex dex="E:\Github\RWS-Assistent\Android\RWS-Assistent\app\build\intermediates\pre-dexed\release\support-annotations-21.0.3-59c9c15ea2ef8cde6b5a98682b532b628a83fa0e.jar" />
     </item>
     <item
-        jar="C:\Users\Dion\Documents\GitHub\RWS-Assistent\Android\RWS-Assistent\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\classes.jar"
+        jar="E:\Github\RWS-Assistent\Android\RWS-Assistent\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\libs\internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="E:\Github\RWS-Assistent\Android\RWS-Assistent\app\build\intermediates\pre-dexed\release\internal_impl-21.0.3-cceb0a5667841929cac2bad6b4b0920378357f01.jar" />
+    </item>
+    <item
+        jar="E:\Github\RWS-Assistent\Android\RWS-Assistent\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\classes.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
-        <dex dex="C:\Users\Dion\Documents\GitHub\RWS-Assistent\Android\RWS-Assistent\app\build\intermediates\pre-dexed\debug\classes-7ec6ab3fac9f25a3bd8ed68750d20f42eb4c439e.jar" />
+        <dex dex="E:\Github\RWS-Assistent\Android\RWS-Assistent\app\build\intermediates\pre-dexed\release\classes-ae4395e8abf47fc7aa6ff33fb2ae6f891f955d86.jar" />
+    </item>
+    <item
+        jar="E:\Github\RWS-Assistent\Android\RWS-Assistent\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\21.0.3\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
+        <dex dex="E:\Github\RWS-Assistent\Android\RWS-Assistent\app\build\intermediates\pre-dexed\release\classes-d99b8a74b751a3184e911b275cdc195ae8da3c98.jar" />
     </item>
 
 </items>

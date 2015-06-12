@@ -34,9 +34,12 @@
     <string name="dialog_get_highways">…</string>
     <string name="dialog_get_location">Your location is being determined…</string>
 
-    <string name="firstTime_Dialog_Title">Note:</string>
+    <string name="firstTime_Dialog_Title">Note</string>
     <string name="firstTime_Dialog_Message">This app is designed to assist you, not to replace the signs on the road. \n \n
     Always keep your attention on the road!</string>
+
+    <string name="no_location_title">Location is off</string>
+    <string name="no_location_content">This application needs a GPS location to work. Please turn on your location settings.</string>
 
     <!-- /Dialogs -->
 

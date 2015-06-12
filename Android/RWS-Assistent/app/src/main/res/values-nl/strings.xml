@@ -33,9 +33,12 @@
     <string name="dialog_get_highways">…</string>
     <string name="dialog_get_location">Uw locatie word bepaald...</string>
 
-    <string name="firstTime_Dialog_Title">Let op:</string>
+    <string name="firstTime_Dialog_Title">Let op</string>
     <string name="firstTime_Dialog_Message">Deze app is ontworpen om u te assisteren, niet om de verkeersborden te vervangen. \n \n
     Houdt uw aandacht altijd bij de weg!</string>
+
+    <string name="no_location_title">Location is off</string>
+    <string name="no_location_content">This application needs a GPS location to work. Please turn on your location settings.</string>
 
     <!-- /Dialogs -->
 
