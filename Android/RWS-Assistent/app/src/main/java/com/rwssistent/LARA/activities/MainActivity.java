@@ -378,7 +378,7 @@ public class MainActivity extends ActionBarActivity {
                                 break;
                             }
                         }
-                        if (!highwayIsSet) {
+                        if (!highwayIsSet && allHighwaysFromNewNode.size() > 0) {
                             displayValues(allHighwaysFromNewNode.get(0));
                             previousHighway = allHighwaysFromNewNode.get(0);
                         }
