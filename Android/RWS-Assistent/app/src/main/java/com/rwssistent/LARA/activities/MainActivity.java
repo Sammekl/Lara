@@ -25,13 +25,18 @@ import android.widget.TextView;
 
 import com.rwssistent.LARA.R;
 import com.rwssistent.LARA.exceptions.LaraException;
+import com.rwssistent.LARA.helpers.TestHelper;
 import com.rwssistent.LARA.model.Highway;
 import com.rwssistent.LARA.model.LaraLocation;
 import com.rwssistent.LARA.model.Node;
 import com.rwssistent.LARA.model.NodeBearing;
 import com.rwssistent.LARA.utils.LaraService;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 
@@ -40,12 +45,14 @@ public class MainActivity extends ActionBarActivity {
     private TextView maxSpeed;
     private TextView roadName;
     private TextView speedUnit;
+    private TextView infoText;
 
     private String vehicleTypeFromPrefs;
     private String speedUnitFromPrefs;
     private String maxspeed = "";
 
     private int oldSpeed = 0;
+    private double currentSpeed = 0;
 
     private double longitude;
     private double latitude;
@@ -185,6 +192,11 @@ public class MainActivity extends ActionBarActivity {
 
                 maxSpeed.setText(maxspeed);
                 speedUnit.setVisibility(View.VISIBLE);
+                if((currentSpeed - 5) > Integer.valueOf(maxspeed)) {
+                    infoText.setVisibility(View.VISIBLE);
+                } else {
+                    infoText.setVisibility(View.INVISIBLE);
+                }
             } else {
                 maxSpeed.setText(R.string.unknown_maxspeed);
                 speedUnit.setVisibility(View.INVISIBLE);
@@ -259,7 +271,10 @@ public class MainActivity extends ActionBarActivity {
                     latitude = location.getLatitude();
                     longitude = location.getLongitude();
                 }
-                currentLocation = new LaraLocation(latitude, longitude, location.getAccuracy());
+                if (currentLocation != null) {
+                    currentSpeed = laraService.getSpeed(currentLocation.getLat(), currentLocation.getLon(), currentLocation.getTime(), latitude, longitude, Calendar.getInstance().get(Calendar.MILLISECOND));
+                }
+                currentLocation = new LaraLocation(latitude, longitude, location.getAccuracy(), Calendar.getInstance().get(Calendar.MILLISECOND));
                 dismissProgressDialog();
                 if (firstRun) {
                     // Used for pollLocation
@@ -288,7 +303,7 @@ public class MainActivity extends ActionBarActivity {
         };
 
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0, locationListener);
-        if(locationIsOn()) {
+        if (locationIsOn()) {
             showLoadingProgressDialog();
         }
     }
@@ -406,6 +421,8 @@ public class MainActivity extends ActionBarActivity {
         maxSpeed = (TextView) findViewById(R.id.maxspeed);
         roadName = (TextView) findViewById(R.id.roadName);
         speedUnit = (TextView) findViewById(R.id.speedUnit);
+        infoText = (TextView) findViewById(R.id.info);
+
     }
 
     private void getPreferences() {

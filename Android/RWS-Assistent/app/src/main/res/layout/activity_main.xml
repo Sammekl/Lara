@@ -9,6 +9,18 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity">
 
+    <TextView
+        android:id="@+id/info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10pt"
+        android:layout_centerHorizontal="true"
+        android:text="@string/driving_to_fast"
+        android:textColor="@android:color/holo_red_light"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:visibility="invisible" />
+
     <ImageView
         android:id="@+id/imageViewSpeed"
         android:layout_width="wrap_content"

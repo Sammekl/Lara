@@ -8,6 +8,7 @@
     <string name="unknown_maxspeed">\?</string>
     <string name="speed_unit">KM/H</string>
     <string name="empty"></string>
+    <string name="driving_to_fast">Let op uw snelheid aub.</string>
     <!-- /General Strings -->
 
     <!-- Preferences-->

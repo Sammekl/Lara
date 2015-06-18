@@ -41,15 +41,15 @@ public class TestHelper {
     public static List<Node> getMultipleHighways() {
 
         List<Node> nodes = new ArrayList<>();
-//        nodes.add(new Node(52.14203, 5.2149));
-//        nodes.add(new Node(52.14159, 5.2145));
-//        nodes.add(new Node(52.14033, 5.21347));
-//        nodes.add(new Node(52.13961, 5.21289));
-//        nodes.add(new Node(52.13961, 5.21289));
-//        nodes.add(new Node(52.13869, 5.21215));
-//        nodes.add(new Node(52.1378117, 5.2114405));
-//        nodes.add(new Node(52.1376577, 5.2113183));
-//        nodes.add(new Node(52.1376577, 5.2113183));
+        nodes.add(new Node(52.14203, 5.2149));
+        nodes.add(new Node(52.14159, 5.2145));
+        nodes.add(new Node(52.14033, 5.21347));
+        nodes.add(new Node(52.13961, 5.21289));
+        nodes.add(new Node(52.13961, 5.21289));
+        nodes.add(new Node(52.13869, 5.21215));
+        nodes.add(new Node(52.1378117, 5.2114405));
+        nodes.add(new Node(52.1376577, 5.2113183));
+        nodes.add(new Node(52.1376577, 5.2113183));
 
         // Wissel naar gezichtslaan
         nodes.add(new Node(52.1367219, 5.2103356));

@@ -10,6 +10,7 @@ import com.rwssistent.LARA.model.Node;
 import com.rwssistent.LARA.model.NodeBearing;
 import com.rwssistent.LARA.tasks.RoadTask;
 
+import java.sql.Time;
 import java.util.List;
 
 /**
@@ -127,10 +128,39 @@ public class LaraService {
         return DistanceHelper.getNodeInCourse(nodes, previousLocation, currentLocation);
     }
 
+    /**
+     * Geeft de richting tussen twee locaties in graden
+     *
+     * @param lat1 de latitude van locatie 1
+     * @param lon1 de longitude van locatie 1
+     * @param lat2 de latitude van locatie 2
+     * @param lon2 de latitude van locatie 2
+     * @return De richting in graden tussen locatie1 en locatie2
+     */
     public double rumbLineBearing(double lat1, double lon1, double lat2, double lon2) {
         return DistanceHelper.rumbLineBearing(lat1, lon1, lat2, lon2);
     }
+
+    /**
+     * Geef de node die het meest in de buurt is van de targetBearing
+     * @param targetBearing de bearing waar de gebruiker op zit
+     * @param nodeBearingList de lijst met mogelijke nodes + bearing
+     * @return de node die het meest in de buurt komt van de huidige bearing.
+     */
     public Node giveNearestBearingNode(double targetBearing, List<NodeBearing> nodeBearingList) {
         return DistanceHelper.giveNearestBearingNode(targetBearing, nodeBearingList);
+    }
+
+    /**
+     * Geeft de snelheid tussen twee locaties in kmph
+     *
+     * @param lat1 de latitude van locatie 1
+     * @param lon1 de longitude van locatie 1
+     * @param lat2 de latitude van locatie 2
+     * @param lon2 de latitude van locatie 2
+     * @return De snelheid in kmph
+     */
+    public double getSpeed(double lat1, double lon1, long time1, double lat2, double lon2, long time2) {
+        return DistanceHelper.getSpeed(lat1, lon1, time1, lat2, lon2, time2);
     }
 }
