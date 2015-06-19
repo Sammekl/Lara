@@ -9,6 +9,7 @@ import com.rwssistent.LARA.model.NodeBearing;
 
 import java.sql.Time;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -146,11 +147,10 @@ public class DistanceHelper {
      * @param lon2 de latitude van locatie 2
      * @return De snelheid in kmph
      */
-    public static double getSpeed(double lat1, double lon1, long time1, double lat2, double lon2, long time2) {
+    public static double getSpeed(double lat1, double lon1, Date time1, double lat2, double lon2, Date time2) {
         double dist = distance(lat1, lon1, lat2, lon2);
-        // TODO Fix tijd!
-        double time_s = (time1 - time2) / 1000.0;
-        double speed_kps = (dist * 1000) / 2;
+        double seconds = (time2.getTime()-time1.getTime());
+        double speed_kps = dist / seconds;
         double speed_kph = (speed_kps * 3.6);
         return speed_kph;
     }

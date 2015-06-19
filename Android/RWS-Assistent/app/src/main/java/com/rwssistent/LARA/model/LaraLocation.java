@@ -1,6 +1,7 @@
 package com.rwssistent.LARA.model;
 
 import java.sql.Time;
+import java.util.Date;
 
 /**
  * Created by Samme on 4-6-2015.
@@ -10,13 +11,13 @@ public class LaraLocation {
     private double lat;
     private double lon;
     private float accuracy;
-    private long time;
+    private Date time;
 
     public LaraLocation() {
 
     }
 
-    public LaraLocation(double lat, double lon, float accuracy, long time) {
+    public LaraLocation(double lat, double lon, float accuracy, Date time) {
         this.lat = lat;
         this.lon = lon;
         this.accuracy = accuracy;
@@ -47,11 +48,11 @@ public class LaraLocation {
         this.accuracy = accuracy;
     }
 
-    public long getTime() {
+    public Date getTime() {
         return time;
     }
 
-    public void setTime(long time) {
+    public void setTime(Date time) {
         this.time = time;
     }
 }

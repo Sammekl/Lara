@@ -272,9 +272,9 @@ public class MainActivity extends ActionBarActivity {
                     longitude = location.getLongitude();
                 }
                 if (currentLocation != null) {
-                    currentSpeed = laraService.getSpeed(currentLocation.getLat(), currentLocation.getLon(), currentLocation.getTime(), latitude, longitude, Calendar.getInstance().get(Calendar.MILLISECOND));
+                    currentSpeed = laraService.getSpeed(currentLocation.getLat(), currentLocation.getLon(), currentLocation.getTime(), latitude, longitude, Calendar.getInstance().getTime());
                 }
-                currentLocation = new LaraLocation(latitude, longitude, location.getAccuracy(), Calendar.getInstance().get(Calendar.MILLISECOND));
+                currentLocation = new LaraLocation(latitude, longitude, location.getAccuracy(), Calendar.getInstance().getTime());
                 dismissProgressDialog();
                 if (firstRun) {
                     // Used for pollLocation

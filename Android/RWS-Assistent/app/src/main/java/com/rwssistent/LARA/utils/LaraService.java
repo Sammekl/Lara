@@ -11,6 +11,7 @@ import com.rwssistent.LARA.model.NodeBearing;
 import com.rwssistent.LARA.tasks.RoadTask;
 
 import java.sql.Time;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -160,7 +161,7 @@ public class LaraService {
      * @param lon2 de latitude van locatie 2
      * @return De snelheid in kmph
      */
-    public double getSpeed(double lat1, double lon1, long time1, double lat2, double lon2, long time2) {
+    public double getSpeed(double lat1, double lon1, Date time1, double lat2, double lon2, Date time2) {
         return DistanceHelper.getSpeed(lat1, lon1, time1, lat2, lon2, time2);
     }
 }
