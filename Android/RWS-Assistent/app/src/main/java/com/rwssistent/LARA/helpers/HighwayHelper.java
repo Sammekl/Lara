@@ -42,9 +42,11 @@ public class HighwayHelper {
      */
     public List<Highway> getAllHighwaysFromNode(Node node, List<Highway> allHighways) {
         List<Highway> highways = new ArrayList<>();
-        for (Highway h : allHighways) {
-            if (h.getNodes().contains(node.getId())) {
-                highways.add(h);
+        if(node != null) {
+            for (Highway h : allHighways) {
+                if (h.getNodes().contains(node.getId())) {
+                    highways.add(h);
+                }
             }
         }
         return highways;

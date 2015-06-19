@@ -253,7 +253,7 @@ public class MainActivity extends ActionBarActivity {
             public void onLocationChanged(Location location) {
                 List<Node> testNodes = null;
                 // Uncomment de volgende regel om te testen met de TestHelper.
-//                testNodes = TestHelper.getMultipleHighways();
+//                testNodes = TestHelper.getHighwaysExit();
                 if (testNodes != null) {
                     if (testIndex >= testNodes.size()) {
                         Log.d(getClass().getSimpleName(), "Alle nodes in testNodes zijn geweest.");
@@ -350,7 +350,7 @@ public class MainActivity extends ActionBarActivity {
 
                 // Zoek de node waarvan de bearing het meest in de buurt komt van bearingBetweenLastNodeAndLocation
                 Node nearestBearingNode = laraService.giveNearestBearingNode(bearingBetweenLastNodeAndLocation, nodeWithBearings);
-                Log.i(getClass().getSimpleName(), "nearestBearingNode: " + nearestBearingNode.getId());
+                //Log.i(getClass().getSimpleName(), "nearestBearingNode: " + nearestBearingNode.getId());
 
                 List<Highway> allHighwaysFromNode = laraService.getAllHighwaysFromNode(nearestBearingNode, allHighways);
                 if (allHighwaysFromNode == null || allHighwaysFromNode.size() == 0) {

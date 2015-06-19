@@ -99,6 +99,11 @@ public class JSONHelper {
                 // no ref, just a name
                 else if (tagsObj.has(Constants.PREF_API_WAY_ROAD_NAME)) {
                     highway.setRoadName(tagsObj.getString(Constants.PREF_API_WAY_ROAD_NAME));
+                } else if (tagsObj.has(Constants.PREF_API_WAY_ROAD_JUNCTION_REF)) {
+                    highway.setRoadName(tagsObj.getString(Constants.PREF_API_WAY_ROAD_JUNCTION_REF));
+                    if(tagsObj.has(Constants.PREF_API_WAY_ROAD_DESTINATION)) {
+                        highway.setRoadName(highway.getRoadName() + " - " + tagsObj.getString(Constants.PREF_API_WAY_ROAD_DESTINATION));
+                    }
                 } else if (highway.getMaxSpeed() == 0) {
                     continue;
                 } else {

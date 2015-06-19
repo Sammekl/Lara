@@ -33,6 +33,8 @@ public class Constants {
     public static final String PREF_API_WAY_MAXSPEED_CONDITIONAL = "maxspeed:conditional";
     public static final String PREF_API_WAY_ROAD_REF = "ref";
     public static final String PREF_API_WAY_ROAD_NAME = "name";
+    public static final String PREF_API_WAY_ROAD_JUNCTION_REF = "junction:ref";
+    public static final String PREF_API_WAY_ROAD_DESTINATION = "destination";
     public static final String PREF_API_NO_ROAD_NAME = "Onbekende weg";
     public static final String PREF_API_WAY_NODES = "nodes";
 

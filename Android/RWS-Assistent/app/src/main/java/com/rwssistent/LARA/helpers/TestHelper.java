@@ -130,4 +130,39 @@ public class TestHelper {
 
         return nodes;
     }
+
+    public static List<Node> getHighwaysExit() {
+        List<Node> nodes = new ArrayList<>();
+        nodes.add(new Node(52.07921, 4.99858));
+        nodes.add(new Node(52.07943, 4.99736));
+        nodes.add(new Node(52.07965, 4.99614));
+        nodes.add(new Node(52.07943, 4.99736));
+        nodes.add(new Node(52.07987, 4.99492));
+
+        //afslag
+        nodes.add(new Node(52.08012, 4.99371));
+        nodes.add(new Node(52.08035, 4.99249));
+        nodes.add(new Node(52.08054, 4.99135));
+        nodes.add(new Node(52.08069, 4.99014));
+
+        //splitsing
+        nodes.add(new Node(52.08092, 4.98772));
+        nodes.add(new Node(52.08115, 4.98660));
+        nodes.add(new Node(52.08149, 4.98563));
+        nodes.add(new Node(52.08178, 4.98444));
+        nodes.add(new Node(52.08192, 4.98322));
+        nodes.add(new Node(52.08200, 4.98201));
+        nodes.add(new Node(52.08204, 4.98080));
+
+        //bocht
+        nodes.add(new Node(52.08215, 4.97958));
+        nodes.add(new Node(52.08249, 4.97898));
+        nodes.add(new Node(52.08286, 4.97876));
+       // nodes.add(new Node(BLA));
+
+
+
+
+        return nodes;
+    }
 }
