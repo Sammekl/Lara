@@ -8,8 +8,8 @@ android {
         applicationId "com.rwssistent.LARA"
         minSdkVersion 14
         targetSdkVersion 21
-        versionCode 1
-        versionName "1.00"
+        versionCode 3
+        versionName "1.03"
     }
     buildTypes {
         release {
