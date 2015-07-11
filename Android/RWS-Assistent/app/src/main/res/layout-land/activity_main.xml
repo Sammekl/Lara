@@ -1,0 +1,101 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/driving_to_fast"
+        android:textColor="@android:color/holo_red_light"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/frameLayout"
+        android:layout_toEndOf="@+id/frameLayout" />
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerInParent="true"
+        android:id="@+id/frameLayout">
+
+        <ImageView
+            android:id="@+id/imageViewSpeed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:src="@drawable/im_verkeersbord" />
+
+        <TextView
+            android:id="@+id/maxspeed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:singleLine="true"
+            android:text="@string/unknown_maxspeed"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#000000"
+            android:textSize="110sp"
+            android:textStyle="bold"
+            android:layout_gravity="center"/>
+
+
+        <TextView
+            android:id="@+id/speedUnit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/speed_unit"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#000000"
+            android:textSize="25sp"
+            android:layout_marginTop="60dp"
+            android:layout_gravity="center_horizontal|center" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/roadReference"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/empty"
+        android:textSize="20sp"
+        android:visibility="invisible"
+        android:layout_above="@+id/roadName"
+        android:layout_toRightOf="@+id/info"
+        android:layout_toEndOf="@+id/info" />
+
+    <TextView
+        android:id="@+id/roadName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/empty"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/frameLayout"
+        android:layout_toEndOf="@+id/frameLayout"
+        android:layout_marginLeft="25dp"
+        android:layout_marginStart="25dp" />
+
+    <!--<ImageView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:id="@+id/imageViewLanes"-->
+    <!--android:src="@drawable/eenbaan"-->
+    <!--android:layout_alignParentTop="true"-->
+    <!--android:layout_centerHorizontal="true"-->
+    <!--android:maxHeight="10dp" />-->
+
+</RelativeLayout>
+
